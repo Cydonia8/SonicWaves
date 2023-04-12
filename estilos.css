@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
+*{
+    box-sizing: border-box;
+}
+body{
+    background-color: #000;
+    margin: 0;
+    font-family: 'Josefin Sans', sans-serif;
+    /* font-family: 'Hammersmith One', sans-serif; */
+    color: #fff;
+}
+header.header-index{
+    font-family: 'Josefin Sans', sans-serif;
+    /* font-family: 'Hammersmith One', sans-serif; */
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem;
+    align-items: center;
+    position: absolute;
+    z-index: 10000;
+}
+header.header-index ul{
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5rem;
+}
+header.header-index img{
+    width: 15%;
+}
+header.header-index nav a{
+    text-decoration: none;
+    color: white;
+}
+header.header-index nav a::after{
+    content: '';
+    display: block;
+    height: 3px;
+    width: 100%;
+    transition: .9s;
+}
+header.header-index nav a:hover::after{
+    content: '';
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: white;
+    transition: all .9s;
+    transform:rotate(0.5turn);
+}
+.banner-intro .second{
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgb(0, 0, 0)
+      ),url('media/assets/bg2.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 80vh;
+    position: relative;
+}
+.banner-intro *{
+    z-index: 1000;
+}
+.banner-intro .second h2{
+    font-size: 5rem;
+    background-image: radial-gradient(circle at 30% 85%,#ffffff 0,#ffffff 35%,#1c68a7e8 55%);
+    -webkit-background-clip: text;
+    /* text-shadow: 2px 2px 4.5px rgba(255, 255, 255, 1); */
+}
+.banner-intro .first h2{
+    font-size: 5rem;
+    background-image: radial-gradient(circle at 30% 85%,#111727 0,#152c92 35%,#6d1414 55%);
+    -webkit-background-clip: text;
+    /* text-shadow: 3px 3px 6px rgba(21, 44, 146, 1); */
+}
+.banner-intro .first{
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0),
+        rgb(0, 0, 0)
+      ),url('media/assets/bg1.1.jpg');
+    background-position: center;
+    background-size: cover;
+    height: 80vh;
+    position: relative;
+}
+.banner-intro .carousel-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: transparent;
+}
+.banner-intro .carousel-item::after{
+    content: '';
+    height: 50%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: block;
+    background: rgb(17,23,39);
+background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.11808473389355745) 10%, rgba(0,0,0,0.3085609243697479) 20%, rgba(0,0,0,0.40940126050420167) 30%, rgba(0,0,0,0.4990371148459384) 40%, rgba(0,0,0,0.6530987394957983) 50%, rgba(0,0,0,0.795133053221288) 60%, rgba(0,0,0,0.8507457983193278) 69%, rgba(0,0,0,0.8995973389355743) 73%, rgba(0,0,0,1) 100%);
+}
+main{
+    /* font-family: 'Hammersmith One', sans-serif; */
+}
+.container-samples-index > div.cancion-prev{
+    width: 33.33%;
+}
+.cancion-prev img{
+    transition: box-shadow .5s;
+}
+.cancion-prev img:hover{
+    box-shadow: 0px 0px 50px #2c2b2b;
+    transition: box-shadow .5s
+}
+#login{
+    background: url('media/assets/bg2.jpg')no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    transition: background-image .5s;
+}
+#login header img{
+    width: 15%;
+}
+#login .forms-container{
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+}
+#login .input-field input{
+    background: none;
+    border: 0;
+    border-bottom: 1.5px solid white;
+    color: white;
+}
+#login .input-field input:focus{
+    outline: none;
+}
+#login .form-option-picker h3.active{
+    background-color: #102494aa;
+    transition: all 1s;
+    /* transform: translateY(-33%); */
+}
+#login .form-option-picker h3{
+    cursor: pointer;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    border-radius: 10px;
+    margin-bottom: 0;
+    transition: all 1s;
+    /* width: 33.33%; */
+}
+
+#login form.active-form{
+    display: block;
+}
+#login .view-pass{
+    cursor: pointer;
+}
+#login form:not(.active-form){
+    display: none;
+}
+@media screen and (max-width:1040px) {
+    #login header img{
+        width: 40%;
+    }
+}
