@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../scripts/jquery-3.2.1.min.js" defer></script>
     <script src="../scripts/registro.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
@@ -87,21 +88,21 @@
                     </div>
                 </form>
 
-                <form  action="" data-form="group">
+                <form action="#" data-form="group" method="post">
                     <h2 class="text-center mb-5 mt-3">Registro para grupos</h2>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
-                            <label for="mail">Nombre del grupo</label>
+                            <label for="nombre">Nombre del grupo</label>
                             <ion-icon name="radio-outline"></ion-icon>
                         </div>
-                        <input name="usuario" type="text" required>                        
+                        <input name="nombre" type="text" required>                        
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
                             <label for="mail">Correo</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input name="usuario" type="text" required>                        
+                        <input name="mail" type="text" required>                        
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
@@ -113,20 +114,27 @@
                             <ion-icon class="position-absolute end-0 view-pass" name="eye-outline"></ion-icon>
                         </div>
                     </div>
-                    <input type="submit" name="registro-grupo" value="Crear cuenta" class="w-100 rounded-pill border-0 mb-3 p-2">
+                    <input data-form="group" id="boton-registro-grupo" type="submit" name="registro-grupo" value="Crear cuenta" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
                         <p class="text-center">¿Ya tienes cuenta? <a class="text-white" href="login.php">Accede aquí</a></p>
                     </div>
                 </form>
 
-                <form action="" data-form="disc" method="post">
+                <form action="#" data-form="disc" method="post">
                     <h2 class="text-center mb-5 mt-3">Registro para discográficas</h2>
+                    <div class="input-field d-flex flex-column mb-3">
+                        <div class="input-visuals d-flex justify-content-between">
+                            <label for="nombre">Nombre de la discográfica</label>
+                            <ion-icon name="radio-outline"></ion-icon>
+                        </div>
+                        <input name="nombre" type="text" required>                        
+                    </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
                             <label for="mail">Correo</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input name="usuario" type="text" required>                        
+                        <input name="mail" type="text" required>                        
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
@@ -145,23 +153,46 @@
                 </form>
             </div>
             <?php
-        if(isset($_POST["registro-user"])){
-            $user = $_POST["usuario"];
-            $nombre = $_POST["nombre"];
-            $apellidos = $_POST["apellidos"];
-            $pass = $_POST["pass"];
-            $mail = $_POST["mail"];
-            $estilo = $_POST["estilo"];
-            $user_exists = userNameRepeated($_POST["usuario"]);
-            $mail_exists = mailRepeated($mail);
-            
-            if(!$user_exists and !$mail_exists){
-                insertNewUser($user, $nombre, $apellidos, $pass, $mail, $estilo);
-            }else{
-                echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Usuario o correo ya registrados</div>";
-            }
-        }
-    ?>
+                if(isset($_POST["registro-user"])){
+                    $user = $_POST["usuario"];
+                    $nombre = $_POST["nombre"];
+                    $apellidos = $_POST["apellidos"];
+                    $pass = $_POST["pass"];
+                    $mail = $_POST["mail"];
+                    $estilo = $_POST["estilo"];
+                    $user_exists = userNameRepeated($_POST["usuario"]);
+                    $mail_exists = mailRepeated($mail, "usuario");
+                    // echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
+                    if(!$user_exists and !$mail_exists){
+                        insertNewUser($user, $nombre, $apellidos, $pass, $mail, $estilo);
+                    }else{
+                        echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Usuario o correo ya registrados</div>";
+                    }
+                }elseif(isset($_POST["registro-grupo"])){
+                    $nombre_grupo = $_POST["nombre"];
+                    $pass = $_POST["pass"];
+                    $mail = $_POST["mail"];
+                    // echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
+                    $mail_exists = mailRepeated($mail, "grupo");
+
+                    if(!$mail_exists){
+                        insertNewGroup($nombre_grupo, $pass, $mail);
+                    }else{
+                        echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Correo ya registrado</div>";
+                    }
+                }elseif(isset($_POST["registro-disc"])){
+                    $nombre_discografica = $_POST["nombre"];
+                    $pass = $_POST["pass"];
+                    $mail = $_POST["mail"];
+                    $mail_exists = mailRepeated($mail, "discografica");
+
+                    if(!$mail_exists){
+                        insertNewDiscographic($nombre_discografica, $pass, $mail);
+                    }else{
+                        echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Correo ya registrado</div>";
+                    }
+                }
+            ?>
         </div>
     </section>
    

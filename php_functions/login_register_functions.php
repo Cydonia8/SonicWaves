@@ -30,10 +30,10 @@
         return $exists;
     }
 
-    function mailRepeated($mail){
+    function mailRepeated($mail, $tabla){
         $exists = true;
         $con = createConnection();
-        $consulta = $con->prepare("SELECT COUNT(*) from USUARIO where correo =?");
+        $consulta = $con->prepare("SELECT COUNT(*) from $tabla where correo = ?");
         $consulta->bind_param("s", $mail);
         $consulta->bind_result($count);
         $consulta->execute();
@@ -54,4 +54,39 @@
         $consulta->execute();
         $consulta->close();
         $con->close();
+    }
+
+    function insertNewGroup($nombre, $pass, $mail){
+        $con = createConnection();
+        $consulta = $con->prepare("INSERT INTO grupo (nombre, pass, correo) VALUES (?,?,?)");
+        $consulta->bind_param("sss", $nombre, $pass, $mail);
+        $consulta->execute();
+        $consulta->close();
+        $con->close();
+    }
+
+    function insertNewDiscographic($nombre, $pass, $mail){
+        $con = createConnection();
+        $consulta = $con->prepare("INSERT INTO discografica (nombre, pass, correo) VALUES (?,?,?)");
+        $consulta->bind_param("sss", $nombre, $pass, $mail);
+        $consulta->execute();
+        $consulta->close();
+        $con->close();
+    }
+
+    function loginUser($user, $pass){
+        $accede = false;
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT count(*) FROM USUARIO WHERE usuario = ? and pass = ?");
+        $consulta->bind_param("ss", $user, $pass);
+        $consulta->bind_result($count);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        if($count == 1){
+            $accede = true;
+        }
+
+        return $accede;
     }

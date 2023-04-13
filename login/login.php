@@ -1,12 +1,16 @@
+<?php
+    require_once "../php_functions/login_register_functions.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="../scripts/login.js" defer></script>
+    <script type="text/javascript" src="../scripts/jquery-3.2.1.min.js" defer></script>
+    <script type="text/javascript" src="../scripts/login.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
@@ -49,7 +53,7 @@
                     <div class="mantener-sesion text-center x gap-1 justify-content-center align-items-center mb-3">
                         <label for="sesion"> <input name="sesion" type="checkbox">Mantener sesión abierta</label>
                     </div>
-                    <input type="submit" name="acceder" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
+                    <input type="submit" name="acceder-user" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
                         <p class="text-center">¿No tienes cuenta? <a class="text-white" href="registro.php">Crea una aquí</a></p>
                     </div>
@@ -77,7 +81,7 @@
                     <div class="mantener-sesion text-center x gap-1 justify-content-center align-items-center mb-3">
                         <label for="sesion"> <input name="sesion" type="checkbox">Mantener sesión abierta</label>
                     </div>
-                    <input type="submit" name="acceder" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
+                    <input type="submit" name="acceder-group" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
                         <p class="text-center">¿No tienes cuenta? <a class="text-white" href="registro.php">Crea una aquí</a></p>
                     </div>
@@ -105,16 +109,24 @@
                     <div class="mantener-sesion text-center x gap-1 justify-content-center align-items-center mb-3">
                         <label for="sesion"> <input name="sesion" type="checkbox">Mantener sesión abierta</label>
                     </div>
-                    <input type="submit" name="acceder" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
+                    <input type="submit" name="acceder-disc" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
                         <p class="text-center">¿No tienes cuenta? <a class="text-white" href="registro.php">Crea una aquí</a></p>
                     </div>
                 </form>
             </div>
             <?php
-        if(isset($_POST["acceder"])){
-            echo "<h1>ff</h1>";
-        }
+                if(isset($_POST["acceder-user"])){
+                    $accede = loginUser($_POST["usuario"], $_POST["pass"]);
+
+                    if(!$accede){
+                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                    }
+                }elseif(isset($_POST["acceder-group"])){
+
+                }elseif(isset($_POST["acceder-disc"])){
+
+                }
             ?>
         </div>
     </section>

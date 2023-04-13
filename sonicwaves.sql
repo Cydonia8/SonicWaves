@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-04-2023 a las 16:43:58
+-- Tiempo de generación: 13-04-2023 a las 13:01:36
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -32,18 +32,18 @@ CREATE TABLE `album` (
   `titulo` varchar(30) NOT NULL,
   `foto` varchar(100) NOT NULL,
   `activo` tinyint(1) DEFAULT NULL CHECK (`activo` >= 0 and `activo` <= 1),
-  `id_grupo` int(4) DEFAULT NULL
+  `grupo` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `album`
 --
 
-INSERT INTO `album` (`id`, `titulo`, `foto`, `activo`, `id_grupo`) VALUES
+INSERT INTO `album` (`id`, `titulo`, `foto`, `activo`, `grupo`) VALUES
 (1, 'Nightmare', 'media/img_album/nightmare.jpg', 1, 1),
-(2, 'Revolver', 'media/img_album/revolver.jpg', 1, 2),
-(3, 'Pandora\'s Piñata', 'media/img_album/pandoras_pinata.jpg', 1, 3),
-(4, 'Hello, I Must Be Going!', 'media/img_album/helloimustbegoing.jpg', 1, 4);
+(2, 'Hello, I Must Be Going!', 'media/img_album/helloimustbegoing.jpg', 1, 4),
+(3, 'Revolver', 'media/img_album/revolver.jpg', 1, 2),
+(4, 'Pandora\'s Piñata', 'media/img_album/pandoras_pinata.jpg', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -56,19 +56,18 @@ CREATE TABLE `cancion` (
   `titulo` varchar(30) NOT NULL,
   `duracion` char(5) DEFAULT NULL,
   `archivo` varchar(100) NOT NULL,
-  `estilo` int(2) DEFAULT NULL,
-  `id_album` int(4) DEFAULT NULL
+  `estilo` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `cancion`
 --
 
-INSERT INTO `cancion` (`id`, `titulo`, `duracion`, `archivo`, `estilo`, `id_album`) VALUES
-(1, 'Nightmare', '06:15', 'media/audio/a7x/nightmare.mp3', NULL, 1),
-(2, 'Taxman', '02:46', 'media/audio/beatles/taxman.mp3', NULL, 2),
-(3, 'Balrog Boogie', '03:45', 'media/audio/dso/balrog.mp3', NULL, 3),
-(4, 'I Don\'t Care Anymore', '05:05', 'media/audio/phil_collins/idontcareanymore.mp3', NULL, 4);
+INSERT INTO `cancion` (`id`, `titulo`, `duracion`, `archivo`, `estilo`) VALUES
+(1, 'Nightmare', '06:15', 'media/audio/a7x/nightmare.mp3', 2),
+(2, 'Balrog Boogie', '03:45', 'media/audio/dso/balrog.mp3', 3),
+(3, 'Taxman', '02:46', 'media/audio/beatles/taxman.mp3', 4),
+(4, 'I Don\'t Care Anymore', '05:05', 'media/audio/phil_collins/idontcareanymore.mp3', 1);
 
 -- --------------------------------------------------------
 
@@ -77,8 +76,8 @@ INSERT INTO `cancion` (`id`, `titulo`, `duracion`, `archivo`, `estilo`, `id_albu
 --
 
 CREATE TABLE `contiene` (
-  `id_lista` int(4) NOT NULL,
-  `id_cancion` int(4) NOT NULL,
+  `lista` int(4) NOT NULL,
+  `cancion` int(4) NOT NULL,
   `orden` int(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -92,7 +91,7 @@ CREATE TABLE `cuestionario` (
   `id` int(4) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `duracion` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `id_grupo` int(4) DEFAULT NULL
+  `grupo` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -104,10 +103,17 @@ CREATE TABLE `cuestionario` (
 CREATE TABLE `discografica` (
   `id` int(4) NOT NULL,
   `nombre` varchar(50) NOT NULL,
-  `usuario` varchar(30) NOT NULL,
+  `correo` varchar(50) NOT NULL,
   `pass` varchar(20) NOT NULL,
-  `activo` tinyint(1) DEFAULT NULL CHECK (`activo` >= 0 and `activo` <= 1)
+  `activo` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `discografica`
+--
+
+INSERT INTO `discografica` (`id`, `nombre`, `correo`, `pass`, `activo`) VALUES
+(1, 'Universal', 'holymustaine20@gmail.com', 'ss', 0);
 
 -- --------------------------------------------------------
 
@@ -121,6 +127,16 @@ CREATE TABLE `estilo` (
   `color_característico` char(7) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `estilo`
+--
+
+INSERT INTO `estilo` (`id`, `nombre`, `color_característico`) VALUES
+(1, 'Pop', NULL),
+(2, 'Metal', NULL),
+(3, 'Avant-garde', NULL),
+(4, 'Rock-pop', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -128,8 +144,8 @@ CREATE TABLE `estilo` (
 --
 
 CREATE TABLE `favorito` (
-  `id_usuario` int(4) NOT NULL,
-  `id_album` int(4) NOT NULL
+  `usuario` int(4) NOT NULL,
+  `album` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -141,7 +157,7 @@ CREATE TABLE `favorito` (
 CREATE TABLE `foto_grupo` (
   `id` int(4) NOT NULL,
   `enlace` varchar(100) NOT NULL,
-  `id_grupo` int(4) DEFAULT NULL
+  `grupo` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -153,7 +169,7 @@ CREATE TABLE `foto_grupo` (
 CREATE TABLE `foto_publicacion` (
   `id` int(4) NOT NULL,
   `enlace` varchar(100) NOT NULL,
-  `id_publicacion` int(4) DEFAULT NULL
+  `publicacion` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -165,23 +181,45 @@ CREATE TABLE `foto_publicacion` (
 CREATE TABLE `grupo` (
   `id` int(4) NOT NULL,
   `nombre` varchar(40) NOT NULL,
-  `biografia` varchar(2000) NOT NULL,
+  `biografia` varchar(2000) DEFAULT NULL,
   `pass` varchar(20) DEFAULT NULL,
   `correo` varchar(50) DEFAULT NULL,
-  `activo` tinyint(1) DEFAULT NULL CHECK (`activo` >= 0 and `activo` <= 1),
-  `foto` varchar(100) NOT NULL,
-  `id_discografica` int(4) DEFAULT NULL
+  `activo` tinyint(1) NOT NULL DEFAULT 0,
+  `foto` varchar(100) DEFAULT NULL,
+  `discografica` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `grupo`
 --
 
-INSERT INTO `grupo` (`id`, `nombre`, `biografia`, `pass`, `correo`, `activo`, `foto`, `id_discografica`) VALUES
-(1, 'Avenged Sevenfold', '', NULL, NULL, 1, 'media/img_grupos/a7x.jpg', NULL),
+INSERT INTO `grupo` (`id`, `nombre`, `biografia`, `pass`, `correo`, `activo`, `foto`, `discografica`) VALUES
+(1, 'Avenged Sevenfold', '', NULL, NULL, 1, 'media/img_grupo/a7x.jpg', NULL),
 (2, 'The Beatles', '', NULL, NULL, 1, 'media/img_grupos/beatles.jpg', NULL),
 (3, 'Diablo Swing Orchestra', '', NULL, NULL, 1, 'media/img_grupos/dso.jpg', NULL),
-(4, 'Phil Collins', '', NULL, NULL, 1, 'media/img_grupos/philcollins.jpg', NULL);
+(4, 'Phil Collins', '', NULL, NULL, 1, 'media/img_grupos/philcollins.jpg', NULL),
+(6, 'La Sudadera Del Manager', NULL, '22', 'lasuda@gmail.com', 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `incluye`
+--
+
+CREATE TABLE `incluye` (
+  `album` int(4) DEFAULT NULL,
+  `cancion` int(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `incluye`
+--
+
+INSERT INTO `incluye` (`album`, `cancion`) VALUES
+(1, 1),
+(2, 4),
+(4, 2),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -194,7 +232,7 @@ CREATE TABLE `lista` (
   `nombre` varchar(30) NOT NULL,
   `foto` varchar(100) DEFAULT NULL,
   `fecha_creacion` date DEFAULT NULL,
-  `id_usuario` int(4) DEFAULT NULL
+  `usuario` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -207,7 +245,7 @@ CREATE TABLE `mensaje` (
   `id` int(4) NOT NULL,
   `contenido` varchar(500) NOT NULL,
   `fecha` date DEFAULT NULL,
-  `id_grupo` int(4) DEFAULT NULL
+  `grupo` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -222,7 +260,7 @@ CREATE TABLE `publicacion` (
   `foto` varchar(100) NOT NULL,
   `titulo` varchar(100) NOT NULL,
   `fecha` date DEFAULT NULL,
-  `id_grupo` int(4) DEFAULT NULL
+  `grupo` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -232,8 +270,8 @@ CREATE TABLE `publicacion` (
 --
 
 CREATE TABLE `recibe` (
-  `id_usuario` int(4) NOT NULL,
-  `id_mensaje` int(4) NOT NULL,
+  `usuario` int(4) NOT NULL,
+  `mensaje` int(4) NOT NULL,
   `estado` tinyint(1) DEFAULT 0 CHECK (`estado` >= 0 and `estado` <= 1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -247,8 +285,8 @@ CREATE TABLE `reseña` (
   `id` int(4) NOT NULL,
   `contenido` varchar(3000) NOT NULL,
   `fecha` date DEFAULT NULL,
-  `id_usuario` int(4) DEFAULT NULL,
-  `id_grupo` int(4) DEFAULT NULL
+  `usuario` int(4) DEFAULT NULL,
+  `album` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -258,9 +296,8 @@ CREATE TABLE `reseña` (
 --
 
 CREATE TABLE `responde` (
-  `id_usuario` int(4) NOT NULL,
-  `id_cuestionario` int(4) NOT NULL,
-  `respuesta` int(4) DEFAULT NULL
+  `usuario` int(4) NOT NULL,
+  `respuesta` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -272,8 +309,7 @@ CREATE TABLE `responde` (
 CREATE TABLE `respuesta` (
   `id` int(4) NOT NULL,
   `contenido` varchar(100) NOT NULL,
-  `total_respuestas` int(4) DEFAULT 0,
-  `id_cuestionario` int(4) DEFAULT NULL
+  `cuestionario` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -283,8 +319,8 @@ CREATE TABLE `respuesta` (
 --
 
 CREATE TABLE `sigue` (
-  `id_usuario` int(4) NOT NULL,
-  `id_grupo` int(4) NOT NULL
+  `usuario` int(4) NOT NULL,
+  `grupo` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -310,9 +346,17 @@ CREATE TABLE `usuario` (
   `high_pass_q` float DEFAULT NULL,
   `low_pass_f` float DEFAULT NULL,
   `low_pass_q` float DEFAULT NULL,
-  `id_estilo` int(2) DEFAULT NULL,
-  `id_grupo` int(4) DEFAULT NULL
+  `estilo` int(2) DEFAULT NULL,
+  `grupo` int(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `nombre`, `apellidos`, `usuario`, `pass`, `foto`, `correo`, `f_nac`, `high_shelf_f`, `high_shelf_gain`, `low_shelf_f`, `low_shelf_gain`, `high_pass_f`, `high_pass_q`, `low_pass_f`, `low_pass_q`, `estilo`, `grupo`) VALUES
+(1, 'Alvaro', 'Blanco Lucena', 'cydonia8', 'tt5', NULL, 'holymustaine20@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL),
+(3, 'sds', 'sds', ' 74746281F', 'sds', NULL, 'lasuda@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -323,29 +367,28 @@ CREATE TABLE `usuario` (
 --
 ALTER TABLE `album`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_alb_gru` (`id_grupo`);
+  ADD KEY `ce_alb_gru` (`grupo`);
 
 --
 -- Indices de la tabla `cancion`
 --
 ALTER TABLE `cancion`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_canc_alb` (`id_album`),
   ADD KEY `ce_canc_est` (`estilo`);
 
 --
 -- Indices de la tabla `contiene`
 --
 ALTER TABLE `contiene`
-  ADD PRIMARY KEY (`id_lista`,`id_cancion`),
-  ADD KEY `ce_cont_canc` (`id_cancion`);
+  ADD PRIMARY KEY (`lista`,`cancion`),
+  ADD KEY `ce_cont_canc` (`cancion`);
 
 --
 -- Indices de la tabla `cuestionario`
 --
 ALTER TABLE `cuestionario`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_cuest_gru` (`id_grupo`);
+  ADD KEY `ce_cuest_gru` (`grupo`);
 
 --
 -- Indices de la tabla `discografica`
@@ -363,87 +406,93 @@ ALTER TABLE `estilo`
 -- Indices de la tabla `favorito`
 --
 ALTER TABLE `favorito`
-  ADD PRIMARY KEY (`id_usuario`,`id_album`),
-  ADD KEY `ce_fav_alb` (`id_album`);
+  ADD PRIMARY KEY (`usuario`,`album`),
+  ADD KEY `ce_fav_alb` (`album`);
 
 --
 -- Indices de la tabla `foto_grupo`
 --
 ALTER TABLE `foto_grupo`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_fotgru_gru` (`id_grupo`);
+  ADD KEY `ce_fotgru_gru` (`grupo`);
 
 --
 -- Indices de la tabla `foto_publicacion`
 --
 ALTER TABLE `foto_publicacion`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_fotpubl_publ` (`id_publicacion`);
+  ADD KEY `ce_fotpubl_publ` (`publicacion`);
 
 --
 -- Indices de la tabla `grupo`
 --
 ALTER TABLE `grupo`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_gru_disc` (`id_discografica`);
+  ADD KEY `ce_gru_disc` (`discografica`);
+
+--
+-- Indices de la tabla `incluye`
+--
+ALTER TABLE `incluye`
+  ADD KEY `ce_inclu_alb` (`album`),
+  ADD KEY `ce_inclu_canc` (`cancion`);
 
 --
 -- Indices de la tabla `lista`
 --
 ALTER TABLE `lista`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_list_usu` (`id_usuario`);
+  ADD KEY `ce_list_usu` (`usuario`);
 
 --
 -- Indices de la tabla `mensaje`
 --
 ALTER TABLE `mensaje`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_mens_gru` (`id_grupo`);
+  ADD KEY `ce_mens_gru` (`grupo`);
 
 --
 -- Indices de la tabla `publicacion`
 --
 ALTER TABLE `publicacion`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_publ_gru` (`id_grupo`);
+  ADD KEY `ce_publ_gru` (`grupo`);
 
 --
 -- Indices de la tabla `recibe`
 --
 ALTER TABLE `recibe`
-  ADD PRIMARY KEY (`id_usuario`,`id_mensaje`),
-  ADD KEY `ce_rec_mens` (`id_mensaje`);
+  ADD PRIMARY KEY (`usuario`,`mensaje`),
+  ADD KEY `ce_rec_mens` (`mensaje`);
 
 --
 -- Indices de la tabla `reseña`
 --
 ALTER TABLE `reseña`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_res_usu` (`id_usuario`),
-  ADD KEY `ce_res_gru` (`id_grupo`);
+  ADD KEY `ce_res_usu` (`usuario`),
+  ADD KEY `ce_res_gru` (`album`);
 
 --
 -- Indices de la tabla `responde`
 --
 ALTER TABLE `responde`
-  ADD PRIMARY KEY (`id_usuario`,`id_cuestionario`),
-  ADD KEY `ce_respo_cuest` (`id_cuestionario`),
-  ADD KEY `ce_respo_resp` (`respuesta`);
+  ADD PRIMARY KEY (`usuario`,`respuesta`),
+  ADD KEY `ce_respo_cuest` (`respuesta`);
 
 --
 -- Indices de la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ce_resp_cuest` (`id_cuestionario`);
+  ADD KEY `ce_resp_cuest` (`cuestionario`);
 
 --
 -- Indices de la tabla `sigue`
 --
 ALTER TABLE `sigue`
-  ADD PRIMARY KEY (`id_usuario`,`id_grupo`),
-  ADD KEY `ce_sig_gru` (`id_grupo`);
+  ADD PRIMARY KEY (`usuario`,`grupo`),
+  ADD KEY `ce_sig_gru` (`grupo`);
 
 --
 -- Indices de la tabla `usuario`
@@ -451,8 +500,8 @@ ALTER TABLE `sigue`
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `usuario` (`usuario`),
-  ADD KEY `ce_us_est` (`id_estilo`),
-  ADD KEY `ce_us_grup` (`id_grupo`);
+  ADD KEY `ce_us_est` (`estilo`),
+  ADD KEY `ce_us_grup` (`grupo`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -480,13 +529,13 @@ ALTER TABLE `cuestionario`
 -- AUTO_INCREMENT de la tabla `discografica`
 --
 ALTER TABLE `discografica`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `estilo`
 --
 ALTER TABLE `estilo`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `foto_grupo`
@@ -504,7 +553,7 @@ ALTER TABLE `foto_publicacion`
 -- AUTO_INCREMENT de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `lista`
@@ -540,7 +589,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
@@ -550,112 +599,117 @@ ALTER TABLE `usuario`
 -- Filtros para la tabla `album`
 --
 ALTER TABLE `album`
-  ADD CONSTRAINT `ce_alb_gru` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`);
+  ADD CONSTRAINT `ce_alb_gru` FOREIGN KEY (`grupo`) REFERENCES `grupo` (`id`);
 
 --
 -- Filtros para la tabla `cancion`
 --
 ALTER TABLE `cancion`
-  ADD CONSTRAINT `ce_canc_alb` FOREIGN KEY (`id_album`) REFERENCES `album` (`id`),
   ADD CONSTRAINT `ce_canc_est` FOREIGN KEY (`estilo`) REFERENCES `estilo` (`id`);
 
 --
 -- Filtros para la tabla `contiene`
 --
 ALTER TABLE `contiene`
-  ADD CONSTRAINT `ce_cont_canc` FOREIGN KEY (`id_cancion`) REFERENCES `cancion` (`id`),
-  ADD CONSTRAINT `ce_cont_list` FOREIGN KEY (`id_lista`) REFERENCES `lista` (`id`);
+  ADD CONSTRAINT `ce_cont_canc` FOREIGN KEY (`cancion`) REFERENCES `cancion` (`id`),
+  ADD CONSTRAINT `ce_cont_list` FOREIGN KEY (`lista`) REFERENCES `lista` (`id`);
 
 --
 -- Filtros para la tabla `cuestionario`
 --
 ALTER TABLE `cuestionario`
-  ADD CONSTRAINT `ce_cuest_gru` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`);
+  ADD CONSTRAINT `ce_cuest_gru` FOREIGN KEY (`grupo`) REFERENCES `grupo` (`id`);
 
 --
 -- Filtros para la tabla `favorito`
 --
 ALTER TABLE `favorito`
-  ADD CONSTRAINT `ce_fav_alb` FOREIGN KEY (`id_album`) REFERENCES `album` (`id`),
-  ADD CONSTRAINT `ce_fav_usu` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `ce_fav_alb` FOREIGN KEY (`album`) REFERENCES `album` (`id`),
+  ADD CONSTRAINT `ce_fav_usu` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `foto_grupo`
 --
 ALTER TABLE `foto_grupo`
-  ADD CONSTRAINT `ce_fotgru_gru` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`);
+  ADD CONSTRAINT `ce_fotgru_gru` FOREIGN KEY (`grupo`) REFERENCES `grupo` (`id`);
 
 --
 -- Filtros para la tabla `foto_publicacion`
 --
 ALTER TABLE `foto_publicacion`
-  ADD CONSTRAINT `ce_fotpubl_publ` FOREIGN KEY (`id_publicacion`) REFERENCES `publicacion` (`id`);
+  ADD CONSTRAINT `ce_fotpubl_publ` FOREIGN KEY (`publicacion`) REFERENCES `publicacion` (`id`);
 
 --
 -- Filtros para la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  ADD CONSTRAINT `ce_gru_disc` FOREIGN KEY (`id_discografica`) REFERENCES `discografica` (`id`);
+  ADD CONSTRAINT `ce_gru_disc` FOREIGN KEY (`discografica`) REFERENCES `discografica` (`id`);
+
+--
+-- Filtros para la tabla `incluye`
+--
+ALTER TABLE `incluye`
+  ADD CONSTRAINT `ce_inclu_alb` FOREIGN KEY (`album`) REFERENCES `album` (`id`),
+  ADD CONSTRAINT `ce_inclu_canc` FOREIGN KEY (`cancion`) REFERENCES `cancion` (`id`);
 
 --
 -- Filtros para la tabla `lista`
 --
 ALTER TABLE `lista`
-  ADD CONSTRAINT `ce_list_usu` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `ce_list_usu` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `mensaje`
 --
 ALTER TABLE `mensaje`
-  ADD CONSTRAINT `ce_mens_gru` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`);
+  ADD CONSTRAINT `ce_mens_gru` FOREIGN KEY (`grupo`) REFERENCES `grupo` (`id`);
 
 --
 -- Filtros para la tabla `publicacion`
 --
 ALTER TABLE `publicacion`
-  ADD CONSTRAINT `ce_publ_gru` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`);
+  ADD CONSTRAINT `ce_publ_gru` FOREIGN KEY (`grupo`) REFERENCES `grupo` (`id`);
 
 --
 -- Filtros para la tabla `recibe`
 --
 ALTER TABLE `recibe`
-  ADD CONSTRAINT `ce_rec_mens` FOREIGN KEY (`id_mensaje`) REFERENCES `mensaje` (`id`),
-  ADD CONSTRAINT `ce_rec_usu` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `ce_rec_mens` FOREIGN KEY (`mensaje`) REFERENCES `mensaje` (`id`),
+  ADD CONSTRAINT `ce_rec_usu` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `reseña`
 --
 ALTER TABLE `reseña`
-  ADD CONSTRAINT `ce_res_gru` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`),
-  ADD CONSTRAINT `ce_res_usu` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `ce_res_gru` FOREIGN KEY (`album`) REFERENCES `album` (`id`),
+  ADD CONSTRAINT `ce_res_usu` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `responde`
 --
 ALTER TABLE `responde`
-  ADD CONSTRAINT `ce_respo_cuest` FOREIGN KEY (`id_cuestionario`) REFERENCES `cuestionario` (`id`),
-  ADD CONSTRAINT `ce_respo_resp` FOREIGN KEY (`respuesta`) REFERENCES `respuesta` (`id`),
-  ADD CONSTRAINT `ce_respo_usu` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `ce_respo_cuest` FOREIGN KEY (`respuesta`) REFERENCES `respuesta` (`id`),
+  ADD CONSTRAINT `ce_respo_usu` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `respuesta`
 --
 ALTER TABLE `respuesta`
-  ADD CONSTRAINT `ce_resp_cuest` FOREIGN KEY (`id_cuestionario`) REFERENCES `cuestionario` (`id`);
+  ADD CONSTRAINT `ce_resp_cuest` FOREIGN KEY (`cuestionario`) REFERENCES `cuestionario` (`id`);
 
 --
 -- Filtros para la tabla `sigue`
 --
 ALTER TABLE `sigue`
-  ADD CONSTRAINT `ce_sig_gru` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`),
-  ADD CONSTRAINT `ce_sig_usu` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `ce_sig_gru` FOREIGN KEY (`grupo`) REFERENCES `grupo` (`id`),
+  ADD CONSTRAINT `ce_sig_usu` FOREIGN KEY (`usuario`) REFERENCES `usuario` (`id`);
 
 --
 -- Filtros para la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD CONSTRAINT `ce_us_est` FOREIGN KEY (`id_estilo`) REFERENCES `estilo` (`id`),
-  ADD CONSTRAINT `ce_us_grup` FOREIGN KEY (`id_grupo`) REFERENCES `grupo` (`id`);
+  ADD CONSTRAINT `ce_us_est` FOREIGN KEY (`estilo`) REFERENCES `estilo` (`id`),
+  ADD CONSTRAINT `ce_us_grup` FOREIGN KEY (`grupo`) REFERENCES `grupo` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
