@@ -20,8 +20,8 @@ document.body.style.backgroundImage = "url('../media/assets/register_bg1.jpg')"
 //     })
 // })
 
-let last_form = JSON.parse(localStorage.getItem("last_form") ?? "[]")
-if(last_form !== null){
+let last_form = JSON.parse(localStorage.getItem("user_data") ?? "[]")
+if(last_form.length != 0){
     console.log(last_form)
     updateFormContext()
     // switch(last_form.load_form){
@@ -99,7 +99,7 @@ function changeFormContext(eventos){
     const pulsado = eventos.target
     let data_form = pulsado.getAttribute("data-form-title")
     let load_form = {load_form: data_form}
-    localStorage.setItem("last_form", JSON.stringify(load_form))
+    localStorage.setItem("user_data", JSON.stringify(load_form))
     switch(data_form){
         case "group":
             document.body.style.backgroundImage = "url('../media/assets/register_bg2.0.jpg')"
@@ -151,7 +151,7 @@ function updateFormContext(){
     })
 }
 
-setTimeout(()=> {
+const removeAlerts = setTimeout(()=> {
     $(".alert").fadeTo(500, 0).slideUp(500, ()=>{
         $(this).remove(); 
     });
