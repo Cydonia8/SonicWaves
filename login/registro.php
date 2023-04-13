@@ -73,7 +73,7 @@
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
-                        <label for="pass">Estilo predeterminado</label>
+                        <label for="pass">Estilo preferido</label>
                         <ion-icon name="musical-notes-outline"></ion-icon>
                     </div>
                         <select class="p-1" name="estilo" id="">
@@ -99,10 +99,10 @@
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
-                            <label for="mail">Correo</label>
+                            <label for="mail">Correo electrónico</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input name="mail" type="text" required>                        
+                        <input name="mail" type="email" required>                        
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
@@ -131,10 +131,10 @@
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
-                            <label for="mail">Correo</label>
+                            <label for="mail">Correo electrónico</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input name="mail" type="text" required>                        
+                        <input name="mail" type="email" required>                        
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
@@ -177,6 +177,7 @@
 
                     if(!$mail_exists){
                         insertNewGroup($nombre_grupo, $pass, $mail);
+                        echo "<div class=\"alert text-center mt-3 alert-success alert-dismissible fade show\" role=\"alert\">Solicitud de grupo registrada y a la espera de ser aprobada.</div>";
                     }else{
                         echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Correo ya registrado</div>";
                     }
@@ -188,6 +189,7 @@
 
                     if(!$mail_exists){
                         insertNewDiscographic($nombre_discografica, $pass, $mail);
+                        echo "<div class=\"alert text-center mt-3 alert-success alert-dismissible fade show\" role=\"alert\">Solicitud de discográfica registrada y a la espera de ser aprobada.</div>";
                     }else{
                         echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Correo ya registrado</div>";
                     }

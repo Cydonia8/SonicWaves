@@ -90,3 +90,20 @@
 
         return $accede;
     }
+
+    function loginGroupDisc($mail, $pass, $tabla){
+        $accede = false;
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT count(*) FROM $tabla WHERE correo = ? and pass = ? and activo = 1");
+        $consulta->bind_param("ss", $mail, $pass);
+        $consulta->bind_result($count);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        if($count == 1){
+            $accede = true;
+        }
+
+        return $accede;
+    }

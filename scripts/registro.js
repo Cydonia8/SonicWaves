@@ -23,7 +23,7 @@ document.body.style.backgroundImage = "url('../media/assets/register_bg1.jpg')"
 let last_form = JSON.parse(localStorage.getItem("user_data") ?? "[]")
 if(last_form.length != 0){
     console.log(last_form)
-    updateFormContext()
+    rememberFormContext()
     // switch(last_form.load_form){
     //     case "group":
     //         document.body.style.backgroundImage = "url('../media/assets/register_bg2.0.jpg')"
@@ -123,7 +123,7 @@ function changeFormContext(eventos){
     })
 }
 
-function updateFormContext(){
+function rememberFormContext(){
     switch(last_form.load_form){
         case "group":
             document.body.style.backgroundImage = "url('../media/assets/register_bg2.0.jpg')"

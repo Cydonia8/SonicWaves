@@ -63,10 +63,10 @@
                     <h2 class="text-center mb-5 mt-3">Acceso para grupos</h2>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
-                            <label for="mail">Correo</label>
+                            <label for="mail">Correo electrónico</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input name="usuario" type="text" required>                        
+                        <input name="mail" type="email" required>                        
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
@@ -91,10 +91,10 @@
                     <h2 class="text-center mb-5 mt-3">Acceso para discográficas</h2>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
-                            <label for="mail">Correo</label>
+                            <label for="mail">Correo electrónico</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input name="usuario" type="text" required>                        
+                        <input name="mail" type="email" required>                        
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
@@ -123,9 +123,18 @@
                         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
                     }
                 }elseif(isset($_POST["acceder-group"])){
+                    $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "grupo");
+
+                    if(!$accede){
+                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                    }
 
                 }elseif(isset($_POST["acceder-disc"])){
+                    $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "discografica");
 
+                    if(!$accede){
+                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                    }
                 }
             ?>
         </div>
