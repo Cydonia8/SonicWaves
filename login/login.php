@@ -1,4 +1,5 @@
 <?php
+    session_start();
     require_once "../php_functions/login_register_functions.php";
 ?>
 <!DOCTYPE html>
@@ -121,12 +122,25 @@
 
                     if(!$accede){
                         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                    }else{
+                        $_SESSION["user"] = $_POST["usuario"];
+                        if($_POST["usuario"] == "admin"){
+                            $_SESSION["user-type"] = "admin";
+                            echo "<meta http-equiv='refresh' content='0;url=../admin/admin_main.php'>";
+                        }else{
+                            $_SESSION["user-type"] = "standard";
+                            // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
+                        }
                     }
                 }elseif(isset($_POST["acceder-group"])){
                     $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "grupo");
 
                     if(!$accede){
                         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                    }else{
+                        $_SESSION["user"] = $_POST["mail"];
+                        $_SESSION["user-type"] = "grupo";
+                        echo "<meta http-equiv='refresh' content='0;url=../grupo/grupo_main.php'>";
                     }
 
                 }elseif(isset($_POST["acceder-disc"])){
@@ -134,6 +148,10 @@
 
                     if(!$accede){
                         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                    }else{
+                        $_SESSION["user"] = $_POST["mail"];
+                        $_SESSION["user-type"] = "disc";
+                        echo "<meta http-equiv='refresh' content='0;url=../discografica/discografica_main.php'>";
                     }
                 }
             ?>
