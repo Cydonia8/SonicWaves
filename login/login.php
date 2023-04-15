@@ -1,6 +1,7 @@
 <?php
     session_start();
     require_once "../php_functions/login_register_functions.php";
+    require_once "../square_image_creator/create_square_image.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -139,7 +140,7 @@
                         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
                     }else{
                         $_SESSION["user"] = $_POST["mail"];
-                        $_SESSION["user-type"] = "grupo";
+                        $_SESSION["user-type"] = "group";
                         echo "<meta http-equiv='refresh' content='0;url=../grupo/grupo_main.php'>";
                     }
 

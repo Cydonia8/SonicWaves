@@ -1,5 +1,7 @@
 <?php
   session_start();
+  require_once "php_functions/general.php";
+  require_once "square_image_creator/create_square_image.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,7 +17,10 @@
     <title>Sonic Waves</title>
 </head>
 <body>
-    <header class="header-index">
+  <?php
+    printMainMenu("index");
+  ?>
+    <!-- <header class="header-index">
         <img src="media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png" alt="">
         <nav>
             <ul>
@@ -24,7 +29,7 @@
                 <a href="login/login.php"><li>Iniciar sesión</li></a>
             </ul>
         </nav>
-    </header>
+    </header> -->
     <div class="banner-intro">
         <div id="carouselExample" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-pause="false">
             <div class="carousel-inner">
