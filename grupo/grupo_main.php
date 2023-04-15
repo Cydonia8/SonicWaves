@@ -3,6 +3,12 @@
     require_once "../square_image_creator/create_square_image.php";
     require_once "../php_functions/general.php";
     require_once "../php_functions/group_functions.php";
+    if(isset($_POST["completar"])){
+        $foto_correcta = checkPhoto("foto");
+        $foto_avatar_correcta = checkPhoto("foto-avatar");
+        
+        // completeInformation($_SESSION["user"], $_POST["completar"], $_POST["foto"]);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,21 +28,25 @@
         $completo = checkInformationCompleted($_SESSION["user"]);
         if(!$completo){
             echo "<section class=\"form-group-completition gap-5\">
+                    <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\">
                     <h2>Antes de continuar, por favor, completa tu perfil</h2>
-                    <form class=\" gap-3 d-flex flex-column\" action=\"#\" method=\"post\">
+                    <form class=\" gap-3 d-flex flex-column\" action=\"#\" method=\"post\" enctype=\"multipart/form-data\">
                         <legend>Biografía del grupo (2000 caracteres máximo)</legend>
-                        <textarea required rows=\"10\" cols=\"50\"></textarea>
+                        <textarea name=\"bio\" required rows=\"10\" cols=\"50\"></textarea>
                         <div>
-                            <label for=\"foto\">Fotografía principal</label>
+                            <label for=\"foto\">Fotografía principal (asegúrate de que tenga una buena calidad, al menos 1920x1080)</label>
                             <input required type=\"file\" name=\"foto\">
                         </div>
-                        <input class=\"btn-completar-info-inicial\" type=\"submit\" name=\"Completar\" value=\"Continuar\">
+                        <div>
+                            <label for=\"foto-avatar\">Fotografía de avatar (dimensiones cuadradas, por ejemplo 400x400)</label>
+                            <input required type=\"file\" name=\"foto-avatar\">
+                        </div>
+                        <input class=\"btn-completar-info-inicial\" type=\"submit\" name=\"completar\" value=\"Continuar\">
                     </form>
                 </section>";
         }
-        echo $_SESSION["user"];
         $con = createConnection();
-        $consulta = $con->prepare("SELECT foto FROM grupo where correo = ?");
+        $consulta = $con->prepare("SELECT foto FROM grupo where nombre = ?");
         $consulta->bind_param("s", $_SESSION["user"]);
         $consulta->bind_result($foto);
         $consulta->execute();

@@ -34,10 +34,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
-                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"grupo/grupo_main.php\">Perfil</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -47,10 +55,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
-                            <li class=\"li-foto\"><a class=\"link-image-user\" href=\"admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"grupo/grupo_main.php\">Perfil</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -68,7 +84,7 @@ function printMainMenu($location = "noindex"){
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
                                     <ul class=\"dropdown-menu\">
                                         <li><a class=\"dropdown-item\" href=\"grupo/grupo_main.php\">Perfil</a></li>
-                                        <li><a class=\"dropdown-item\" href=\"#\">Cerrar sesión</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                                     </ul>
                                 </div>
                             </li>
@@ -81,10 +97,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
-                            <li class=\"li-foto\"><a class=\"link-image-user\" href=\"discografica/discografica_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"grupo/grupo_main.php\">Perfil</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -94,7 +118,7 @@ function printMainMenu($location = "noindex"){
             echo "<header class=\"header-index\">
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"login/login.php\">Iniciar sesión</a></li>
@@ -110,10 +134,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
-                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"../admin/admin_main.php\">Perfil</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -122,10 +154,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
-                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"\">Perfil</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -134,10 +174,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
-                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../grupo/grupo_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"../grupo/grupo_main.php\">Perfil</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -146,10 +194,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
-                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../discografica/discografica_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"../discografica/discografica_main.php\">Perfil</a></li>
+                                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -159,7 +215,7 @@ function printMainMenu($location = "noindex"){
             echo "<header class=\"header-index\">
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
+                        <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"../login/login.php\">Iniciar sesión</a></li>
@@ -168,4 +224,36 @@ function printMainMenu($location = "noindex"){
                 </header>";
         }
     }
+}
+
+function closeSession($POST, $seccion = "noindex"){
+    if($seccion == "noindex"){
+        if(isset($_POST["cerrar-sesion"])){
+            if(isset($_COOKIE['sesion'])){
+                setcookie("sesion","", time()-3600, '/');
+                unset($_SESSION['user']);
+                unset($_SESSION["user-type"]);
+                header("location:../index.php");
+            }else{
+                unset($_SESSION['user']);
+                unset($_SESSION["user-type"]);
+                header("location:../index.php");
+            }
+            
+        }
+    }else{
+        if(isset($_POST["cerrar-sesion"])){
+            if(isset($_COOKIE['sesion'])){
+                unset($_SESSION['user']);
+                unset($_SESSION["user-type"]);
+                setcookie("sesion","", time()-3600, '/');              
+                echo "<meta http-equiv='refresh' content='0;url=index.php'>";
+            }else{
+                unset($_SESSION['user']);
+                unset($_SESSION["user-type"]);
+                header("location:index.php");
+            }
+        }
+    }
+    
 }

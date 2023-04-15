@@ -60,6 +60,14 @@ header.header-index ul.dropdown-menu a{
 header.header-index ul.dropdown-menu a:hover{
     background-color: #7276a5;
 }
+header.header-index ul.dropdown-menu form:hover{
+    background-color: #7276a5;
+}
+header.header-index ul.dropdown-menu input{
+    background-color: transparent;
+    border: none;
+    padding-left: 1rem;
+}
 header.header-index li.li-foto img{
     width: 100%;
     cursor: pointer;
@@ -190,7 +198,8 @@ main{
     position: absolute;
     height: 100vh;
     width: 100vw;
-    background-color: #9692927c;
+    background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,0.8995973389355743) 5%, rgba(7,77,119,1) 55%, rgba(0,0,0,0.8995973389355743) 93%);
     z-index: 1000;
     /* display: none; */
     display: flex;
@@ -199,7 +208,13 @@ main{
     align-items: center;
     text-align: center;
 }
-#grupo-main .form-group-completition.hide{
-    display: none;
-    transition: display .8s;
+#grupo-main .form-group-completition img{
+    width: 20%;
+    position: absolute;
+    top: 1rem;
+}
+#grupo-main .form-group-completition textarea{
+    background-color: #ffffff66;
+    color: white;
+    border-radius: 10px;
 }
