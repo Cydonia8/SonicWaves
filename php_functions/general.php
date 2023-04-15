@@ -35,9 +35,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"admin/admin_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -48,9 +48,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"admin/admin_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\"><a class=\"link-image-user\" href=\"admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -60,10 +60,18 @@ function printMainMenu($location = "noindex"){
                 echo "<header class=\"header-index\">
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
-                        <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"grupo/grupo_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                        <ul class=\"links-header\">
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\">
+                                <div class=\"dropdown\">
+                                    <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
+                                    <ul class=\"dropdown-menu\">
+                                        <li><a class=\"dropdown-item\" href=\"grupo/grupo_main.php\">Perfil</a></li>
+                                        <li><a class=\"dropdown-item\" href=\"#\">Cerrar sesión</a></li>
+                                    </ul>
+                                </div>
+                            </li>
                         </ul>
                     </nav>
                 </header>";
@@ -74,9 +82,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"discografica/discografica_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\"><a class=\"link-image-user\" href=\"discografica/discografica_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -87,9 +95,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a href=\"login/login.php\"><li>Iniciar sesión</li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"login/login.php\">Iniciar sesión</a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -103,9 +111,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"../admin/admin_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -115,9 +123,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"../admin/admin_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../admin/admin_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -127,9 +135,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"../grupo/grupo_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../grupo/grupo_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -139,9 +147,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a class=\"link-image-user\" href=\"../discografica/discografica_main.php\"><li><img class=\"rounded-circle\" src=\"$foto\"></li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li class=\"li-foto\"> <a class=\"link-image-user\" href=\"../discografica/discografica_main.php\"><img class=\"rounded-circle\" src=\"$foto\"></a></li>
                         </ul>
                     </nav>
                 </header>";
@@ -152,9 +160,9 @@ function printMainMenu($location = "noindex"){
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
                     <nav>
                         <ul>
-                            <a href=\"\"><li>Nosotros</li></a>
-                            <a href=\"\"><li>Reproductor</li></a>
-                            <a href=\"../login/login.php\"><li>Iniciar sesión</li></a>
+                            <li><a href=\"\">Nosotros</a></li>
+                            <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"../login/login.php\">Iniciar sesión</a></li>
                         </ul>
                     </nav>
                 </header>";

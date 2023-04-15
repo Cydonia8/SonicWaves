@@ -20,7 +20,7 @@ header.header-index{
     position: absolute;
     z-index: 10000;
 }
-header.header-index ul{
+header.header-index ul.links-header{
     display: flex;
     gap: 2rem;
     list-style: none;
@@ -38,14 +38,14 @@ header.header-index nav a{
     text-decoration: none;
     color: white;
 }
-header.header-index nav a::after{
+header.header-index nav ul.links-header > li > a::after{
     content: '';
     display: block;
     height: 3px;
     width: 100%;
     transition: .9s;
 }
-header.header-index nav a:hover::after{
+header.header-index nav ul.links-header > li > a:hover::after{
     content: '';
     display: block;
     height: 3px;
@@ -54,12 +54,20 @@ header.header-index nav a:hover::after{
     transition: all .9s;
     transform:rotate(0.5turn);
 }
-header.header-index .link-image-user{
+header.header-index ul.dropdown-menu a{
+    color: black;
+}
+header.header-index ul.dropdown-menu a:hover{
+    background-color: #7276a5;
+}
+header.header-index li.li-foto img{
+    width: 100%;
+    cursor: pointer;
+}
+header.header-index nav ul li.li-foto{
     width: 10%;
 }
-header.header-index .link-image-user img{
-    width: 100%;
-}
+
 .banner-intro .second{
     background-image: linear-gradient(
         to bottom,
