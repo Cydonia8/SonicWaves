@@ -49,8 +49,8 @@
 
     function insertNewUser($user, $nombre, $apellidos, $pass, $mail, $estilo){
         $con = createConnection();
-        $consulta = $con->prepare("INSERT INTO USUARIO (usuario, nombre, apellidos, pass, correo, estilo) VALUES (?,?,?,?,?,?)");
-        $consulta->bind_param("sssssi", $user, $nombre, $apellidos, $pass, $mail, $estilo);
+        $consulta = $con->prepare("INSERT INTO USUARIO (usuario, nombre, apellidos, pass, correo) VALUES (?,?,?,?,?,?)");
+        $consulta->bind_param("sssssi", $user, $nombre, $apellidos, $pass, $mail);
         $consulta->execute();
         $consulta->close();
         $con->close();

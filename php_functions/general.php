@@ -14,7 +14,7 @@ function imageIndex($ruta){
 
 function imageUser($user, $table, $identificador){
     $con = createConnection();
-    $consulta = $con->prepare("SELECT foto from $table where $identificador = ?");
+    $consulta = $con->prepare("SELECT foto_avatar from $table where $identificador = ?");
     $consulta->bind_param('s',$user);
     $consulta->bind_result($foto);
     $consulta->execute();
@@ -41,7 +41,7 @@ function printMainMenu($location = "noindex"){
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
                                     <ul class=\"dropdown-menu\">
-                                        <li><a class=\"dropdown-item\" href=\"grupo/grupo_main.php\">Perfil</a></li>
+                                        <li><a class=\"dropdown-item\" href=\"admin/admin_main.php\">Perfil</a></li>
                                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                                     </ul>
                                 </div>

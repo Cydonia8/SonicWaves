@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
-*{
+*,::after, ::before{
     box-sizing: border-box;
 }
 body{
@@ -72,8 +72,8 @@ header.header-index li.li-foto img{
     width: 100%;
     cursor: pointer;
 }
-header.header-index nav ul li.li-foto{
-    width: 10%;
+header nav ul li.li-foto{
+    width: 15%;
 }
 
 .banner-intro .second{
@@ -199,8 +199,7 @@ main{
     height: 100vh;
     width: 100vw;
     background: rgb(0,0,0);
-background: linear-gradient(90deg, rgba(0,0,0,0.8995973389355743) 5%, rgba(7,77,119,1) 55%, rgba(0,0,0,0.8995973389355743) 93%);
-    z-index: 1000;
+background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(0,0,0,1) 93%);
     /* display: none; */
     display: flex;
     flex-direction: column;
@@ -217,4 +216,30 @@ background: linear-gradient(90deg, rgba(0,0,0,0.8995973389355743) 5%, rgba(7,77,
     background-color: #ffffff66;
     color: white;
     border-radius: 10px;
+}
+#admin-main{
+    background-color: #111727;
+}
+#admin-main .menu-admin ul{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    list-style: none;
+    font-size: 1.3rem;
+}
+#admin-main .menu-admin a{
+    text-decoration: none;
+    color: white;
+}
+#admin-main .menu-admin img{
+    width: 100%;
+}
+.tabla-estilos td,th{
+    padding: 1rem;
+    border: 1px solid white;
+    text-align: center;
+}
+.tabla-estilos td:empty{
+    content: '0';
+    color: white;
 }

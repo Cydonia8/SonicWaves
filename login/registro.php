@@ -71,17 +71,6 @@
                     </div>
                         <input class="w-100" name="mail" type="email" required>
                     </div>
-                    <div class="input-field d-flex flex-column mb-3">
-                        <div class="input-visuals d-flex justify-content-between">
-                        <label for="pass">Estilo preferido</label>
-                        <ion-icon name="musical-notes-outline"></ion-icon>
-                    </div>
-                        <select class="p-1" name="estilo" id="">
-                        <?php
-                            getStyles();
-                        ?>
-                        </select>
-                    </div>
                     <input type="submit" name="registro-user" value="Crear cuenta" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
                         <p class="text-center">¿Ya tienes cuenta? <a class="text-white" href="login.php">Accede aquí</a></p>
@@ -159,12 +148,11 @@
                     $apellidos = $_POST["apellidos"];
                     $pass = $_POST["pass"];
                     $mail = $_POST["mail"];
-                    $estilo = $_POST["estilo"];
                     $user_exists = userNameRepeated($_POST["usuario"]);
                     $mail_exists = mailRepeated($mail, "usuario");
                     // echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
                     if(!$user_exists and !$mail_exists){
-                        insertNewUser($user, $nombre, $apellidos, $pass, $mail, $estilo);
+                        insertNewUser($user, $nombre, $apellidos, $pass, $mail);
                     }else{
                         echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Usuario o correo ya registrados</div>";
                     }

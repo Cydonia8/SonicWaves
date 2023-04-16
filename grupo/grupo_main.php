@@ -7,7 +7,12 @@
         $foto_correcta = checkPhoto("foto");
         $foto_avatar_correcta = checkPhoto("foto-avatar");
         
-        // completeInformation($_SESSION["user"], $_POST["completar"], $_POST["foto"]);
+        if($foto_correcta and $foto_avatar_correcta){
+            $foto_avatar = newPhotoPath("foto-avatar", "avatar");
+            $foto = newPhotoPath("foto", "");
+            completeInformation($_SESSION["user"], $_POST["bio"], $foto, $foto_avatar);
+        }
+        
     }
 ?>
 <!DOCTYPE html>
@@ -46,7 +51,7 @@
                 </section>";
         }
         $con = createConnection();
-        $consulta = $con->prepare("SELECT foto FROM grupo where nombre = ?");
+        $consulta = $con->prepare("SELECT foto_avatar FROM grupo where correo = ?");
         $consulta->bind_param("s", $_SESSION["user"]);
         $consulta->bind_result($foto);
         $consulta->execute();
