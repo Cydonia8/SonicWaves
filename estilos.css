@@ -246,3 +246,18 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 .disco-detalle{
     background-color: #090f1f;
 }
+.grupo-detalle{
+    background-color: #090f1f;
+}
+#admin-body .admin-grupos-selector h2{
+    cursor: pointer;
+}
+#admin-body .admin-grupos-selector h2.tipo-activo{
+    text-decoration: underline;
+}
+#admin-body .grupos-container{
+    place-content: center;
+}
+#admin-body .grupos-container:not(.container-activo){
+    display: none;
+}

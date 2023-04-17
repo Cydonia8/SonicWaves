@@ -30,6 +30,7 @@
     <section class="admin-resumen container-xl mx-auto d-flex gap-3">
         <?php
             getAllRecordLabels();
+            
         ?>
     </section>
 </body>

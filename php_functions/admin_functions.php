@@ -81,27 +81,64 @@
         $con->close();
     }
 
-    function getAllGroups(){
+    function getAllGroupsDisc(){
         $con = createConnection();
-        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.correo correo_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco from grupo g, discografica d where g.discografica = d.id");
+        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco from grupo g, discografica d where g.discografica = d.id");
 
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
-            echo "<tr>
-                    <td>$fila[id_grupo]</td>
-                    <td>$fila[nom_grupo]</td>
-                    <td>$fila[correo_grupo]</td>
-                    <td><img src=\"../$fila[foto]\"></td>
-                    <td><img src=\"$fila[avatar_grupo]\"></td>";
-                    if($fila["disco"] == ""){
-                        echo "<td>Autogestionado</td>";
-                    }else{
-                        echo "<td>$fila[disco]</td>";
-                    }
-                    echo "<td>$fila[grupo_activo]</td>
-
-                  </tr>";
+            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                <div class=\"w-50\">
+                    <img class=\"img-fluid\" src=\"$fila[avatar_grupo]\">
+                </div>
+                <div class=\"d-flex flex-column justify-content-between\">
+                    <p>ID: $fila[id_grupo]</p>
+                    <p>Nombre: $fila[nom_grupo]</p>
+                    <p>Gestionado por: $fila[disco]</p>";
+                if($fila["grupo_activo"] == 0){
+                    echo "<form method=\"post\" action=\"#\">
+                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                    <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                    </form>";
+                }else{
+                    echo "<form method=\"post\" action=\"#\">
+                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                    <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                    </form>";
+                }
+                echo "</div>
+            </div>";
         }
     }
+
+    function getAllGroupsNoDisc(){
+        $con = createConnection();
+        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.correo correo_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo from grupo g where g.discografica is null");
+
+        while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
+            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                <div class=\"w-50\">
+                    <img class=\"img-fluid rounded-circle\" src=\"$fila[avatar_grupo]\">
+                </div>
+                <div class=\"d-flex flex-column justify-content-between\">
+                    <p>ID: $fila[id_grupo]</p>
+                    <p>Nombre: $fila[nom_grupo]</p>
+                    <p>Correo: $fila[correo_grupo]</p>";
+                if($fila["grupo_activo"] == 0){
+                    echo "<form method=\"post\" action=\"#\">
+                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                    <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                    </form>";
+                }else{
+                    echo "<form method=\"post\" action=\"#\">
+                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                    <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                    </form>";
+                }
+                echo "</div>
+            </div>";
+        }
+    }
+    
 
     function groupsPerRecordLabel($id){
         $total = 0;
