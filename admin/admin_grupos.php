@@ -19,7 +19,24 @@
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5">Sonic Waves: resumen general</h1>
-    <section class="admin-resumen container-xl"></section>
+    <h1 class="text-center mt-5">Grupos de Sonic Waves</h1>
+    <section class="grupos-container container-xl row mx-auto">
+       <table>
+        <thead>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Foto</th>
+            <th>Foto de avatar</th>
+            <th>Discográfica</th>
+            <th>Activo</th>
+        </thead>
+        <tbody>
+            <?php
+                getAllGroups();
+            ?>
+        </tbody>
+       </table>
+    </section>
 </body>
 </html>

@@ -2,6 +2,13 @@
     session_start();
     // echo $_SESSION["user"]
     require_once "../php_functions/admin_functions.php";
+    if(isset($_POST["activar"])){
+        activateDiscographic($_POST["id"]);
+        // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
+    }elseif(isset($_POST["desactivar"])){
+        deactivateDiscographic($_POST["id"]);
+        // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +26,11 @@
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5">Sonic Waves: resumen general</h1>
-    <section class="admin-resumen container-xl"></section>
+    <h1 class="text-center mt-5 mb-4">Discográficas de Sonic Waves</h1>
+    <section class="admin-resumen container-xl mx-auto d-flex gap-3">
+        <?php
+            getAllRecordLabels();
+        ?>
+    </section>
 </body>
 </html>

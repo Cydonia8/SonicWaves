@@ -217,23 +217,23 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     color: white;
     border-radius: 10px;
 }
-#admin-main{
+#admin-body{
     background-color: #111727;
 }
-#admin-main .menu-admin ul{
+/* #admin-body .menu-admin ul{
     display: flex;
     align-items: center;
     justify-content: space-around;
     list-style: none;
     font-size: 1.3rem;
 }
-#admin-main .menu-admin a{
+#admin-body .menu-admin a{
     text-decoration: none;
     color: white;
 }
 #admin-main .menu-admin img{
     width: 100%;
-}
+} */
 .tabla-estilos td,th{
     padding: 1rem;
     border: 1px solid white;
@@ -242,4 +242,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 .tabla-estilos td:empty{
     content: '0';
     color: white;
+}
+.disco-detalle{
+    background-color: #090f1f;
 }

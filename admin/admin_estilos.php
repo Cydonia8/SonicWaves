@@ -18,9 +18,9 @@
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
     <title>Panel de administración</title>
 </head>
-<body id="admin-main">
+<body id="admin-body">
     <?php
-        menuAdmin();
+        menuAdminDropdown();
     ?>
     <h1 class="text-center mt-5">Estilos de Sonic Waves</h1>
     <section class="estilos-container container-xl row mx-auto">
