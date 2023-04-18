@@ -24,6 +24,12 @@ function imageUser($user, $table, $identificador){
     return $foto;
 }
 
+function formatDate($date){
+    $marcatiempo = strtotime($date);
+    $fecha_formateada = date('d-m-Y', $marcatiempo);
+    return $fecha_formateada;
+}
+
 function printMainMenu($location = "noindex"){
 
     if($location == "index"){

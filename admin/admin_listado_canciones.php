@@ -2,12 +2,8 @@
     session_start();
     // echo $_SESSION["user"]
     require_once "../php_functions/admin_functions.php";
-    if(isset($_POST["activar"])){
-        activateDiscographic($_POST["id"]);
-        // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
-    }elseif(isset($_POST["desactivar"])){
-        deactivateDiscographic($_POST["id"]);
-        // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
+    if(isset($_POST["ver"])){
+        $id = $_POST["id"];
     }
 ?>
 <!DOCTYPE html>
@@ -19,6 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="../estilos.css">
+    <script src="" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
     <title>Panel de administración</title>
 </head>
@@ -26,12 +23,12 @@
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5 mb-4">Discográficas de Sonic Waves</h1>
-    <section class="admin-resumen container-xl mx-auto d-flex gap-3 flex-column flex-lg-row">
-        <?php
-            getAllRecordLabels();
-            
-        ?>
+    <h1 class="text-center mt-5">Canciones de </h1>
+    <section class="canciones-container container-xl mx-auto row">
+       <?php
+            getAlbumSongs($id);
+       ?>
     </section>
+
 </body>
 </html>

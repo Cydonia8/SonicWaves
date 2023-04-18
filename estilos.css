@@ -255,7 +255,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #admin-body .admin-grupos-selector h2.tipo-activo{
     text-decoration: underline;
 }
-#admin-body .grupos-container{
+#admin-body .grupos-container,.albumes-container{
     place-content: center;
 }
 #admin-body .grupos-container:not(.container-activo){

@@ -66,6 +66,7 @@
             $titulo = $fila["titulo"];
             $audio = $fila["archivo"];
             $foto = $fila["portada"];
+            $foto = imageIndex($foto);
             $artista = $fila["grup"];
             echo "<div class=\"cancion-prev d-flex align-items-center justify-content-center flex-column gap-5\">
                     <div class=\"d-flex flex-column align-items-center gap-3\">
