@@ -62,4 +62,52 @@
         move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
         return $nueva_ruta;
     }
+    
+    function newPhotoPathAlbum($nombre, $album){
+        $nuevo_nombre;
+        $quitar = ["/", ".", "*","'"];
+        $album = strtolower(str_replace($quitar, "", $album));
+
+        switch($_FILES[$nombre]["type"]){
+            case "image/jpeg":
+                $nuevo_nombre = $album.".jpg";
+                break;
+            case "image/png":
+                $nuevo_nombre = $album.".png";
+                break;
+            case "image/gif":
+                $nuevo_nombre = $album.".gif";
+                break;
+            case "image/webp":
+                $nuevo_nombre = $album.".webp";
+                break;
+        }
+        if(!file_exists("../media/img_grupos/".$_SESSION["user"])){
+            mkdir("../media/img_grupos/".$_SESSION["user"], 0777, true);
+        }
+        $nueva_ruta = "../media/img_grupos/".$_SESSION["user"]."/".$nuevo_nombre;
+        move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
+        return $nueva_ruta;
+    }
+
+    function addAlbum($grupo, $nombre, $foto, $lanzamiento, $activo){
+        $con = createConnection();
+        $insercion = $con->prepare("INSERT INTO album (titulo,foto,activo,grupo,lanzamiento) values (?, ?, ?, ?, ?)");
+        $insercion->bind_param('ssiis', $nombre, $foto, $activo, $grupo, $lanzamiento);
+        $insercion->execute();
+        $insercion->close();
+        $con->close();
+    }
+
+    function getGroupID($mail){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT id from grupo where correo = ?");
+        $consulta->bind_param('s', $mail);
+        $consulta->bind_result($id);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $id;
+    }
 ?>

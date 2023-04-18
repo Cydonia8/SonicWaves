@@ -30,6 +30,18 @@ function formatDate($date){
     return $fecha_formateada;
 }
 
+function getAutoID($tabla){
+    $con = createConnection();
+    $consulta_id = $con->prepare("select auto_increment cod from information_schema.tables where table_schema = 'sonicwaves' and table_name = ?");
+    $consulta_id->bind_param('s', $tabla);
+    $consulta_id->bind_result($id);
+    $consulta_id->execute();
+    $consulta_id->fetch();
+    $consulta_id->close();
+
+    return $id;
+}
+
 function printMainMenu($location = "noindex"){
 
     if($location == "index"){

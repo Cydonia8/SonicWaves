@@ -36,7 +36,7 @@
             <div class="carousel-inner">
               <div class="carousel-item active first" data-bs-interval="3500" >
                 <div class="w-50 mx-auto d-flex flex-column align-items-center">
-                  <h2>Para los grupos</h2>
+                  <h2>Para grupos</h2>
                 </div>
               </div>
               <div class="carousel-item second" data-bs-interval="3500" data-pause="false">
