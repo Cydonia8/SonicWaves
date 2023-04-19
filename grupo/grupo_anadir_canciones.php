@@ -44,15 +44,15 @@
 <body id="grupo-nuevo-album">
     <section class="container-añadir-canciones">
     <?php
-        if(isset($_POST["crear"])){
-            if($_POST["recopilatorio"] == "no"){
+        if(isset($_SESSION["foto_album"])){
+            if($_SESSION["recopilatorio"] == "no"){
                 echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
                 generateInputs($_SESSION["num_canciones"]);
             }else{
                 echo "movidas de album recopilatorio";
             }
         }else{
-
+            echo "faltan datos";
         }
     ?>
     </section>

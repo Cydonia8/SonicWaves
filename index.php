@@ -61,7 +61,7 @@
         <div class="d-flex container-samples-index gap-5 align-items-center">
         <?php
           $con = new mysqli('localhost', 'root', '', 'sonicwaves');
-          $consulta = $con->query("select c.titulo titulo, g.nombre grup, archivo, a.foto portada from cancion c, album a, grupo g, incluye i where a.grupo = g.id and i.album = a.id and i.cancion = c.id order by rand() limit 3");
+          $consulta = $con->query("select c.titulo titulo, g.nombre grup, archivo, a.foto portada from cancion c, album a, grupo g, incluye i where a.grupo = g.id and i.album = a.id and i.cancion = c.id and a.activo = 1 order by rand() limit 3");
           while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $titulo = $fila["titulo"];
             $audio = $fila["archivo"];

@@ -190,6 +190,24 @@
         $con->close();
     }
 
+    function activateGroup($id){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo SET activo = 1 WHERE id = ?");
+        $update->bind_param("i", $id);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    function deactivateGroup($id){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo SET activo = 0 WHERE id = ?");
+        $update->bind_param("i", $id);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
     function getAllRecordLabels(){
         $con = createConnection();
         $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo FROM discografica");

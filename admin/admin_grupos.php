@@ -2,6 +2,13 @@
     session_start();
     // echo $_SESSION["user"]
     require_once "../php_functions/admin_functions.php";
+    if(isset($_POST["activar"])){
+        activateGroup($_POST["id"]);
+        // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
+    }elseif(isset($_POST["desactivar"])){
+        deactivateGroup($_POST["id"]);
+        // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

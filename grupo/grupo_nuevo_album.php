@@ -11,6 +11,7 @@
         $_SESSION["titulo_album"] = $_POST["nombre"];
         $_SESSION["lanzamiento"] = $_POST["fecha"];
         $_SESSION["num_canciones"] = $_POST["num-canciones"];
+        $_SESSION["recopilatorio"] = $_POST["recopilatorio"];
         $foto_correcta = checkPhoto("foto");
 
         if($foto_correcta){
