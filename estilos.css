@@ -68,6 +68,11 @@ header.header-index ul.dropdown-menu input{
     border: none;
     padding-left: 1rem;
 }
+#cerrar-user{
+    background-color: transparent;
+    border: none;
+    padding-left: 1rem;
+}
 header.header-index li.li-foto img{
     width: 100%;
     cursor: pointer;
@@ -260,4 +265,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #admin-body .grupos-container:not(.container-activo){
     display: none;
+}
+#grupo-nuevo-album .container-añadir-canciones ul{
+    list-style: decimal;
 }

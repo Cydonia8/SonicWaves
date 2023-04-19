@@ -33,6 +33,7 @@
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Estilos</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Publicaciones</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Encuestas</a></li>
+                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
                 </div>
               </header>";
@@ -231,8 +232,8 @@
                     <img class=\"img-fluid rounded\" src=\"$fila[foto_album]\">
                 </div>
                 <div class=\"d-flex flex-column justify-content-between gap-1\">
-                    <p>ID: $fila[titulo]</p>
-                    <p>Nombre: $fila[nom_grupo]</p>
+                    <p>Título: $fila[titulo]</p>
+                    <p>Autor: $fila[nom_grupo]</p>
                     <p>Lanzado el: $fecha_format</p>";
                 if($fila["album_activo"] == 0){
                     echo "<form method=\"post\" action=\"#\">

@@ -4,17 +4,20 @@
     require_once "../php_functions/general.php";
 
     $nuevo_id = getAutoID("album");
-    $_SESSION["id"] = $nuevo_id;
+    $_SESSION["id_album"] = $nuevo_id;
     $id_grupo = getGroupID($_SESSION["user"]);
 
     if(isset($_POST["crear"])){
         $_SESSION["titulo_album"] = $_POST["nombre"];
         $_SESSION["lanzamiento"] = $_POST["fecha"];
+        $_SESSION["num_canciones"] = $_POST["num-canciones"];
         $foto_correcta = checkPhoto("foto");
 
         if($foto_correcta){
             $foto = newPhotoPathAlbum("foto", $_POST["nombre"]);
-            // echo "<meta http-equiv='refresh' content='0;url=grupo_anadir_canciones.php'>";
+            $_SESSION["foto_album"] = $foto;
+            // addAlbum($id_grupo, $_POST["nombre"], $foto, $_POST["fecha"], 1);
+            echo "<meta http-equiv='refresh' content='0;url=grupo_anadir_canciones.php'>";
         }else{
             echo "datos mal";
         }
@@ -35,13 +38,25 @@
     <title>Document</title>
 </head>
 <body id="grupo-nuevo-album">
+    <?php
+        menuGrupoDropdown();
+    ?>
     <form action="#" method="post" enctype="multipart/form-data">
-        <input required type="text" placeholder="Nombre del album" name="nombre">
+        <input type="text" placeholder="Nombre del album" name="nombre" required>
         <br>
-        <label required for="foto">Carátula de álbum</label><input type="file" name="foto">
+        <label for="foto">Carátula de álbum</label><input required type="file" name="foto">
         <br>
-        <label required for="fecha">Fecha de publicación</label><input type="date" name="fecha">
+        <label for="fecha">Fecha de publicación</label><input required type="date" name="fecha">
         <br>
+        <label for="">Numero de canciones</label><input type="number" required value="1" name="num-canciones" min="1" id="">
+        <br>
+        <fieldset>
+            <legend>¿Es un álbum recopilatorio?</legend>
+            <input type="radio" id="si" name="recopilatorio" value="si" required>
+            <label for="si">Sí</label>
+            <input type="radio" id="no" name="recopilatorio" value="no" required>
+            <label for="si">No</label>
+        </fieldset>
         <input type="submit" value="Pasar a añadir canciones" name="crear">
     </form>
 </body>

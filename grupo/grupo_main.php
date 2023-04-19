@@ -14,6 +14,7 @@
         }
         
     }
+    closeSession($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +31,7 @@
 </head>
 <body id="grupo-main">
     <?php
+        menuGrupoDropdown();
         $completo = checkInformationCompleted($_SESSION["user"]);
         if(!$completo){
             echo "<section class=\"form-group-completition gap-5\">

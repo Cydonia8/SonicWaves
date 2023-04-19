@@ -2,6 +2,7 @@
     session_start();
     // echo $_SESSION["user"]
     require_once "../php_functions/admin_functions.php";
+    closeSession($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
