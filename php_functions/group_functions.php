@@ -151,6 +151,19 @@
         $con->close();
         return $id;
     }
+    
+    function getAllGroupSongs($mail){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT c.id cancion_id, c.titulo titulo_cancion from grupo g, album a, cancion c, incluye i where a.grupo = g.id and i.cancion = c.id and i.album = a.id and g.correo = ?");
+        $consulta->bind_param('s', $mail);
+        $consulta->bind_result($id, $cancion);
+        $consulta->execute();
+        while($consulta->fetch()){
+            echo "<option value=\"$id\">$cancion</option>";
+        }
+        $consulta->close();
+        $con->close();
+    }
 
     function generateInputs($num){
         $contador = 1;
@@ -175,6 +188,19 @@
                 <input type=\"submit\" name=\"cargar\" value=\"Cargar álbum\">";
     }
 
+    function generateSelects($num){
+        $contador = 1;
+        echo "<ul>";
+        while($contador <= $num){
+            $name = "cancion".$contador;
+            echo "<li><select name=\"$name\">";
+                getAllGroupSongs($_SESSION["user"]);
+                 echo "</select></li>";
+            $contador++;
+        }
+        echo "</ul><input type=\"submit\" name=\"cargar\" value=\"Cargar álbum\">";
+    }
+
     function getDuration($cancion){
         $mp3file = new MP3File($cancion);
         $duration_seconds = $mp3file->getDuration();
@@ -182,7 +208,7 @@
         return $minutos;
     }
 
-    function addSongToAlbum($titulo, $archivo, $duracion, $estilo){
+    function addSong($titulo, $archivo, $duracion, $estilo){
         $con = createConnection();
         $insertar = $con->prepare("INSERT INTO cancion (titulo,duracion,archivo,estilo) values (?,?,?,?)");
         $insertar->bind_param('sssi', $titulo, $duracion, $archivo, $estilo);

@@ -6,25 +6,36 @@
         $id_grupo = getGroupID($_SESSION["user"]);
         addAlbum($id_grupo, $_SESSION["titulo_album"], $_SESSION["foto_album"], $_SESSION["lanzamiento"], 1);
         for($i = 1; $i <= $_SESSION["num_canciones"]; $i++){
-            echo $_FILES["archivo".$i]["name"];
-            echo "<br>";
-            echo $_POST["titulo".$i];
-            $titulo = $_POST["titulo".$i];
-            echo "<br>";
-            echo $_SESSION["id_album"];
-            echo "<br>";
-            $minutos = getDuration($_FILES["archivo".$i]["tmp_name"]);
-            echo $minutos;
-            echo "<br>";
-            echo $_POST["estilo".$i];
-            $estilo = $_POST["estilo".$i];
-            echo "<br>";
-            $ruta = moveUploadedSong("archivo".$i, $_SESSION["user"], $_SESSION["titulo_album"]);
-            echo $ruta;
-            addSongToAlbum($titulo, $ruta, $minutos, $estilo);
-            $id_cancion = getLastSongID();
-            echo $id_cancion;
-            linkSongToAlbum($_SESSION["id_album"], $id_cancion);
+            if($_SESSION["recopilatorio"] == "no"){
+                $titulo = $_POST["titulo".$i];
+                $minutos = getDuration($_FILES["archivo".$i]["tmp_name"]);
+                $estilo = $_POST["estilo".$i];
+                $ruta = moveUploadedSong("archivo".$i, $_SESSION["user"], $_SESSION["titulo_album"]);
+                addSong($titulo, $ruta, $minutos, $estilo);
+                $id_cancion = getLastSongID();
+                linkSongToAlbum($_SESSION["id_album"], $id_cancion);
+            }else{
+                linkSongToAlbum($_SESSION["id_album"], $_POST["cancion".$i]);
+            }
+            // echo $_FILES["archivo".$i]["name"];
+            // echo "<br>";
+            // echo $_POST["titulo".$i];
+            // $titulo = $_POST["titulo".$i];
+            // echo "<br>";
+            // echo $_SESSION["id_album"];
+            // echo "<br>";
+            // $minutos = getDuration($_FILES["archivo".$i]["tmp_name"]);
+            // echo $minutos;
+            // echo "<br>";
+            // echo $_POST["estilo".$i];
+            // $estilo = $_POST["estilo".$i];
+            // echo "<br>";
+            // $ruta = moveUploadedSong("archivo".$i, $_SESSION["user"], $_SESSION["titulo_album"]);
+            // echo $ruta;
+            // addSong($titulo, $ruta, $minutos, $estilo);
+            // $id_cancion = getLastSongID();
+            // echo $id_cancion;
+            // linkSongToAlbum($_SESSION["id_album"], $id_cancion);
         }
     }
 ?>
@@ -42,6 +53,9 @@
     <title>Document</title>
 </head>
 <body id="grupo-nuevo-album">
+    <?php
+        menuGrupoDropdown();
+    ?>
     <section class="container-añadir-canciones">
     <?php
         if(isset($_SESSION["foto_album"])){
@@ -49,10 +63,12 @@
                 echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
                 generateInputs($_SESSION["num_canciones"]);
             }else{
-                echo "movidas de album recopilatorio";
+                echo "<form action=\"#\" method=\"post\">";
+                generateSelects($_SESSION["num_canciones"]);
+                echo "</form>";
             }
         }else{
-            echo "faltan datos";
+            
         }
     ?>
     </section>
