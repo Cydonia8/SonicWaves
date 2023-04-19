@@ -40,7 +40,7 @@
                     </button>
                     <ul class=\"dropdown-menu\">
                         <li><a class=\"dropdown-item\" href=\"grupo_nuevo_album.php\">Subir nuevo álbum</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_usuarios.php\">Usuarios</a></li>
+                        <li><a class=\"dropdown-item\" href=\"admin_usuarios.php\">Editar perfil</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Grupos</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_discografica.php\">Discográficas</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_albumes.php\">Álbumes</a></li>

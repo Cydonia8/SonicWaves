@@ -14,6 +14,7 @@
         }
         
     }
+    
     closeSession($_POST);
 ?>
 <!DOCTYPE html>

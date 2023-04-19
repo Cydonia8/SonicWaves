@@ -2,6 +2,8 @@
     session_start();
     require_once "../php_functions/group_functions.php";
     require_once "../php_functions/general.php";
+    closeSession($_POST);
+    
     if(isset($_POST["cargar"])){
         $id_grupo = getGroupID($_SESSION["user"]);
         addAlbum($id_grupo, $_SESSION["titulo_album"], $_SESSION["foto_album"], $_SESSION["lanzamiento"], 1);

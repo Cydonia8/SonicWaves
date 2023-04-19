@@ -2,6 +2,7 @@
     session_start();
     require_once "../php_functions/group_functions.php";
     require_once "../php_functions/general.php";
+    closeSession($_POST);
 
     $nuevo_id = getAutoID("album");
     $_SESSION["id_album"] = $nuevo_id;
