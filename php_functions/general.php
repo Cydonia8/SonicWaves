@@ -24,6 +24,12 @@ function imageUser($user, $table, $identificador){
     return $foto;
 }
 
+function forbidAccess($tipo_usuario){
+    if(!isset($_SESSION["user"]) or $_SESSION["user-type"] != $tipo_usuario){
+        header("Location:../prohibido/forbidden.php");
+    }
+}
+
 function formatDate($date){
     $marcatiempo = strtotime($date);
     $fecha_formateada = date('d-m-Y', $marcatiempo);

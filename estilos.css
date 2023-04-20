@@ -309,3 +309,40 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     font-size: 2rem;
     cursor: pointer;
 }
+#prohibido{
+    background-color: black;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    overflow-x: hidden;
+}
+#prohibido img{
+    width: 40%;
+    margin-top: 1rem;
+}
+.equalizer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    width: 100%;
+    height: 50px;
+  }
+  
+  .equalizer:first-of-type {
+    align-items: flex-end;
+    margin-bottom: 10px;
+  }
+  
+  .equalizer:last-of-type {
+    align-items: flex-start;
+  }
+  
+  .equalizer > * {
+    top: 50%;
+    width: 15px;
+    transition: height .25s;
+    background: #f5eb5a;
+    box-shadow: 0 0 10px 5px #4d6df3;
+  }

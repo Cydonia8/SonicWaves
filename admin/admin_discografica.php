@@ -2,6 +2,8 @@
     session_start();
     // echo $_SESSION["user"]
     require_once "../php_functions/admin_functions.php";
+    require_once "../php_functions/general.php";
+    forbidAccess("admin");
     if(isset($_POST["activar"])){
         activateDiscographic($_POST["id"]);
         // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";

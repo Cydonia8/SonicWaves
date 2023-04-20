@@ -2,7 +2,8 @@
     session_start();
     // echo $_SESSION["user"]
     require_once "../php_functions/admin_functions.php";
-
+    require_once "../php_functions/general.php";
+    forbidAccess("admin");
 ?>
 <!DOCTYPE html>
 <html lang="en">

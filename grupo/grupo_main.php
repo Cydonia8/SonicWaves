@@ -3,6 +3,7 @@
     require_once "../square_image_creator/create_square_image.php";
     require_once "../php_functions/general.php";
     require_once "../php_functions/group_functions.php";
+    forbidAccess("group");
     if(isset($_POST["completar"])){
         $foto_correcta = checkPhoto("foto");
         $foto_avatar_correcta = checkPhoto("foto-avatar");

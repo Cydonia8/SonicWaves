@@ -3,7 +3,7 @@
     require_once "../square_image_creator/create_square_image.php";
     require_once "../php_functions/general.php";
     require_once "../php_functions/discografica_functions.php";
-    
+    forbidAccess("disc");
     closeSession($_POST);
 ?>
 <!DOCTYPE html>
