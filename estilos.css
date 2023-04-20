@@ -269,3 +269,43 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #grupo-nuevo-album .container-añadir-canciones ul{
     list-style: decimal;
 }
+.style-dot-admin{
+    height: 75px;
+    width: 75px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+.estilos-container{
+    place-content: center;
+}
+.modal-form-estilo{
+    height: 100vh;
+    width: 100vw;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 10000;
+    backdrop-filter: blur(7px);
+    transition: all .8s;
+}
+#form-nuevo-estilo{
+    width: 50%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: #111727;
+    position: relative;
+    gap: 1.5rem;
+    padding: 1rem;
+}
+#close-form-add-style{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 2rem;
+    cursor: pointer;
+}

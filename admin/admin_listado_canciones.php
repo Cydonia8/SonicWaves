@@ -4,7 +4,9 @@
     require_once "../php_functions/admin_functions.php";
     if(isset($_POST["ver"])){
         $id = $_POST["id"];
+        $album = getAlbumName($id);
     }
+    closeSession($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +25,7 @@
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5">Canciones de </h1>
+    <h1 class="text-center mt-5">Canciones de <?php echo $album; ?></h1>
     <section class="canciones-container container-xl mx-auto row">
        <?php
             getAlbumSongs($id);

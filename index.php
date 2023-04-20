@@ -54,7 +54,7 @@
           </div>
     </div>
     <main>
-      <div class="container-xl mx-auto">
+      <div class="container-xxl mx-auto">
         <h2 class="text-center text-white">
           Algunas de las canciones que podrás encontrar
         </h2>
@@ -70,7 +70,7 @@
             $audio = imageIndex($audio);
             $artista = $fila["grup"];
             echo "<div class=\"cancion-prev d-flex align-items-center justify-content-center flex-column gap-5\">
-                    <div class=\"d-flex flex-column align-items-center gap-3\">
+                    <div class=\"text-center d-flex flex-column align-items-center gap-3\">
                       <img class=\"rounded img-fluid\" src=\"$foto\">
                       <h2>$titulo</h2>
                       <h3>$artista</h3>

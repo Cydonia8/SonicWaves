@@ -7,6 +7,7 @@
     }elseif(isset($_POST["desactivar"])){
         deactivateAlbum($_POST["id"]);
     }
+    closeSession($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">

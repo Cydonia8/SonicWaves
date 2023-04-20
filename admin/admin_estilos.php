@@ -5,6 +5,7 @@
     if(isset($_POST["nuevo-estilo"])){
         newStyle($_POST["nombre"], $_POST["color"]);
     }
+    closeSession($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,43 +16,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="../estilos.css">
+    <script src="../scripts/admin_estilos.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <title>Panel de administración</title>
 </head>
 <body id="admin-body">
+    <div class="modal-form-estilo">
+        <form action="#" method="post" id="form-nuevo-estilo">
+            <ion-icon id="close-form-add-style" name="close-outline"></ion-icon>
+            <div class="">
+                <label for="">Nombre</label>
+                <input type="text" required name="nombre">
+            </div>
+            <div class="row">
+                <label for="">Color característico</label>
+                <input type="color" required name="color">
+            </div>
+            <input type="submit" name="nuevo-estilo" value="Añadir estilo">
+        </form>
+    </div>
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5">Estilos de Sonic Waves</h1>
-    <section class="estilos-container container-xl row mx-auto">
-        <div class="col-12 col-md-6">
-            <table class="tabla-estilos mx-auto">
-                <thead>
-                    <th>ID</th>
-                    <th>Nombre de estilo</th>
-                    <th>Color característico</th>
-                    <th>Canciones con este estilo</th>
-                </thead>
-                <tbody>
-                    <?php
-                        getAllStyles();
-                    ?>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-12 col-md-6">
-            <form action="#" method="post">
-                <div class="row">
-                    <label for="">Nombre</label>
-                    <input type="text" required name="nombre">
-                </div>
-                <div class="row">
-                    <label for="">Color característico</label>
-                    <input type="color" required name="color">
-                </div>
-                <input type="submit" name="nuevo-estilo" value="Añadir estilo">
-            </form>
-        </div>
+    
+    <h1 class="text-center mt-5 mb-5">Estilos de Sonic Waves</h1>
+    <button id="abrir-form-estilo">Añadir estilo</button>
+    
+    <section class="estilos-container container-fluid mx-auto row gap-3">
+        
+        <?php
+            getAllStyles();
+        ?>
     </section>
 </body>
 </html>

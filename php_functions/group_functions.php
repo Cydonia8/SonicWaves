@@ -41,13 +41,9 @@
                     <ul class=\"dropdown-menu\">
                         <li><a class=\"dropdown-item\" href=\"grupo_nuevo_album.php\">Subir nuevo álbum</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_usuarios.php\">Editar perfil</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Grupos</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_discografica.php\">Discográficas</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_albumes.php\">Álbumes</a></li>
-                        <li><a class=\"dropdown-item\" href=\"#\">Reseñas</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Estilos</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Publicaciones</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Encuestas</a></li>
+                        <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Añadir encuesta</a></li>
+                        <li><a class=\"dropdown-item\" href=\"admin_discografica.php\">Añadir publicación</a></li>
+                        <li><a class=\"dropdown-item\" href=\"#\">Reseñas de mis álbumes</a></li>
                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
                 </div>
@@ -235,6 +231,7 @@
             mkdir("../media/audio/$grupo/$album");
         }
         $cancion = $_FILES[$nombre]["name"];
+        $cancion = removeSpecialCharacters($cancion);
         $nueva_ruta = "../media/audio/$grupo/$album/$cancion";
         move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
         return $nueva_ruta;

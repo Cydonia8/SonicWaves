@@ -57,17 +57,20 @@
         $consulta = $con->query("SELECT * FROM estilo");
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $canciones_estilo = songsPerStyle($fila["id"]);
-            echo "<tr>
-                    <td>$fila[id]</td>
-                    <td>$fila[nombre]</td>
-                    <td bgcolor=\"$fila[color_caracteristico]\"></td>";
-                    if($canciones_estilo != ""){
-                        echo "<td>$canciones_estilo</td>";
-                    }else{
-
-                    }
+            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                    <div class=\"d-flex flex-column\">
+                        <p>ID del estilo: $fila[id]</p>
+                        <p>Nombre: $fila[nombre]</p>";
+                        if($canciones_estilo != ""){
+                            echo "<p>Canciones totales con este estilo: $canciones_estilo</p>";
+                        }
+                    echo "</div>
+                    <div class=\"d-flex flex-column align-items-center\">
+                        <p>Color característico</p>
+                        <span style=\"background-color:$fila[color_caracteristico];\" class=\"style-dot-admin\"></span>
+                    </div>";
                     
-                echo "</tr>";
+                echo "</div>";
         }
         $con->close();
     }
@@ -299,6 +302,18 @@
         echo "</ul>";
         $consulta2->close();
         $con->close();
+    }
+
+    function getAlbumName($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT a.titulo from album a, grupo g where g.id = a.grupo and a.id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($nombre);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $nombre;
     }
 
 

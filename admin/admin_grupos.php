@@ -9,6 +9,7 @@
         deactivateGroup($_POST["id"]);
         // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
     }
+    closeSession($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">
