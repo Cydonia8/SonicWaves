@@ -343,6 +343,13 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     top: 50%;
     width: 15px;
     transition: height .25s;
-    background: #f5eb5a;
-    box-shadow: 0 0 10px 5px #4d6df3;
+    background: #c5c4af;
+    box-shadow: 0 0 10px 5px #f3604d;
   }
+
+#discografica-main .disc-grupo-detalle{
+    background-color: #090f1f;
+}
+#discografica-main .container-grupos-discografica{
+    place-content: center;
+}

@@ -23,10 +23,14 @@
     <?php
         menuDiscograficaDropdown();
         $nombre = getDiscographicName($_SESSION["user"]);
+        $id = getDiscographicID($_SESSION["user"]);
     ?>
-    <h1><?php echo $nombre;?></h1>
-    <section>
-        
+    <h1 class="text-center mt-4 mb-4">Grupos gestionados por <?php echo $nombre;?></h1>
+    <section class="container-fluid container-grupos-discografica row mx-auto gap-3 p-2">
+        <?php
+            getDiscographicGroups($id);    
+        ?>
+    
     </section>
 </body>
 </html>

@@ -22,7 +22,7 @@
 <body id="discografica-main">
     <?php
         menuDiscograficaDropdown();
-        $nombre = getDiscographicName($_SESSION["user"]);
+        $nombre = getDiscographicName($_SESSION["user"])
     ?>
     <h1><?php echo $nombre;?></h1>
     <section>
