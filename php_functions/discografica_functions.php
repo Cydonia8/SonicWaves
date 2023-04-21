@@ -9,7 +9,7 @@ function menuDiscograficaDropdown(){
                 </button>
                 <ul class=\"dropdown-menu\">
                     <li><a class=\"dropdown-item\" href=\"discografica_grupos.php\">Grupos gestionados</a></li>
-                    <li><a class=\"dropdown-item\" href=\"admin_usuarios.php\">Añadir nuevo grupo</a></li>
+                    <li><a class=\"dropdown-item\" href=\"discografica_añadir_grupo.php\">Añadir nuevo grupo</a></li>
                     <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Grupos</a></li>
                     <li><a class=\"dropdown-item\" href=\"admin_discografica.php\">Discográficas</a></li>
                     <li><a class=\"dropdown-item\" href=\"admin_albumes.php\">Álbumes</a></li>
@@ -71,6 +71,15 @@ function getDiscographicGroups($id_disc){
               </div>";
     }
     $consulta->close();
+    $con->close();
+}
+
+function addGroup($nombre, $biografia, $foto, $foto_avatar, $activo, $id_disco){
+    $con = createConnection();
+    $insercion = $con->prepare("INSERT INTO grupo (nombre,biografia, foto, foto_avatar, activo, discografica) VALUES (?,?,?,?,?,?)");
+    $insercion->bind_param('ssssii', $nombre, $biografia, $foto, $foto_avatar, $activo, $id_disco);
+    $insercion->execute();
+    $insercion->close();
     $con->close();
 }
 ?>
