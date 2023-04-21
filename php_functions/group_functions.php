@@ -244,4 +244,16 @@
         $id = $fila["id"];
         return $id;
     }
+
+    function getGroupName($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT nombre from grupo where id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($nombre);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $nombre;
+    }
 ?>

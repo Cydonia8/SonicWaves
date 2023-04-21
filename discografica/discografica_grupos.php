@@ -27,6 +27,7 @@
     ?>
     <h1 class="text-center mt-4 mb-4">Grupos gestionados por <?php echo $nombre;?></h1>
     <section class="container-fluid container-grupos-discografica row mx-auto gap-3 p-2">
+    <a href="">Buscar</a>
         <?php
             getDiscographicGroups($id);    
         ?>

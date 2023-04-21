@@ -46,10 +46,10 @@ function getDiscographicID($mail){
     $con->close();
     return $id;
 }
-function getDiscographicGroups($id){
+function getDiscographicGroups($id_disc){
     $con = createConnection();
     $consulta = $con->prepare("SELECT id, nombre, foto_avatar from grupo where discografica = ?");
-    $consulta->bind_param('i', $id);
+    $consulta->bind_param('i', $id_disc);
     $consulta->bind_result($id, $nombre, $foto_avatar);
     $consulta->execute();
     while($consulta->fetch()){
@@ -60,10 +60,12 @@ function getDiscographicGroups($id){
                 </div>
                 <div class=\"d-flex flex-column justify-content-center gap-5\">
                     <form method=\"post\" action=\"\">
+                        <input hidden value=\"$id\" name=\"id\">
                         <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Editar datos de grupo\">
                     </form>
-                    <form method=\"post\" action=\"\">
-                        <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Añadir nuevo álbum\">
+                    <form method=\"post\" action=\"../discografica/discografica_añadir_album.php\">
+                        <input hidden value=\"$id\" name=\"id\">
+                        <input class=\"btn btn-outline-info\" type=\"submit\" name=\"ver\" value=\"Añadir nuevo álbum\">
                     </form>
                 </div>
               </div>";
