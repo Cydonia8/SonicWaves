@@ -44,7 +44,7 @@
             $foto_avatar_correcta = checkPhoto("foto-avatar");
             $id_grupo = getAutoID("grupo");
             if($foto_correcta and $foto_avatar_correcta){
-                $foto_avatar = newPhotoPathDisc("foto-avatar", "foto",  $nombre, $id_grupo);
+                $foto_avatar = newPhotoPathDisc("foto-avatar", "avatar",  $nombre, $id_grupo);
                 $foto = newPhotoPathDisc("foto", "", $nombre, $id_grupo);
                 addGroup($nombre, $bio, $foto, $foto_avatar, 1, $id_discografica);
             }

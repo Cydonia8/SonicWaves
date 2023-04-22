@@ -17,9 +17,9 @@
         $_SESSION["recopilatorio"] = $_POST["recopilatorio"];
         $_SESSION["id"] = $_POST["id"];
         $foto_correcta = checkPhoto("foto");
-
+        $nombre_grupo = getGroupName($_SESSION["id"]);
         if($foto_correcta){
-            $foto = newPhotoPathAlbum("foto", $_POST["nombre"]);
+            $foto = newPhotoPathAlbumDisc("foto", $_POST["nombre"], $nombre_grupo, $_SESSION["id"]);
             $_SESSION["foto_album"] = $foto;
             // addAlbum($id_grupo, $_POST["nombre"], $foto, $_POST["fecha"], 1);
             echo "<meta http-equiv='refresh' content='0;url=discografica_anadir_canciones.php'>";

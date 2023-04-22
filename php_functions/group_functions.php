@@ -96,7 +96,7 @@
     }
     
     function removeSpecialCharacters($nombre){
-        $quitar = ["/", ".", "*","'"];
+        $quitar = ["/", "*","'"];
         $arreglado = strtolower(str_replace($quitar, "", $nombre));
         return $arreglado;
     }

@@ -59,7 +59,7 @@ function getDiscographicGroups($id_disc){
                     <p class=\"text-center font-weight-bold\">$nombre</p>
                 </div>
                 <div class=\"d-flex flex-column justify-content-center gap-5\">
-                    <form method=\"post\" action=\"\">
+                    <form method=\"post\" action=\"discografica_editar_grupo.php\">
                         <input hidden value=\"$id\" name=\"id\">
                         <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Editar datos de grupo\">
                     </form>
@@ -97,6 +97,33 @@ function newPhotoPathDisc($nombre, $tipo, $grupo, $id){
             break;
         case "image/webp":
             $nuevo_nombre = $grupo."_".$id."_".$tipo.".webp";
+            break;
+    }
+    if(!file_exists("../media/img_grupos/".$grupo."_".$id)){
+        mkdir("../media/img_grupos/".$grupo."_".$id, 0777, true);
+    }
+    $nueva_ruta = "../media/img_grupos/".$grupo."_".$id."/".$nuevo_nombre;
+    move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
+    return $nueva_ruta;
+}
+
+function newPhotoPathAlbumDisc($nombre, $album, $grupo, $id){
+    $nuevo_nombre;
+    $quitar = ["/", ".", "*","'"];
+    $album = strtolower(str_replace($quitar, "", $album));
+
+    switch($_FILES[$nombre]["type"]){
+        case "image/jpeg":
+            $nuevo_nombre = $album.".jpg";
+            break;
+        case "image/png":
+            $nuevo_nombre = $album.".png";
+            break;
+        case "image/gif":
+            $nuevo_nombre = $album.".gif";
+            break;
+        case "image/webp":
+            $nuevo_nombre = $album.".webp";
             break;
     }
     if(!file_exists("../media/img_grupos/".$grupo."_".$id)){
