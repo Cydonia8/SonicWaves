@@ -48,6 +48,18 @@ function getAutoID($tabla){
     return $id;
 }
 
+function keepSessionOpen(){
+    if(isset($_POST["sesion"]) and $_POST['sesion']==1){
+        setcookie('sesion', session_encode(), time()+86400, '/');                  
+    }
+}
+
+function decodeCookie(){
+    if(isset($_COOKIE['sesion'])){
+        session_decode($_COOKIE['sesion']);
+    }
+}
+
 function printMainMenu($location = "noindex"){
 
     if($location == "index"){

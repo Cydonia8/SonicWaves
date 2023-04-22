@@ -2,6 +2,7 @@
   session_start();
   require_once "php_functions/general.php";
   require_once "square_image_creator/create_square_image.php";
+  decodeCookie();
   closeSession($_POST, "index");
 ?>
 <!DOCTYPE html>

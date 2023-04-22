@@ -5,6 +5,59 @@
     if(isset($_SESSION["user"])){
         header("Location:../index.php");
     }
+    if(isset($_POST["acceder-user"])){
+        $accede = loginUser($_POST["usuario"], $_POST["pass"]);
+
+        if($accede){
+            $_SESSION["user"] = $_POST["usuario"];
+            if($_POST["usuario"] == "admin"){
+                $_SESSION["user-type"] = "admin";
+                keepSessionOpen();
+                // echo $_POST['sesion'];
+                echo "<meta http-equiv='refresh' content='0;url=../admin/admin_main.php'>";
+            }else{
+                $_SESSION["user-type"] = "standard";
+                // keepSessionOpen();
+                // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
+            }
+            
+        }else{
+            // $_SESSION["user"] = $_POST["usuario"];
+            // if($_POST["usuario"] == "admin"){
+            //     $_SESSION["user-type"] = "admin";
+            //     keepSessionOpen();
+            //     // echo "<meta http-equiv='refresh' content='0;url=../admin/admin_main.php'>";
+            // }else{
+            //     $_SESSION["user-type"] = "standard";
+            //     keepSessionOpen();
+            //     // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
+            // }
+            echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+        }
+    }elseif(isset($_POST["acceder-group"])){
+        $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "grupo");
+
+        if(!$accede){
+            echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+        }else{
+            $_SESSION["user"] = $_POST["mail"];
+            $_SESSION["user-type"] = "group";
+            keepSessionOpen();
+            echo "<meta http-equiv='refresh' content='0;url=../grupo/grupo_main.php'>";
+        }
+
+    }elseif(isset($_POST["acceder-disc"])){
+        $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "discografica");
+
+        if(!$accede){
+            echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+        }else{
+            $_SESSION["user"] = $_POST["mail"];
+            $_SESSION["user-type"] = "disc";
+            keepSessionOpen();
+            echo "<meta http-equiv='refresh' content='0;url=../discografica/discografica_main.php'>";
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +109,7 @@
                         </div>
                     </div>
                     <div class="mantener-sesion text-center x gap-1 justify-content-center align-items-center mb-3">
-                        <label for="sesion"> <input name="sesion" type="checkbox">Mantener sesión abierta</label>
+                        <label for="sesion"> <input value="1" name="sesion" type="checkbox">Mantener sesión abierta</label>
                     </div>
                     <input type="submit" name="acceder-user" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
@@ -84,7 +137,7 @@
                         </div>
                     </div>
                     <div class="mantener-sesion text-center x gap-1 justify-content-center align-items-center mb-3">
-                        <label for="sesion"> <input name="sesion" type="checkbox">Mantener sesión abierta</label>
+                        <label for="sesion"> <input value="1" name="sesion" type="checkbox">Mantener sesión abierta</label>
                     </div>
                     <input type="submit" name="acceder-group" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
@@ -112,7 +165,7 @@
                         </div>
                     </div>
                     <div class="mantener-sesion text-center x gap-1 justify-content-center align-items-center mb-3">
-                        <label for="sesion"> <input name="sesion" type="checkbox">Mantener sesión abierta</label>
+                        <label for="sesion"> <input value="1" name="sesion" type="checkbox">Mantener sesión abierta</label>
                     </div>
                     <input type="submit" name="acceder-disc" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">
@@ -121,43 +174,59 @@
                 </form>
             </div>
             <?php
-                if(isset($_POST["acceder-user"])){
-                    $accede = loginUser($_POST["usuario"], $_POST["pass"]);
+                // if(isset($_POST["acceder-user"])){
+                //     $accede = loginUser($_POST["usuario"], $_POST["pass"]);
 
-                    if(!$accede){
-                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
-                    }else{
-                        $_SESSION["user"] = $_POST["usuario"];
-                        if($_POST["usuario"] == "admin"){
-                            $_SESSION["user-type"] = "admin";
-                            echo "<meta http-equiv='refresh' content='0;url=../admin/admin_main.php'>";
-                        }else{
-                            $_SESSION["user-type"] = "standard";
-                            // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
-                        }
-                    }
-                }elseif(isset($_POST["acceder-group"])){
-                    $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "grupo");
+                //     if($accede){
+                //         $_SESSION["user"] = $_POST["usuario"];
+                //         if($_POST["usuario"] == "admin"){
+                //             $_SESSION["user-type"] = "admin";
+                //             keepSessionOpen();
+                //             // echo $_POST['sesion'];
+                //             // echo "<meta http-equiv='refresh' content='0;url=../admin/admin_main.php'>";
+                //         }else{
+                //             $_SESSION["user-type"] = "standard";
+                //             // keepSessionOpen();
+                //             // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
+                //         }
+                        
+                //     }else{
+                //         // $_SESSION["user"] = $_POST["usuario"];
+                //         // if($_POST["usuario"] == "admin"){
+                //         //     $_SESSION["user-type"] = "admin";
+                //         //     keepSessionOpen();
+                //         //     // echo "<meta http-equiv='refresh' content='0;url=../admin/admin_main.php'>";
+                //         // }else{
+                //         //     $_SESSION["user-type"] = "standard";
+                //         //     keepSessionOpen();
+                //         //     // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
+                //         // }
+                //         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                //     }
+                // }elseif(isset($_POST["acceder-group"])){
+                //     $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "grupo");
 
-                    if(!$accede){
-                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
-                    }else{
-                        $_SESSION["user"] = $_POST["mail"];
-                        $_SESSION["user-type"] = "group";
-                        echo "<meta http-equiv='refresh' content='0;url=../grupo/grupo_main.php'>";
-                    }
+                //     if(!$accede){
+                //         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                //     }else{
+                //         $_SESSION["user"] = $_POST["mail"];
+                //         $_SESSION["user-type"] = "group";
+                //         // keepSessionOpen();
+                //         echo "<meta http-equiv='refresh' content='0;url=../grupo/grupo_main.php'>";
+                //     }
 
-                }elseif(isset($_POST["acceder-disc"])){
-                    $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "discografica");
+                // }elseif(isset($_POST["acceder-disc"])){
+                //     $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "discografica");
 
-                    if(!$accede){
-                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
-                    }else{
-                        $_SESSION["user"] = $_POST["mail"];
-                        $_SESSION["user-type"] = "disc";
-                        echo "<meta http-equiv='refresh' content='0;url=../discografica/discografica_main.php'>";
-                    }
-                }
+                //     if(!$accede){
+                //         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                //     }else{
+                //         $_SESSION["user"] = $_POST["mail"];
+                //         $_SESSION["user-type"] = "disc";
+                //         // keepSessionOpen();
+                //         echo "<meta http-equiv='refresh' content='0;url=../discografica/discografica_main.php'>";
+                //     }
+                // }
             ?>
         </div>
     </section>
