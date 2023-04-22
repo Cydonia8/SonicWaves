@@ -30,7 +30,7 @@
         <br>
         <label for="foto">Foto de grupo</label><input required type="file" name="foto">
         <br>
-        <label for="foto">Foto de avatar</label><input required type="file" name="foto">
+        <label for="foto">Foto de avatar</label><input required type="file" name="foto-avatar">
         <br>
         <textarea name="biografia" placeholder="Escribe una biografia" id="" cols="30" rows="10" maxlength="2000" required></textarea>
         <br>
@@ -38,7 +38,16 @@
     </form>
     <?php
         if(isset($_POST['anadir'])){
-            
+            $nombre = $_POST['nombre'];
+            $bio = $_POST['biografia'];
+            $foto_correcta = checkPhoto("foto");
+            $foto_avatar_correcta = checkPhoto("foto-avatar");
+            $id_grupo = getAutoID("grupo");
+            if($foto_correcta and $foto_avatar_correcta){
+                $foto_avatar = newPhotoPathDisc("foto-avatar", "foto",  $nombre, $id_grupo);
+                $foto = newPhotoPathDisc("foto", "", $nombre, $id_grupo);
+                addGroup($nombre, $bio, $foto, $foto_avatar, 1, $id_discografica);
+            }
         }
     ?>
 </body>

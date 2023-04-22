@@ -82,4 +82,29 @@ function addGroup($nombre, $biografia, $foto, $foto_avatar, $activo, $id_disco){
     $insercion->close();
     $con->close();
 }
+
+function newPhotoPathDisc($nombre, $tipo, $grupo, $id){
+    $nuevo_nombre;
+    switch($_FILES[$nombre]["type"]){
+        case "image/jpeg":
+            $nuevo_nombre = $grupo."_".$id."_".$tipo.".jpg";
+            break;
+        case "image/png":
+            $nuevo_nombre = $grupo."_".$id."_".$tipo.".png";
+            break;
+        case "image/gif":
+            $nuevo_nombre = $grupo."_".$id."_".$tipo.".gif";
+            break;
+        case "image/webp":
+            $nuevo_nombre = $grupo."_".$id."_".$tipo.".webp";
+            break;
+    }
+    if(!file_exists("../media/img_grupos/".$grupo."_".$id)){
+        mkdir("../media/img_grupos/".$grupo."_".$id, 0777, true);
+    }
+    $nueva_ruta = "../media/img_grupos/".$grupo."_".$id."/".$nuevo_nombre;
+    move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
+    return $nueva_ruta;
+}
+
 ?>
