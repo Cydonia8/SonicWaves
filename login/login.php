@@ -21,7 +21,7 @@
                 // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
             }
             
-        }else{
+        }// }else{
             // $_SESSION["user"] = $_POST["usuario"];
             // if($_POST["usuario"] == "admin"){
             //     $_SESSION["user-type"] = "admin";
@@ -32,14 +32,14 @@
             //     keepSessionOpen();
             //     // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
             // }
-            echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
-        }
+            // echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+        // }
     }elseif(isset($_POST["acceder-group"])){
         $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "grupo");
 
-        if(!$accede){
-            echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
-        }else{
+        // if(!$accede){
+        //     echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+        if($accede){
             $_SESSION["user"] = $_POST["mail"];
             $_SESSION["user-type"] = "group";
             keepSessionOpen();
@@ -49,9 +49,9 @@
     }elseif(isset($_POST["acceder-disc"])){
         $accede = loginGroupDisc($_POST["mail"], $_POST["pass"], "discografica");
 
-        if(!$accede){
-            echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
-        }else{
+        // if(!$accede){
+        //     echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+        if($accede){
             $_SESSION["user"] = $_POST["mail"];
             $_SESSION["user-type"] = "disc";
             keepSessionOpen();
@@ -174,6 +174,11 @@
                 </form>
             </div>
             <?php
+                if(isset($accede)){
+                    if(!$accede){
+                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
+                    }
+                }
                 // if(isset($_POST["acceder-user"])){
                 //     $accede = loginUser($_POST["usuario"], $_POST["pass"]);
 

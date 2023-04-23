@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-04-2023 a las 13:01:36
+-- Tiempo de generación: 24-04-2023 a las 00:11:07
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -32,18 +32,19 @@ CREATE TABLE `album` (
   `titulo` varchar(30) NOT NULL,
   `foto` varchar(100) NOT NULL,
   `activo` tinyint(1) DEFAULT NULL CHECK (`activo` >= 0 and `activo` <= 1),
-  `grupo` int(4) DEFAULT NULL
+  `grupo` int(4) DEFAULT NULL,
+  `lanzamiento` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `album`
 --
 
-INSERT INTO `album` (`id`, `titulo`, `foto`, `activo`, `grupo`) VALUES
-(1, 'Nightmare', 'media/img_album/nightmare.jpg', 1, 1),
-(2, 'Hello, I Must Be Going!', 'media/img_album/helloimustbegoing.jpg', 1, 4),
-(3, 'Revolver', 'media/img_album/revolver.jpg', 1, 2),
-(4, 'Pandora\'s Piñata', 'media/img_album/pandoras_pinata.jpg', 1, 3);
+INSERT INTO `album` (`id`, `titulo`, `foto`, `activo`, `grupo`, `lanzamiento`) VALUES
+(22, 'Master Of Puppets', '../media/img_grupos/met@gm.com/master of puppets.jpg', 1, 7, '1986-02-13'),
+(24, '...And Justice for All', '../media/img_grupos/met@gm.com/and justice for all.jpg', 1, 7, '1988-09-07'),
+(29, 'The Works Singles', '../media/img_grupos/Queen_12/the works singles.jpg', 1, 12, '2023-04-01'),
+(30, 'Closure/Continuation', '../media/img_grupos/Porcupine Tree_11/closurecontinuation.jpg', 1, 11, '2022-06-03');
 
 -- --------------------------------------------------------
 
@@ -55,7 +56,7 @@ CREATE TABLE `cancion` (
   `id` int(4) NOT NULL,
   `titulo` varchar(30) NOT NULL,
   `duracion` char(5) DEFAULT NULL,
-  `archivo` varchar(100) NOT NULL,
+  `archivo` varchar(300) NOT NULL,
   `estilo` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -64,10 +65,35 @@ CREATE TABLE `cancion` (
 --
 
 INSERT INTO `cancion` (`id`, `titulo`, `duracion`, `archivo`, `estilo`) VALUES
-(1, 'Nightmare', '06:15', 'media/audio/a7x/nightmare.mp3', 2),
-(2, 'Balrog Boogie', '03:45', 'media/audio/dso/balrog.mp3', 3),
-(3, 'Taxman', '02:46', 'media/audio/beatles/taxman.mp3', 4),
-(4, 'I Don\'t Care Anymore', '05:05', 'media/audio/phil_collins/idontcareanymore.mp3', 1);
+(33, 'Battery', '05:12', '../media/audio/met@gm.com/master of puppets/battery.mp3', 2),
+(34, 'Master of Puppets', '08:36', '../media/audio/met@gm.com/master of puppets/master of puppets.mp3', 2),
+(35, 'The Thing That Should Not Be', '06:36', '../media/audio/met@gm.com/master of puppets/the thing that should not be.mp3', 2),
+(36, 'Welcome Home (Sanitarium)', '06:27', '../media/audio/met@gm.com/master of puppets/welcome home sanitarium.mp3', 2),
+(37, 'Disposable Heroes', '08:17', '../media/audio/met@gm.com/master of puppets/disposable heroes.mp3', 2),
+(38, 'Lepper Mesiah', '05:40', '../media/audio/met@gm.com/master of puppets/lepper messiah.mp3', 2),
+(39, 'Orion', '08:27', '../media/audio/met@gm.com/master of puppets/orion.mp3', 2),
+(40, 'Damage, Inc.', '05:33', '../media/audio/met@gm.com/master of puppets/damage inc.mp3', 2),
+(50, 'Blackened', '06:41', '../media/audio/met@gm.com/and justice for all/blackened.mp3', 9),
+(51, '...And Justice for All', '09:47', '../media/audio/met@gm.com/and justice for all/andjusticeforall.mp3', 9),
+(52, 'Eye of the Beholder', '06:26', '../media/audio/met@gm.com/and justice for all/eyeofthebeholder.mp3', 9),
+(53, 'One', '07:26', '../media/audio/met@gm.com/and justice for all/one.mp3', 9),
+(54, 'The Shortest Straw', '06:35', '../media/audio/met@gm.com/and justice for all/theshorteststraw.mp3', 9),
+(55, 'Harvester of Sorrow', '05:44', '../media/audio/met@gm.com/and justice for all/harvesterofsorrow.mp3', 9),
+(56, 'The Frayed Ends of Sanity', '07:43', '../media/audio/met@gm.com/and justice for all/thefrayedendsofsanity.mp3', 9),
+(57, 'To Live is to Die', '09:49', '../media/audio/met@gm.com/and justice for all/toliveistodie.mp3', 9),
+(58, 'Dyers Eve', '05:13', '../media/audio/met@gm.com/and justice for all/dyerseve.mp3', 9),
+(82, 'Hammer To Fall', '04:26', '../media/audio/Queen_12/the works singles/hammertofall.mp3', 4),
+(83, 'Radio Ga Ga', '05:50', '../media/audio/Queen_12/the works singles/radiogaga.mp3', 4),
+(84, 'Harridan', '08:08', '../media/audio/Porcupine Tree_11/closurecontinuation/harridan.mp3', 10),
+(85, 'Of The New Day', '04:43', '../media/audio/Porcupine Tree_11/closurecontinuation/ofthenewday.mp3', 10),
+(86, 'Rats Return', '05:41', '../media/audio/Porcupine Tree_11/closurecontinuation/ratsreturn.mp3', 10),
+(87, 'Dignity', '08:23', '../media/audio/Porcupine Tree_11/closurecontinuation/dignity.mp3', 10),
+(88, 'Herd Culling', '07:04', '../media/audio/Porcupine Tree_11/closurecontinuation/herdculling.mp3', 10),
+(89, 'Walk The Plank', '04:27', '../media/audio/Porcupine Tree_11/closurecontinuation/walktheplank.mp3', 10),
+(90, 'Chimera\'s Wreck', '09:41', '../media/audio/Porcupine Tree_11/closurecontinuation/chimeraswreck.mp3', 10),
+(91, 'Population Three', '06:52', '../media/audio/Porcupine Tree_11/closurecontinuation/populationthree.mp3', 10),
+(92, 'Never Have', '05:09', '../media/audio/Porcupine Tree_11/closurecontinuation/neverhave.mp3', 10),
+(93, 'Love In The Past Tense', '05:50', '../media/audio/Porcupine Tree_11/closurecontinuation/loveinthepasttense.mp3', 10);
 
 -- --------------------------------------------------------
 
@@ -105,15 +131,20 @@ CREATE TABLE `discografica` (
   `nombre` varchar(50) NOT NULL,
   `correo` varchar(50) NOT NULL,
   `pass` varchar(20) NOT NULL,
-  `activo` tinyint(1) NOT NULL DEFAULT 0
+  `foto_avatar` varchar(150) NOT NULL DEFAULT '../media/image_user_default.png',
+  `activo` tinyint(1) NOT NULL DEFAULT 0,
+  `pendiente_aprobacion` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `discografica`
 --
 
-INSERT INTO `discografica` (`id`, `nombre`, `correo`, `pass`, `activo`) VALUES
-(1, 'Universal', 'holymustaine20@gmail.com', 'ss', 0);
+INSERT INTO `discografica` (`id`, `nombre`, `correo`, `pass`, `foto_avatar`, `activo`, `pendiente_aprobacion`) VALUES
+(1, 'Universal', 'universal@gmail.com', 'universal', '../media/img_users/image_user_default.png', 1, 0),
+(2, 'Motown', 'ddd@gmail.com', 'fff', '../media/img_users/image_user_default.png', 0, 0),
+(3, 'Pollos Hermanos Records', 'pollos@gmail.com', 'pollos', '../media/img_users/image_user_default.png', 1, 0),
+(4, 'Montana Records', 'tony@tony.com', 'tony', '../media/image_user_default.png', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -124,18 +155,22 @@ INSERT INTO `discografica` (`id`, `nombre`, `correo`, `pass`, `activo`) VALUES
 CREATE TABLE `estilo` (
   `id` int(2) NOT NULL,
   `nombre` varchar(20) NOT NULL,
-  `color_característico` char(7) DEFAULT NULL
+  `color_caracteristico` char(7) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estilo`
 --
 
-INSERT INTO `estilo` (`id`, `nombre`, `color_característico`) VALUES
-(1, 'Pop', NULL),
-(2, 'Metal', NULL),
-(3, 'Avant-garde', NULL),
-(4, 'Rock-pop', NULL);
+INSERT INTO `estilo` (`id`, `nombre`, `color_caracteristico`) VALUES
+(1, 'Pop', '#a9fc03'),
+(2, 'Metal', '#080614'),
+(3, 'Avant-garde', '#fc039d'),
+(4, 'Rock-pop', '#39e622'),
+(5, 'Reggae', '#1b3e14'),
+(7, 'Riguiton', '#8f2424'),
+(9, 'Thrash metal', '#272525'),
+(10, 'Rock progresivo', '#6b329a');
 
 -- --------------------------------------------------------
 
@@ -185,20 +220,21 @@ CREATE TABLE `grupo` (
   `pass` varchar(20) DEFAULT NULL,
   `correo` varchar(50) DEFAULT NULL,
   `activo` tinyint(1) NOT NULL DEFAULT 0,
-  `foto` varchar(100) DEFAULT NULL,
-  `discografica` int(4) DEFAULT NULL
+  `foto` varchar(150) DEFAULT NULL,
+  `foto_avatar` varchar(150) NOT NULL DEFAULT '../media/image_user_default.png',
+  `discografica` int(4) DEFAULT NULL,
+  `pendiente_aprobacion` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `grupo`
 --
 
-INSERT INTO `grupo` (`id`, `nombre`, `biografia`, `pass`, `correo`, `activo`, `foto`, `discografica`) VALUES
-(1, 'Avenged Sevenfold', '', NULL, NULL, 1, 'media/img_grupo/a7x.jpg', NULL),
-(2, 'The Beatles', '', NULL, NULL, 1, 'media/img_grupos/beatles.jpg', NULL),
-(3, 'Diablo Swing Orchestra', '', NULL, NULL, 1, 'media/img_grupos/dso.jpg', NULL),
-(4, 'Phil Collins', '', NULL, NULL, 1, 'media/img_grupos/philcollins.jpg', NULL),
-(6, 'La Sudadera Del Manager', NULL, '22', 'lasuda@gmail.com', 0, NULL, NULL);
+INSERT INTO `grupo` (`id`, `nombre`, `biografia`, `pass`, `correo`, `activo`, `foto`, `foto_avatar`, `discografica`, `pendiente_aprobacion`) VALUES
+(7, 'Metallica', 'ddd', 'met', 'met@gm.com', 1, '../media/img_grupos/met@gm.com/met@gm.com.jpg', '../media/img_grupos/met@gm.com/met@gm.comavatar.jpg', NULL, 0),
+(11, 'Porcupine Tree', 'wapo', NULL, NULL, 1, '../media/img_grupos/Porcupine Tree_11/Porcupine Tree_11_.jpg', '../media/img_grupos/Porcupine Tree_11/Porcupine Tree_11_foto.webp', 1, 0),
+(12, 'Queen', 'grupazo', NULL, NULL, 1, '../media/img_grupos/Queen_12/Queen_12_.jpg', '../media/img_grupos/Queen_12/Queen_12_foto.jpg', 3, 0),
+(13, 'Genesis', NULL, 'genesis', 'genesis@genesis.com', 0, NULL, '../media/image_user_default.png', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -216,10 +252,35 @@ CREATE TABLE `incluye` (
 --
 
 INSERT INTO `incluye` (`album`, `cancion`) VALUES
-(1, 1),
-(2, 4),
-(4, 2),
-(3, 3);
+(22, 33),
+(22, 34),
+(22, 35),
+(22, 36),
+(22, 37),
+(22, 38),
+(22, 39),
+(22, 40),
+(24, 50),
+(24, 51),
+(24, 52),
+(24, 53),
+(24, 54),
+(24, 55),
+(24, 56),
+(24, 57),
+(24, 58),
+(29, 82),
+(29, 83),
+(30, 84),
+(30, 85),
+(30, 86),
+(30, 87),
+(30, 88),
+(30, 89),
+(30, 90),
+(30, 91),
+(30, 92),
+(30, 93);
 
 -- --------------------------------------------------------
 
@@ -335,7 +396,7 @@ CREATE TABLE `usuario` (
   `apellidos` varchar(40) NOT NULL,
   `usuario` varchar(15) NOT NULL,
   `pass` varchar(20) NOT NULL,
-  `foto` varchar(100) DEFAULT NULL,
+  `foto_avatar` varchar(150) NOT NULL DEFAULT '../media/image_user_default.png',
   `correo` varchar(50) NOT NULL,
   `f_nac` date DEFAULT NULL,
   `high_shelf_f` float DEFAULT NULL,
@@ -354,9 +415,10 @@ CREATE TABLE `usuario` (
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `nombre`, `apellidos`, `usuario`, `pass`, `foto`, `correo`, `f_nac`, `high_shelf_f`, `high_shelf_gain`, `low_shelf_f`, `low_shelf_gain`, `high_pass_f`, `high_pass_q`, `low_pass_f`, `low_pass_q`, `estilo`, `grupo`) VALUES
-(1, 'Alvaro', 'Blanco Lucena', 'cydonia8', 'tt5', NULL, 'holymustaine20@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 2, NULL),
-(3, 'sds', 'sds', ' 74746281F', 'sds', NULL, 'lasuda@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL);
+INSERT INTO `usuario` (`id`, `nombre`, `apellidos`, `usuario`, `pass`, `foto_avatar`, `correo`, `f_nac`, `high_shelf_f`, `high_shelf_gain`, `low_shelf_f`, `low_shelf_gain`, `high_pass_f`, `high_pass_q`, `low_pass_f`, `low_pass_q`, `estilo`, `grupo`) VALUES
+(0, '', '', 'admin', 'admin', '../media/image_user_default.png', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(1, 'Alvaro', 'Blanco Lucena', 'cydonia8', 'tt5', '../media/image_user_default.png', 'holymustaine20@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(3, 'sds', 'sds', ' 74746281F', 'sds', '../media/image_user_default.png', 'lasuda@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 --
 -- Índices para tablas volcadas
@@ -400,7 +462,9 @@ ALTER TABLE `discografica`
 -- Indices de la tabla `estilo`
 --
 ALTER TABLE `estilo`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
+  ADD UNIQUE KEY `nombre_2` (`nombre`);
 
 --
 -- Indices de la tabla `favorito`
@@ -434,8 +498,8 @@ ALTER TABLE `grupo`
 -- Indices de la tabla `incluye`
 --
 ALTER TABLE `incluye`
-  ADD KEY `ce_inclu_alb` (`album`),
-  ADD KEY `ce_inclu_canc` (`cancion`);
+  ADD KEY `ce_inclu_canc` (`cancion`),
+  ADD KEY `ce_inclu_alb` (`album`);
 
 --
 -- Indices de la tabla `lista`
@@ -511,13 +575,13 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT de la tabla `album`
 --
 ALTER TABLE `album`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `cancion`
 --
 ALTER TABLE `cancion`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT de la tabla `cuestionario`
@@ -529,13 +593,13 @@ ALTER TABLE `cuestionario`
 -- AUTO_INCREMENT de la tabla `discografica`
 --
 ALTER TABLE `discografica`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `estilo`
 --
 ALTER TABLE `estilo`
-  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(2) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `foto_grupo`
@@ -553,7 +617,7 @@ ALTER TABLE `foto_publicacion`
 -- AUTO_INCREMENT de la tabla `grupo`
 --
 ALTER TABLE `grupo`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `lista`
@@ -589,7 +653,7 @@ ALTER TABLE `respuesta`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas

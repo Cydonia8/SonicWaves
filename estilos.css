@@ -350,6 +350,6 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #discografica-main .disc-grupo-detalle{
     background-color: #090f1f;
 }
-#discografica-main .container-grupos-discografica{
+#discografica-main .container-grupos-discografica,.admin-resumen-disc{
     place-content: center;
 }

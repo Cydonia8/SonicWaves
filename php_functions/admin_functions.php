@@ -87,7 +87,7 @@
 
     function getAllGroupsDisc(){
         $con = createConnection();
-        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco from grupo g, discografica d where g.discografica = d.id");
+        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id");
 
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
@@ -98,17 +98,29 @@
                     <p>ID: $fila[id_grupo]</p>
                     <p>Nombre: $fila[nom_grupo]</p>
                     <p>Gestionado por: $fila[disco]</p>";
-                if($fila["grupo_activo"] == 0){
-                    echo "<form method=\"post\" action=\"#\">
-                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                    <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
-                    </form>";
+                if($fila["aprob"] == 1){
+                    echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                            <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            </form>
+                            <form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                                <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                            </form></div>";
                 }else{
-                    echo "<form method=\"post\" action=\"#\">
-                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                    <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
-                    </form>";
+                    if($fila["grupo_activo"] == 0){
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                        </form>";
+                    }else{
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                        </form>";
+                    }
                 }
+                
                 echo "</div>
             </div>";
         }
@@ -116,7 +128,7 @@
 
     function getAllGroupsNoDisc(){
         $con = createConnection();
-        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.correo correo_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo from grupo g where g.discografica is null");
+        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.correo correo_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, pendiente_aprobacion aprob from grupo g where g.discografica is null");
 
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
@@ -127,17 +139,29 @@
                     <p>ID: $fila[id_grupo]</p>
                     <p>Nombre: $fila[nom_grupo]</p>
                     <p>Correo: $fila[correo_grupo]</p>";
-                if($fila["grupo_activo"] == 0){
-                    echo "<form method=\"post\" action=\"#\">
-                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                    <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
-                    </form>";
+                if($fila["aprob"] == 1){
+                    echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                            <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            </form>
+                            <form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                                <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                            </form></div>";
                 }else{
-                    echo "<form method=\"post\" action=\"#\">
-                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                    <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
-                    </form>";
+                    if($fila["grupo_activo"] == 0){
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                        </form>";
+                    }else{
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                        </form>";
+                    }
                 }
+                
                 echo "</div>
             </div>";
         }
@@ -213,11 +237,11 @@
 
     function getAllRecordLabels(){
         $con = createConnection();
-        $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo FROM discografica");
+        $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo, pendiente_aprobacion aprob FROM discografica");
         
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $total_grupos = groupsPerRecordLabel($fila["id"]);
-            echo "<div class=\"rounded border disco-detalle d-flex justify-content-around p-3 gap-2\">
+            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
                         <div class=\"w-50\">
                             <img class=\"img-fluid\" src=\"$fila[foto_avatar]\">
                         </div>
@@ -226,17 +250,29 @@
                             <p>Nombre: $fila[nombre]</p>
                             <p>Correo: $fila[correo]</p>
                             <p>Número de grupos gestionados: $total_grupos</p>";
-                        if($fila["activo"] == 0){
-                            echo "<form method=\"post\" action=\"#\">
+                        if($fila["aprob"] == 1){
+                            echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$fila[id]\">
-                            <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
-                            </form>";
+                            <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            </form>
+                            <form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$fila[id]\">
+                                <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                            </form></div>";
                         }else{
-                            echo "<form method=\"post\" action=\"#\">
-                            <input hidden name=\"id\" value=\"$fila[id]\">
-                            <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
-                            </form>";
+                            if($fila["activo"] == 0){
+                                echo "<form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$fila[id]\">
+                                <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                                </form>";
+                            }else{
+                                echo "<form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$fila[id]\">
+                                <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                                </form>";
+                            }
                         }
+                        
                         echo "</div>
                 </div>";
         }
