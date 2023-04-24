@@ -35,10 +35,18 @@
         menuAdminDropdown();
     ?>
     <h1 class="text-center mt-5 mb-4">Discográficas de Sonic Waves</h1>
+    <section class="filter-abc-admin">
+        <?php
+            printFilterForm();
+        ?>
+    </section>
     <section class="admin-resumen-disc container-fluid mx-auto row gap-3">
         <?php
-            getAllRecordLabels();
-            
+            if(!isset($_POST["filtro"])){
+                getAllRecordLabels();
+            }else{
+                getRecordLabelsFiltered($_POST["filtro"]);
+            }
         ?>
     </section>
 </body>

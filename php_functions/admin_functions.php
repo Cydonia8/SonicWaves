@@ -99,108 +99,119 @@
 
     function getAllGroups(){
         $con = createConnection();
-        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id and g.id <> 0");
+        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id and g.id <> 0 order by g.nombre asc");
+        $filas = $consulta->num_rows;
 
-        while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
-            $albums_grupo = albumsPerGroup($fila["id_grupo"]);
-            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
-                <div class=\"w-50\">
-                    <img class=\"rounded-circle img-fluid\" src=\"$fila[avatar_grupo]\">
-                </div>
-                <div class=\"d-flex flex-column justify-content-between\">
-                    <p>Nombre: $fila[nom_grupo]</p>";
-                    if($albums_grupo != ""){
-                        echo "<p>Álbumes publicados: $albums_grupo</p>";
-                    }
-                    echo "<p>Gestión: $fila[disco]</p>";
-                if($fila["aprob"] == 1){
-                    echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
-                            <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
-                            </form>
-                            <form method=\"post\" action=\"#\">
+        if($filas > 0){
+            while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
+                $albums_grupo = albumsPerGroup($fila["id_grupo"]);
+                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                    <div class=\"w-50\">
+                        <img class=\"rounded-circle img-fluid\" src=\"$fila[avatar_grupo]\">
+                    </div>
+                    <div class=\"d-flex flex-column justify-content-between\">
+                        <p>Nombre: $fila[nom_grupo]</p>";
+                        if($albums_grupo != ""){
+                            echo "<p>Álbumes publicados: $albums_grupo</p>";
+                        }
+                        echo "<p>Gestión: $fila[disco]</p>";
+                    if($fila["aprob"] == 1){
+                        echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
-                            </form></div>";
-                }else{
-                    if($fila["grupo_activo"] == 0){
-                        echo "<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
-                        </form>";
-                    }elseif($fila["grupo_activo"] == 1){
-                        echo "<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
-                        </form>";
+                                <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                                </form>
+                                <form method=\"post\" action=\"#\">
+                                    <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                                    <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                </form></div>";
                     }else{
-                        echo "<div class=\"alert alert-danger\" role=\"alert\">
-                        Petición denegada<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                        <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
-                        </form>
-                      </div>";
+                        if($fila["grupo_activo"] == 0){
+                            echo "<form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                            <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                            </form>";
+                        }elseif($fila["grupo_activo"] == 1){
+                            echo "<form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                            <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                            </form>";
+                        }else{
+                            echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Petición denegada<form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                            <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                            </form>
+                          </div>";
+                        }
                     }
-                }
-                
-                echo "</div>
-            </div>";
-        }
+                    
+                    echo "</div>
+                </div>";
+            }
+        }else{
+            echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
+        } 
+        
     }
 
     function getGroupsFiltered($filter){
         $con = createConnection();
         $filtro = $filter.'%';
-        $consulta = $con->prepare("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id and g.id <> 0 and g.nombre like ?");
+        $consulta = $con->prepare("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id and g.id <> 0 and g.nombre like ? order by g.nombre asc");
         $consulta->bind_param('s', $filtro);
         $consulta->bind_result($id_grupo, $nom_grupo, $grupo_activo, $foto, $avatar_grupo, $disco, $aprob);
         $consulta->execute();
-
-        while($consulta->fetch()){
-            $albums_grupo = albumsPerGroup($id_grupo);
-            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
-                <div class=\"w-50\">
-                    <img class=\"rounded-circle img-fluid\" src=\"$avatar_grupo\">
-                </div>
-                <div class=\"d-flex flex-column justify-content-between\">
-                    <p>Nombre: $nom_grupo</p>";
-                    if($albums_grupo != ""){
-                        echo "<p>Álbumes publicados: $albums_grupo</p>";
-                    }
-                    echo "<p>Gestión: $disco</p>";
-                if($aprob == 1){
-                    echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
-                            <input hidden name=\"id\" value=\"$id_grupo\">
-                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
-                            </form>
-                            <form method=\"post\" action=\"#\">
+        $consulta->store_result();
+        if($consulta->num_rows>0){
+            while($consulta->fetch()){
+                $albums_grupo = albumsPerGroup($id_grupo);
+                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                    <div class=\"w-50\">
+                        <img class=\"rounded-circle img-fluid\" src=\"$avatar_grupo\">
+                    </div>
+                    <div class=\"d-flex flex-column justify-content-between\">
+                        <p>Nombre: $nom_grupo</p>";
+                        if($albums_grupo != ""){
+                            echo "<p>Álbumes publicados: $albums_grupo</p>";
+                        }
+                        echo "<p>Gestión: $disco</p>";
+                    if($aprob == 1){
+                        echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id_grupo\">
-                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
-                            </form></div>";
-                }else{
-                    if($grupo_activo == 0){
-                        echo "<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$id_grupo\">
-                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
-                        </form>";
-                    }elseif($grupo_activo == 1){
-                        echo "<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$id_grupo\">
-                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
-                        </form>";
+                                <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                                </form>
+                                <form method=\"post\" action=\"#\">
+                                    <input hidden name=\"id\" value=\"$id_grupo\">
+                                    <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                </form></div>";
                     }else{
-                        echo "<div class=\"alert alert-danger\" role=\"alert\">
-                        Petición denegada<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$id_grupo\">
-                        <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
-                        </form>
-                      </div>";
+                        if($grupo_activo == 0){
+                            echo "<form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$id_grupo\">
+                            <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                            </form>";
+                        }elseif($grupo_activo == 1){
+                            echo "<form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$id_grupo\">
+                            <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                            </form>";
+                        }else{
+                            echo "<div class=\"alert alert-danger\" role=\"alert\">
+                            Petición denegada<form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$id_grupo\">
+                            <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                            </form>
+                          </div>";
+                        }
                     }
-                }
-                
-                echo "</div>
-            </div>";
+                    
+                    echo "</div>
+                </div>";
+            }
+        }else{
+            echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
         }
+        
     }
 
     function getAllGroupsNoDisc(){
@@ -314,7 +325,7 @@
 
     function getAllRecordLabels(){
         $con = createConnection();
-        $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo, pendiente_aprobacion aprob FROM discografica where id <> 0");
+        $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo, pendiente_aprobacion aprob FROM discografica where id <> 0 order by nombre asc");
         
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $total_grupos = groupsPerRecordLabel($fila["id"]);
@@ -360,6 +371,63 @@
                 </div>";
         }
         $con->close();
+    }
+
+    function getRecordLabelsFiltered($filter){
+        $con = createConnection();
+        $filtro = $filter.'%';
+        $consulta = $con->prepare("SELECT id, nombre, correo, foto_avatar, activo, pendiente_aprobacion aprob FROM discografica where id <> 0 and nombre like ? order by nombre asc");
+        $consulta->bind_param('s', $filtro);
+        $consulta->bind_result($id, $nombre, $correo, $foto_avatar, $activo, $aprob);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows() > 0){
+            while($consulta->fetch()){
+                $total_grupos = groupsPerRecordLabel($id);
+                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                        <div class=\"w-50\">
+                            <img class=\"img-fluid\" src=\"$foto_avatar\">
+                        </div>
+                        <div class=\"d-flex flex-column justify-content-between\">
+                            <p>Nombre: $nombre</p>
+                            <p>Correo: $correo</p>
+                            <p>Número de grupos gestionados: $total_grupos</p>";
+                        if($aprob == 1){
+                            echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$id\">
+                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            </form>
+                            <form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$id\">
+                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                            </form></div>";
+                        }else{
+                            if($activo == 0){
+                                echo "<form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$id\">
+                                <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                                </form>";
+                            }elseif($activo == 1){
+                                echo "<form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$id\">
+                                <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                                </form>";
+                            }else{
+                                echo "<div class=\"alert alert-danger\" role=\"alert\">
+                                Petición denegada<form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$id\">
+                                <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                                </form>
+                              </div>";
+                            }
+                        }
+                        
+                        echo "</div>
+                </div>";
+            }
+        }else{
+            echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
+        }
     }
 
     function getAllAlbums(){
@@ -502,6 +570,42 @@
         $update->execute();
         $update->close();
         $con->close();
+    }
+
+    function printFilterForm(){
+        echo "<h3 class=\"text-center mt-4\">Filtro alfabético</h3>
+        <form action=\"#\" method=\"post\">
+            <ul class=\"d-flex list-style-none justify-content-center gap-3 flex-wrap mb-3 pe-2 ps-2\">
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"a\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"d\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"b\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"e\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"c\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"f\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"g\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"h\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"i\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"j\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"k\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"l\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"m\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"n\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"ñ\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"o\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"p\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"q\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"r\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"s\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"t\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"u\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"v\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"w\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"x\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"y\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"z\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"\"></li>
+            </ul>
+        </form>";
     }
 
     

@@ -42,35 +42,37 @@
             <h2 data-type="auto">Grupos autogestionados</h2>
        </div> -->
     <section class="filter-abc-admin">
+        <h3 class="text-center mt-4">Filtro alfabético</h3>
         <form action="#" method="post">
-            <ul class="d-flex list-style-none">
-                <li><input name="filtro" type="submit" value="a"></li>
-                <li><input name="filtro" type="submit" value="b"></li>
-                <li><input name="filtro" type="submit" value="c"></li>
-                <li><input name="filtro" type="submit" value="d"></li>
-                <li><input name="filtro" type="submit" value="e"></li>
-                <li><input name="filtro" type="submit" value="f"></li>
-                <li><input name="filtro" type="submit" value="g"></li>
-                <li><input name="filtro" type="submit" value="h"></li>
-                <li><input name="filtro" type="submit" value="i"></li>
-                <li><input name="filtro" type="submit" value="j"></li>
-                <li><input name="filtro" type="submit" value="k"></li>
-                <li><input name="filtro" type="submit" value="l"></li>
-                <li><input name="filtro" type="submit" value="m"></li>
-                <li><input name="filtro" type="submit" value="n"></li>
-                <li><input name="filtro" type="submit" value="ñ"></li>
-                <li><input name="filtro" type="submit" value="o"></li>
-                <li><input name="filtro" type="submit" value="p"></li>
-                <li><input name="filtro" type="submit" value="q"></li>
-                <li><input name="filtro" type="submit" value="r"></li>
-                <li><input name="filtro" type="submit" value="s"></li>
-                <li><input name="filtro" type="submit" value="t"></li>
-                <li><input name="filtro" type="submit" value="u"></li>
-                <li><input name="filtro" type="submit" value="v"></li>
-                <li><input name="filtro" type="submit" value="w"></li>
-                <li><input name="filtro" type="submit" value="x"></li>
-                <li><input name="filtro" type="submit" value="y"></li>
-                <li><input name="filtro" type="submit" value="z"></li>
+            <ul class="d-flex list-style-none justify-content-center gap-3 flex-wrap mb-3 pe-2 ps-2">
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="a"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="b"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="c"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="d"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="e"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="f"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="g"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="h"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="i"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="j"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="k"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="l"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="m"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="n"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="ñ"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="o"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="p"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="q"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="r"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="s"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="t"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="u"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="v"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="w"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="x"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="y"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value="z"></li>
+                <li><input class="btn btn-outline-light" name="filtro" type="submit" value=""></li>
             </ul>
         </form>
     </section>
