@@ -11,6 +11,12 @@
         deactivateDiscographic($_POST["id"]);
         // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
     }
+    if(isset($_POST["aprobar"])){
+        approveDiscCreation($_POST["id"]);
+    }elseif(isset($_POST["denegar"])){
+        denyDiscCreation($_POST["id"]);
+    }
+    closeSession($_POST);
 ?>
 <!DOCTYPE html>
 <html lang="en">

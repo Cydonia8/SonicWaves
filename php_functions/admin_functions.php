@@ -52,14 +52,26 @@
         return $total;
     }
 
+    function albumsPerGroup($id){
+        $total = 0;
+        $con = createConnection();
+        $consulta = $con->query("SELECT COUNT(*) numero_albums
+        FROM album a, grupo g where a.grupo = g.id and g.id = '$id'
+        GROUP BY g.id");
+        $fila = $consulta->fetch_array(MYSQLI_ASSOC);
+        if($consulta->num_rows > 0){
+            $total = $fila["numero_albums"];
+        }
+        return $total;
+    }
+
     function getAllStyles(){
         $con = createConnection();
-        $consulta = $con->query("SELECT * FROM estilo");
+        $consulta = $con->query("SELECT * FROM estilo where id <> 0");
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $canciones_estilo = songsPerStyle($fila["id"]);
             echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
                     <div class=\"d-flex flex-column\">
-                        <p>ID del estilo: $fila[id]</p>
                         <p>Nombre: $fila[nombre]</p>";
                         if($canciones_estilo != ""){
                             echo "<p>Canciones totales con este estilo: $canciones_estilo</p>";
@@ -85,27 +97,30 @@
         $con->close();
     }
 
-    function getAllGroupsDisc(){
+    function getAllGroups(){
         $con = createConnection();
-        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id");
+        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id and g.id <> 0");
 
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
+            $albums_grupo = albumsPerGroup($fila["id_grupo"]);
             echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
                 <div class=\"w-50\">
-                    <img class=\"img-fluid\" src=\"$fila[avatar_grupo]\">
+                    <img class=\"rounded-circle img-fluid\" src=\"$fila[avatar_grupo]\">
                 </div>
                 <div class=\"d-flex flex-column justify-content-between\">
-                    <p>ID: $fila[id_grupo]</p>
-                    <p>Nombre: $fila[nom_grupo]</p>
-                    <p>Gestionado por: $fila[disco]</p>";
+                    <p>Nombre: $fila[nom_grupo]</p>";
+                    if($albums_grupo != ""){
+                        echo "<p>Álbumes publicados: $albums_grupo</p>";
+                    }
+                    echo "<p>Gestión: $fila[disco]</p>";
                 if($fila["aprob"] == 1){
                     echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                            <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
                             </form>
                             <form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                                <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
                             </form></div>";
                 }else{
                     if($fila["grupo_activo"] == 0){
@@ -113,11 +128,73 @@
                         <input hidden name=\"id\" value=\"$fila[id_grupo]\">
                         <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
                         </form>";
-                    }else{
+                    }elseif($fila["grupo_activo"] == 1){
                         echo "<form method=\"post\" action=\"#\">
                         <input hidden name=\"id\" value=\"$fila[id_grupo]\">
                         <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
                         </form>";
+                    }else{
+                        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                        Petición denegada<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+                        <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                        </form>
+                      </div>";
+                    }
+                }
+                
+                echo "</div>
+            </div>";
+        }
+    }
+
+    function getGroupsFiltered($filter){
+        $con = createConnection();
+        $filtro = $filter.'%';
+        $consulta = $con->prepare("SELECT g.id id_grupo, g.nombre nom_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, d.nombre disco, g.pendiente_aprobacion aprob from grupo g, discografica d where g.discografica = d.id and g.id <> 0 and g.nombre like ?");
+        $consulta->bind_param('s', $filtro);
+        $consulta->bind_result($id_grupo, $nom_grupo, $grupo_activo, $foto, $avatar_grupo, $disco, $aprob);
+        $consulta->execute();
+
+        while($consulta->fetch()){
+            $albums_grupo = albumsPerGroup($id_grupo);
+            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                <div class=\"w-50\">
+                    <img class=\"rounded-circle img-fluid\" src=\"$avatar_grupo\">
+                </div>
+                <div class=\"d-flex flex-column justify-content-between\">
+                    <p>Nombre: $nom_grupo</p>";
+                    if($albums_grupo != ""){
+                        echo "<p>Álbumes publicados: $albums_grupo</p>";
+                    }
+                    echo "<p>Gestión: $disco</p>";
+                if($aprob == 1){
+                    echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
+                            <input hidden name=\"id\" value=\"$id_grupo\">
+                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            </form>
+                            <form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$id_grupo\">
+                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                            </form></div>";
+                }else{
+                    if($grupo_activo == 0){
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$id_grupo\">
+                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                        </form>";
+                    }elseif($grupo_activo == 1){
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$id_grupo\">
+                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                        </form>";
+                    }else{
+                        echo "<div class=\"alert alert-danger\" role=\"alert\">
+                        Petición denegada<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$id_grupo\">
+                        <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                        </form>
+                      </div>";
                     }
                 }
                 
@@ -237,7 +314,7 @@
 
     function getAllRecordLabels(){
         $con = createConnection();
-        $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo, pendiente_aprobacion aprob FROM discografica");
+        $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo, pendiente_aprobacion aprob FROM discografica where id <> 0");
         
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $total_grupos = groupsPerRecordLabel($fila["id"]);
@@ -246,18 +323,17 @@
                             <img class=\"img-fluid\" src=\"$fila[foto_avatar]\">
                         </div>
                         <div class=\"d-flex flex-column justify-content-between\">
-                            <p>ID: $fila[id]</p>
                             <p>Nombre: $fila[nombre]</p>
                             <p>Correo: $fila[correo]</p>
                             <p>Número de grupos gestionados: $total_grupos</p>";
                         if($fila["aprob"] == 1){
                             echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$fila[id]\">
-                            <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
                             </form>
                             <form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id]\">
-                                <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
                             </form></div>";
                         }else{
                             if($fila["activo"] == 0){
@@ -265,11 +341,18 @@
                                 <input hidden name=\"id\" value=\"$fila[id]\">
                                 <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
                                 </form>";
-                            }else{
+                            }elseif($fila["activo"] == 1){
                                 echo "<form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id]\">
                                 <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
                                 </form>";
+                            }else{
+                                echo "<div class=\"alert alert-danger\" role=\"alert\">
+                                Petición denegada<form method=\"post\" action=\"#\">
+                                <input hidden name=\"id\" value=\"$fila[id]\">
+                                <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                                </form>
+                              </div>";
                             }
                         }
                         
@@ -284,7 +367,7 @@
         $consulta = $con->query("SELECT a.id id_album, titulo, a.foto foto_album, a.activo album_activo, lanzamiento, g.nombre nom_grupo from album a, grupo g where g.id = a.grupo order by g.nombre asc");
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $fecha_format = formatDate($fila["lanzamiento"]);
-            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-lg-3\">
+            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4\">
                 <div class=\"w-50\">
                     <img class=\"img-fluid rounded\" src=\"$fila[foto_album]\">
                 </div>
@@ -355,7 +438,7 @@
 
     function getAllUsers(){
         $con = createConnection();
-        $consulta = $con->query("SELECT u.nombre nombre, apellidos, usuario, u.foto_avatar foto, u.correo correo, e.nombre estilo, g.nombre grupo FROM usuario u, grupo g, estilo e where u.estilo = e.id and u.grupo = g.id");
+        $consulta = $con->query("SELECT u.nombre nombre, apellidos, usuario, u.foto_avatar foto, u.correo correo, e.nombre estilo, g.nombre grupo FROM usuario u, grupo g, estilo e where u.estilo = e.id and u.grupo = g.id and u.id <> 0");
 
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             echo "<div class=\"rounded border disco-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
@@ -384,5 +467,43 @@
         }
         $con->close();
     }
+
+    function approveGroupCreation($id){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo set activo = 1, pendiente_aprobacion = 0 where id = ?");
+        $update->bind_param('i', $id);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    function denyGroupCreation($id){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo set activo = 2, pendiente_aprobacion = 0 where id = ?");
+        $update->bind_param('i', $id);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    function approveDiscCreation($id){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE discografica set activo = 1, pendiente_aprobacion = 0 where id = ?");
+        $update->bind_param('i', $id);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    function denyDiscCreation($id){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE discografica set activo = 2, pendiente_aprobacion = 0 where id = ?");
+        $update->bind_param('i', $id);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    
     
 ?>

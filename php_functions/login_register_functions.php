@@ -107,3 +107,15 @@
 
         return $accede;
     }
+
+    function petitionStatus($mail, $tabla){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT activo from $tabla where correo = ?");
+        $consulta->bind_param('s', $mail);
+        $consulta->bind_result($estado);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $estado;
+    }

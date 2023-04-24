@@ -44,6 +44,8 @@
             $_SESSION["user-type"] = "group";
             keepSessionOpen();
             echo "<meta http-equiv='refresh' content='0;url=../grupo/grupo_main.php'>";
+        }else{
+            $estado = petitionStatus($_POST["mail"], "grupo");
         }
 
     }elseif(isset($_POST["acceder-disc"])){
@@ -56,6 +58,8 @@
             $_SESSION["user-type"] = "disc";
             keepSessionOpen();
             echo "<meta http-equiv='refresh' content='0;url=../discografica/discografica_main.php'>";
+        }else{
+            $estado = petitionStatus($_POST["mail"], "discografica");
         }
     }
 ?>
@@ -175,7 +179,10 @@
             </div>
             <?php
                 if(isset($accede)){
-                    if(!$accede){
+                    if(isset($estado) and $estado == 2){
+                        echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Petición denegada. Contacte con los administradores del sitio.</div>";
+                    }
+                    elseif(!$accede){
                         echo "<div data-mdb-delay=\"3000\" class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Credenciales incorrectas</div>";
                     }
                 }

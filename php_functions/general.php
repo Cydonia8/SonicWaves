@@ -290,6 +290,5 @@ function closeSession($POST, $seccion = "noindex"){
                 header("location:index.php");
             }
         }
-    }
-    
+    }    
 }

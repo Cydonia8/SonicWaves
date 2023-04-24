@@ -11,7 +11,13 @@
         deactivateGroup($_POST["id"]);
         // echo "<meta http-equiv='refresh' content='0;url=admin_discografica.php'>";
     }
+    if(isset($_POST["aprobar"])){
+        approveGroupCreation($_POST["id"]);
+    }elseif(isset($_POST["denegar"])){
+        denyGroupCreation($_POST["id"]);
+    }
     closeSession($_POST);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,22 +37,60 @@
         menuAdminDropdown();
     ?>
     <h1 class="text-center mt-5">Grupos de Sonic Waves</h1>
-    <div class="admin-grupos-selector d-flex justify-content-around mt-3 mb-4">
+    <!-- <div class="admin-grupos-selector d-flex justify-content-around mt-3 mb-4">
             <h2 class="tipo-activo" data-type="disco">Grupos de discográfica</h2>
             <h2 data-type="auto">Grupos autogestionados</h2>
-       </div>
+       </div> -->
+    <section class="filter-abc-admin">
+        <form action="#" method="post">
+            <ul class="d-flex list-style-none">
+                <li><input name="filtro" type="submit" value="a"></li>
+                <li><input name="filtro" type="submit" value="b"></li>
+                <li><input name="filtro" type="submit" value="c"></li>
+                <li><input name="filtro" type="submit" value="d"></li>
+                <li><input name="filtro" type="submit" value="e"></li>
+                <li><input name="filtro" type="submit" value="f"></li>
+                <li><input name="filtro" type="submit" value="g"></li>
+                <li><input name="filtro" type="submit" value="h"></li>
+                <li><input name="filtro" type="submit" value="i"></li>
+                <li><input name="filtro" type="submit" value="j"></li>
+                <li><input name="filtro" type="submit" value="k"></li>
+                <li><input name="filtro" type="submit" value="l"></li>
+                <li><input name="filtro" type="submit" value="m"></li>
+                <li><input name="filtro" type="submit" value="n"></li>
+                <li><input name="filtro" type="submit" value="ñ"></li>
+                <li><input name="filtro" type="submit" value="o"></li>
+                <li><input name="filtro" type="submit" value="p"></li>
+                <li><input name="filtro" type="submit" value="q"></li>
+                <li><input name="filtro" type="submit" value="r"></li>
+                <li><input name="filtro" type="submit" value="s"></li>
+                <li><input name="filtro" type="submit" value="t"></li>
+                <li><input name="filtro" type="submit" value="u"></li>
+                <li><input name="filtro" type="submit" value="v"></li>
+                <li><input name="filtro" type="submit" value="w"></li>
+                <li><input name="filtro" type="submit" value="x"></li>
+                <li><input name="filtro" type="submit" value="y"></li>
+                <li><input name="filtro" type="submit" value="z"></li>
+            </ul>
+        </form>
+    </section>
     <section data-section="disco" class="grupos-container container-activo container-fluid mx-auto row gap-3">
        
        <?php
-            getAllGroupsDisc();
+            if(!isset($_POST["filtro"])){
+                getAllGroups();
+            }else{
+                getGroupsFiltered($_POST["filtro"]);
+            }
+            
        ?>
     </section>
-    <section data-section="auto" class="grupos-container container-fluid mx-auto row gap-3">
+    <!-- <section data-section="auto" class="grupos-container container-fluid mx-auto row gap-3">
        
        <?php
-            getAllGroupsNoDisc();
-       ?>
-    </section>
+            // getAllGroupsNoDisc();
+    //    ?>
+    </section> -->
 
 </body>
 </html>
