@@ -211,6 +211,8 @@
         }else{
             echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
         }
+        $consulta->close();
+        $con->close();
         
     }
 
@@ -428,11 +430,13 @@
         }else{
             echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
         }
+        $consulta->close();
+        $con->close();
     }
 
     function getAllAlbums(){
         $con = createConnection();
-        $consulta = $con->query("SELECT a.id id_album, titulo, a.foto foto_album, a.activo album_activo, lanzamiento, g.nombre nom_grupo from album a, grupo g where g.id = a.grupo order by g.nombre asc");
+        $consulta = $con->query("SELECT a.id id_album, titulo, a.foto foto_album, a.activo album_activo, lanzamiento, g.nombre nom_grupo from album a, grupo g where g.id = a.grupo order by titulo asc");
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $fecha_format = formatDate($fila["lanzamiento"]);
             echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4\">
@@ -461,6 +465,50 @@
                 </div>
                 </div>";
         }
+        $con->close();
+    }
+
+    function getAlbumsFiltered($filter){
+        $con = createConnection();
+        $filtro = $filter.'%';
+        $consulta = $con->prepare("SELECT a.id id_album, titulo, a.foto foto_album, a.activo album_activo, lanzamiento, g.nombre nom_grupo from album a, grupo g where g.id = a.grupo and titulo like ? order by titulo asc");
+        $consulta->bind_param('s', $filtro);
+        $consulta->bind_result($id_album, $titulo, $foto_album, $album_activo, $lanzamiento, $nom_grupo);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows() > 0){
+            while($consulta->fetch()){
+                $fecha_format = formatDate($lanzamiento);
+                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4\">
+                    <div class=\"w-50\">
+                        <img class=\"img-fluid rounded\" src=\"$foto_album\">
+                    </div>
+                    <div class=\"d-flex flex-column justify-content-between gap-1\">
+                        <p>Título: $titulo</p>
+                        <p>Autor: $nom_grupo</p>
+                        <p>Lanzado el: $fecha_format</p>";
+                    if($album_activo == 0){
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$id_album\">
+                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                        </form>";
+                    }else{
+                        echo "<form method=\"post\" action=\"#\">
+                        <input hidden name=\"id\" value=\"$id_album\">
+                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                        </form>";
+                    }
+                    echo "<form method=\"post\" action=\"admin_listado_canciones.php\">
+                            <input hidden name=\"id\" value=\"$id_album\">
+                            <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Ver canciones\">
+                        </form>
+                    </div>
+                    </div>";
+            }
+        }else{
+            echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
+        }
+        $consulta->close();
         $con->close();
     }
 

@@ -29,9 +29,19 @@
         menuAdminDropdown();
     ?>
     <h1 class="text-center mt-5">Álbumes de Sonic Waves</h1>
+    <section class="filter-abc-admin">
+        <?php
+            printFilterForm();
+        ?>
+    </section>
     <section class="albumes-container container-fluid mx-auto row gap-3">
        <?php
-            getAllAlbums();
+            if(!isset($_POST["filtro"])){
+                getAllAlbums();
+            }else{
+                getAlbumsFiltered($_POST["filtro"]);
+            }
+            
        ?>
     </section>
 
