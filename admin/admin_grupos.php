@@ -41,6 +41,7 @@
             <h2 class="tipo-activo" data-type="disco">Grupos de discográfica</h2>
             <h2 data-type="auto">Grupos autogestionados</h2>
        </div> -->
+       <input type="text" class="busqueda-dinamica-admin">
     <section class="filter-abc-admin">
         <h3 class="text-center mt-4">Filtro alfabético</h3>
         <form action="#" method="post">
@@ -76,7 +77,7 @@
             </ul>
         </form>
     </section>
-    <section data-section="disco" class="grupos-container container-activo container-fluid mx-auto row gap-3">
+    <section class="grupos-container container-activo container-fluid mx-auto row gap-3">
        
        <?php
             if(!isset($_POST["filtro"])){

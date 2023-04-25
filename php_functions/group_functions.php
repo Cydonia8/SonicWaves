@@ -186,10 +186,10 @@
 
     function generateSelects($num){
         $contador = 1;
-        echo "<ul>";
+        echo "<ul class='selects-container'>";
         while($contador <= $num){
             $name = "cancion".$contador;
-            echo "<li><select name=\"$name\">";
+            echo "<li><select required name=\"$name\"><option value='' hidden>Elige una canción</option>";
                 getAllGroupSongs($_SESSION["user"]);
                  echo "</select></li>";
             $contador++;

@@ -105,7 +105,7 @@
         if($filas > 0){
             while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
                 $albums_grupo = albumsPerGroup($fila["id_grupo"]);
-                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                echo "<div data-name=\"$fila[nom_grupo]\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3\">
                     <div class=\"w-50\">
                         <img class=\"rounded-circle img-fluid\" src=\"$fila[avatar_grupo]\">
                     </div>
@@ -165,7 +165,7 @@
         if($consulta->num_rows>0){
             while($consulta->fetch()){
                 $albums_grupo = albumsPerGroup($id_grupo);
-                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                echo "<div data-name=\"$nom_grupo\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3\">
                     <div class=\"w-50\">
                         <img class=\"rounded-circle img-fluid\" src=\"$avatar_grupo\">
                     </div>
@@ -331,7 +331,7 @@
         
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $total_grupos = groupsPerRecordLabel($fila["id"]);
-            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+            echo "<div data-name=\"$fila[nombre]\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3\">
                         <div class=\"w-50\">
                             <img class=\"img-fluid\" src=\"$fila[foto_avatar]\">
                         </div>
@@ -386,7 +386,7 @@
         if($consulta->num_rows() > 0){
             while($consulta->fetch()){
                 $total_grupos = groupsPerRecordLabel($id);
-                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                echo "<div data-name=\"$nombre\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3\">
                         <div class=\"w-50\">
                             <img class=\"img-fluid\" src=\"$foto_avatar\">
                         </div>
@@ -439,7 +439,7 @@
         $consulta = $con->query("SELECT a.id id_album, titulo, a.foto foto_album, a.activo album_activo, lanzamiento, g.nombre nom_grupo from album a, grupo g where g.id = a.grupo order by titulo asc");
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $fecha_format = formatDate($fila["lanzamiento"]);
-            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4\">
+            echo "<div data-name=\"$fila[titulo]\" class=\"rounded border grupo-detalle p-3 gap-3 col-12 col-xl-3 col-md-4\">
                 <div class=\"w-50\">
                     <img class=\"img-fluid rounded\" src=\"$fila[foto_album]\">
                 </div>
@@ -479,7 +479,7 @@
         if($consulta->num_rows() > 0){
             while($consulta->fetch()){
                 $fecha_format = formatDate($lanzamiento);
-                echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4\">
+                echo "<div data-name=\"$titulo\" class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4\">
                     <div class=\"w-50\">
                         <img class=\"img-fluid rounded\" src=\"$foto_album\">
                     </div>
