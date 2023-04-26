@@ -126,6 +126,7 @@ header.header-index ul.dropdown-menu input{
         transform: translateY(0);
         transition: transform .7s;
         backdrop-filter: blur(4px);
+        visibility: visible;
     }
     .button-menu-responsive{
         display: flex;
