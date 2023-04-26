@@ -109,6 +109,9 @@ header.header-index ul.dropdown-menu input{
     border: none;
     padding-left: 1rem;
 }
+.dropdown-link-responsive{
+    display: none;
+}
 @media screen and (max-width:1040px) {
     header.header-index{
         transform: translateY(-1000px);
@@ -133,6 +136,17 @@ header.header-index ul.dropdown-menu input{
     }
     .img-menu-responsive{
         display: block;
+    }
+    .dropdown-header .dropdown-link-responsive{
+        display: block;
+        width: 700px;
+        filter: drop-shadow(0 0 0.75rem crimson);
+    }
+    .dropdown-header .dropdown-link-responsive img{
+        width: 100px;
+    }
+    .dropdown-header a:nth-child(2){
+        display: none;
     }
 }
 
