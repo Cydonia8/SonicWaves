@@ -73,6 +73,7 @@ function printMainMenu($location = "noindex"){
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
@@ -94,6 +95,7 @@ function printMainMenu($location = "noindex"){
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
@@ -115,6 +117,7 @@ function printMainMenu($location = "noindex"){
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
@@ -136,6 +139,7 @@ function printMainMenu($location = "noindex"){
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
@@ -157,6 +161,7 @@ function printMainMenu($location = "noindex"){
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
                             <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"\">Contacto</a></li>
                             <li><a href=\"login/login.php\">Iniciar sesión</a></li>
                         </ul>
                     </nav>

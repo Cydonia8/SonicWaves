@@ -1,8 +1,18 @@
 const audios = document.querySelectorAll("audio");
 const img = document.querySelectorAll(".cancion-prev .img-fluid")
+const button_menu = document.querySelector(".button-menu-responsive")
+const header = document.querySelector("header")
+
 // const height = img.clientHeight
 // const width = img.clientWidth
-console.log(img)
+
+button_menu.addEventListener("click", ()=>{
+    if(header.classList.contains("header-mobile")){
+        header.classList.remove("header-mobile")
+    }else{
+        header.classList.add("header-mobile")
+    }
+})
 
 img.forEach(imagen => {
     let height = imagen.clientHeight

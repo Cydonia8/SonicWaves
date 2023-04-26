@@ -11,14 +11,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="scripts/index.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous" defer></script>
     <link rel="stylesheet" href="estilos.css">
+    <script src="scripts/index.js" defer></script>
     <link rel="icon" type="image/png" href="media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <title>Sonic Waves</title>
 </head>
 <body>
+  <img class="img-menu-responsive" src="media/assets/sonic-waves-logo-simple.png" alt="">
+  <button class="button-menu-responsive">
+    <div></div>
+    <div></div>
+    <div></div>
+  </button>
   <?php
     printMainMenu("index");
   ?>
@@ -59,7 +65,7 @@
         <h2 class="text-center text-white">
           Algunas de las canciones que podrás encontrar
         </h2>
-        <div class="d-flex container-samples-index gap-5 align-items-center">
+        <div class="d-flex container-samples-index gap-5 align-items-center flex-column flex-md-row">
         <?php
           $con = new mysqli('localhost', 'root', '', 'sonicwaves');
           $consulta = $con->query("select c.titulo titulo, g.nombre grup, archivo, a.foto portada from cancion c, album a, grupo g, incluye i where a.grupo = g.id and i.album = a.id and i.cancion = c.id and a.activo = 1 order by rand() limit 3");
