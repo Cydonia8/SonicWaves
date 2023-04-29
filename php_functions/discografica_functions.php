@@ -49,12 +49,12 @@ function getDiscographicID($mail){
 }
 function getDiscographicGroups($id_disc){
     $con = createConnection();
-    $consulta = $con->prepare("SELECT id, nombre, foto_avatar from grupo where discografica = ?");
+    $consulta = $con->prepare("SELECT id, nombre, foto_avatar from grupo where discografica = ? order by nombre asc");
     $consulta->bind_param('i', $id_disc);
     $consulta->bind_result($id, $nombre, $foto_avatar);
     $consulta->execute();
     while($consulta->fetch()){
-        echo "<div class=\"disc-grupo-detalle border rounded d-flex justify-content-around p-3 gap-3 col-12 col-lg-3\">
+        echo "<div data-name=\"$nombre\" class=\"disc-grupo-detalle border rounded d-flex justify-content-around p-3 gap-3 col-12 col-lg-3\">
                 <div>
                     <img class=\"img-fluid rounded-circle mb-2\" src=\"$foto_avatar\" alt=\"\">
                     <p class=\"text-center font-weight-bold\">$nombre</p>
@@ -72,6 +72,41 @@ function getDiscographicGroups($id_disc){
               </div>";
     }
     $consulta->close();
+    $con->close();
+}
+
+function getDiscographicGroupsFiltered($id_disc, $filter){
+    $con = createConnection();
+    $filtro = $filter."%";
+    $consulta = $con->prepare("SELECT id, nombre, foto_avatar from grupo where discografica = ? and nombre like ? order by nombre asc");
+    $consulta->bind_param('is', $id_disc, $filtro);
+    $consulta->bind_result($id, $nombre, $foto_avatar);
+    $consulta->execute();
+    $consulta->store_result();
+    if($consulta->num_rows > 0){
+        while($consulta->fetch()){
+            echo "<div data-name=\"$nombre\" class=\"disc-grupo-detalle border rounded d-flex justify-content-around p-3 gap-3 col-12 col-lg-3\">
+                    <div>
+                        <img class=\"img-fluid rounded-circle mb-2\" src=\"$foto_avatar\" alt=\"\">
+                        <p class=\"text-center font-weight-bold\">$nombre</p>
+                    </div>
+                    <div class=\"d-flex flex-column justify-content-center gap-5\">
+                        <form method=\"post\" action=\"discografica_editar_grupo.php\">
+                            <input hidden value=\"$id\" name=\"id\">
+                            <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Editar datos de grupo\">
+                        </form>
+                        <form method=\"post\" action=\"../discografica/discografica_añadir_album.php\">
+                            <input hidden value=\"$id\" name=\"id\">
+                            <input class=\"btn btn-outline-info\" type=\"submit\" name=\"ver\" value=\"Añadir nuevo álbum\">
+                        </form>
+                    </div>
+                  </div>";
+        }
+        $consulta->close();
+    }else{
+        echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
+    }
+    
     $con->close();
 }
 

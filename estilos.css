@@ -442,3 +442,34 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     display: flex;
     justify-content: space-around;
 }
+#discografica-editar-grupo .custom-file-input {
+    /* color: transparent; */
+  }
+#discografica-editar-grupo .custom-file-input::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+ #discografica-editar-grupo .custom-file-input::before {
+    content: 'Elige una foto';
+    color: black;
+    display: inline-block;
+    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    white-space: nowrap;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 10pt;
+  }
+ #discografica-editar-grupo .custom-file-input:hover::before {
+    border-color: black;
+  }
+ #discografica-editar-grupo .custom-file-input:active {
+    outline: 0;
+  }
+ #discografica-editar-grupo .custom-file-input:active::before {
+    background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
+  }
