@@ -54,16 +54,11 @@
                     </form>
                 </section>";
         }
-        $con = createConnection();
-        $consulta = $con->prepare("SELECT foto_avatar, biografia FROM grupo where correo = ?");
-        $consulta->bind_param("s", $_SESSION["user"]);
-        $consulta->bind_result($foto, $bio);
-        $consulta->execute();
-        $consulta->fetch();
-        $consulta->close();
-        echo "<img src=\"$foto\"/>";
-        echo "<p>$bio</p>";
+        getGroupInfo($_SESSION["user"]);
     ?>
+    <section>
+        
+    </section>
     <section>
         <a href="grupo_nuevo_album.php">Subir álbum</a>
     </section>

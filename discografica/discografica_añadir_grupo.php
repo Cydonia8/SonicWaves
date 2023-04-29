@@ -6,7 +6,7 @@
     forbidAccess("disc");
     closeSession($_POST);
     $id_discografica = getDiscographicID($_SESSION["user"]);
-    
+    $nombre = getDiscographicName($_SESSION["user"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,7 +19,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title>Document</title>
+    <title><?php echo $nombre; ?> | Añadir grupo</title>
 </head>
 <body id="discografica-nuevo-album">
     <?php
@@ -46,7 +46,7 @@
             if($foto_correcta and $foto_avatar_correcta){
                 $foto_avatar = newPhotoPathDisc("foto-avatar", "avatar",  $nombre, $id_grupo);
                 $foto = newPhotoPathDisc("foto", "", $nombre, $id_grupo);
-                addGroup($nombre, $bio, $foto, $foto_avatar, 1, $id_discografica);
+                addGroup($nombre, $bio, $foto, $foto_avatar, 0, $id_discografica);
             }
         }
     ?>

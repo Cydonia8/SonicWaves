@@ -3,6 +3,24 @@
 *,::after, ::before{
     box-sizing: border-box;
 }
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
 body{
     background-color: #000;
     margin: 0;
@@ -473,3 +491,8 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
  #discografica-editar-grupo .custom-file-input:active::before {
     background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); 
   }
+#grupo-main .banner-group-main > div{
+    height: 100%;
+    width: 100%;
+    backdrop-filter: blur(2.5px);
+}

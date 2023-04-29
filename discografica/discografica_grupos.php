@@ -5,6 +5,7 @@
     require_once "../php_functions/discografica_functions.php";
     forbidAccess("disc");
     closeSession($_POST);
+    $nombre = getDiscographicName($_SESSION["user"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,12 +19,12 @@
     <link rel="stylesheet" href="../estilos.css">
     <script src="../scripts/discografica_grupos.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title>Document</title>
+    <title><?php echo $nombre;?> | Grupos gestionados</title>
 </head>
 <body id="discografica-main">
     <?php
         menuDiscograficaDropdown();
-        $nombre = getDiscographicName($_SESSION["user"]);
+        
         $id = getDiscographicID($_SESSION["user"]);
     ?>
     <h1 class="text-center mt-4 mb-4">Grupos gestionados por <?php echo $nombre;?></h1>

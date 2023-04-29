@@ -19,6 +19,18 @@
         return $completo;
     }
 
+    function getGroupInfo($mail){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT nombre, foto, foto_avatar, biografia from grupo where correo = ?");
+        $consulta->bind_param('s', $mail);
+        $consulta->bind_result($nombre, $foto, $foto_avatar, $bio);
+        $consulta->execute();
+        $consulta->fetch();
+        echo "<section class='banner-group-main' data-bg='$foto'><div class='d-flex justify-content-center align-items-center'><h1>$nombre</h1></div></section>";
+        $consulta->close();
+        $con->close();
+    }
+
     function getStyles(){
         $con = createConnection();
         $consulta = $con->prepare("SELECT nombre, id FROM estilo");
