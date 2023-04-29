@@ -135,4 +135,29 @@ function newPhotoPathAlbumDisc($nombre, $album, $grupo, $id){
     return $nueva_ruta;
 }
 
+function getGroupDataEdit($id){
+    $con = createConnection();
+    $consulta = $con->prepare("SELECT nombre, biografia, foto, foto_avatar from grupo where id = ?");
+    $consulta->bind_param('i', $id);
+    $consulta->bind_result($nombre, $bio, $foto, $foto_av);
+    $consulta->execute();
+    $consulta->fetch();
+    $consulta->close();
+    $con->close();
+    $datos["nombre"] = $nombre;
+    $datos["bio"] = $bio;
+    $datos["foto"] = $foto;
+    $datos["foto_avatar"] = $foto_av;
+    return $datos;
+}
+
+function editGroup($id, $bio, $foto, $foto_avatar){
+    $con = createConnection();
+    $update = $con->prepare("UPDATE grupo set biografia = ?, foto = ?, foto_avatar = ? where id = ?");
+    $update->bind_param('sssi', $bio, $foto, $foto_avatar, $id);
+    $update->execute();
+    $update->close();
+    $con->close();
+}
+
 ?>
