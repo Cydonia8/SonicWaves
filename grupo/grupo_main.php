@@ -60,7 +60,6 @@
         
     </section>
     <section>
-        <a href="grupo_nuevo_album.php">Subir álbum</a>
     </section>
 </body>
 </html>

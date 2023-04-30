@@ -28,6 +28,9 @@ body{
     /* font-family: 'Hammersmith One', sans-serif; */
     color: #fff;
 }
+header{
+    z-index: 1000;
+}
 .button-menu-responsive{
     display: none;
     flex-direction: column;
@@ -311,6 +314,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     justify-content: center;
     align-items: center;
     text-align: center;
+    z-index: 100000;
 }
 #grupo-main .form-group-completition img{
     width: 20%;
