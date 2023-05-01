@@ -26,10 +26,57 @@
         $consulta->bind_result($nombre, $foto, $foto_avatar, $bio);
         $consulta->execute();
         $consulta->fetch();
-        echo "<section class='banner-group-main' data-bg='$foto'><div class='d-flex justify-content-center align-items-center'><h1>$nombre</h1></div></section>";
+        echo "<section class='banner-group-main mb-5 pb-3' data-bg='$foto'>
+                <div class='position-relative'>
+                    <a class='banner-group-main-avatar-link' href=''>
+                        <img class='banner-group-main-avatar rounded-circle' src='$foto_avatar'>
+                        <ion-icon class='icon-edit-avatar-group d-none' name=\"pencil-outline\"></ion-icon>
+                    </a>
+                    
+                </div>
+            </section>
+            <section class='d-flex flex-column align-items-center justify-content-center'>
+                <h1 class='text-center'>$nombre</h1>
+                <details>
+                    <summary class='text-center'>Biografía</summary>
+                    <p class='text-center'>$bio</p>
+                </details>
+            </section>
+            <section class=\"update-avatar-photo d-none flex-column justify-content-center align-items-center\">
+                <ion-icon class='close-modal-update-avatar' name=\"close-outline\"></ion-icon>
+                <form class='text-center' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">
+                    <img class='rounded-circle w-50' src=\"$foto_avatar\" alt=\"\">
+                    <div class=\"input-field  mb-3 gap-2\">
+                        <div class=\" justify-content-between\"><label class=\"file\">Foto de avatar del grupo</label><ion-icon name=\"image-outline\"></ion-icon></div>
+                            <input type=\"file\" class=\"custom-file-input\" name=\"foto-avatar-nueva\">
+                    </div>
+                    <input type=\"submit\" value=\"Actualizar foto de avatar\" name=\"actualizar-avatar\">
+                </form>
+            </section>";
         $consulta->close();
         $con->close();
     }
+
+    function updateAvatarPhoto($mail, $foto_avatar){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo set foto_avatar = ? where correo = ?");
+        $update->bind_param('ss', $foto_avatar, $mail);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    // function getGroupInfo2($mail){
+    //     $con = createConnection();
+    //     $consulta = $con->prepare("SELECT nombre, foto, foto_avatar, biografia from grupo where correo = ?");
+    //     $consulta->bind_param('s', $mail);
+    //     $consulta->bind_result($nombre, $foto, $foto_avatar, $bio);
+    //     $consulta->execute();
+    //     $consulta->fetch();
+    //     echo "<section class='banner-group-main' data-bg='$foto'><img class='img-fluid' src='$foto'><img src='$foto_avatar'></section>";
+    //     $consulta->close();
+    //     $con->close();
+    // }
 
     function getStyles(){
         $con = createConnection();
@@ -44,7 +91,7 @@
     }
 
     function menuGrupoDropdown(){
-        echo "<header class=\"dropdown-header d-flex justify-content-between align-items-center pt-3 pe-5 pb-2 ps-5 border-bottom\">
+        echo "<header class=\"dropdown-header d-flex justify-content-between align-items-center pt-3 pe-5 pb-2 ps-5 position-absolute w-100\">
                 <a class=\"dropdown-link-responsive\" href=\"../index.php\"><img src=\"../media/assets/sonic-waves-logo-simple.png\"></a>
                 <a href=\"../index.php\"><img class=\"w-25\" src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\"></a>
                 <div class=\"dropdown\">

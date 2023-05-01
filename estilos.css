@@ -343,15 +343,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #admin-main .menu-admin img{
     width: 100%;
 } */
-.tabla-estilos td,th{
-    padding: 1rem;
-    border: 1px solid white;
-    text-align: center;
-}
-.tabla-estilos td:empty{
-    content: '0';
-    color: white;
-}
+
 .disco-detalle{
     background-color: #090f1f;
 }
@@ -498,5 +490,47 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #grupo-main .banner-group-main > div{
     height: 100%;
     width: 100%;
-    backdrop-filter: blur(2.5px);
+}
+#grupo-main .banner-group-main .banner-group-main-avatar{
+    position: absolute;
+    width: 200px;
+    left: 50%;
+    bottom: 0;
+    transform: translate(-50%, 30%);
+    transition: all .8s;
+    border: 1px solid snow;
+}
+#grupo-main .banner-group-main .banner-group-main-avatar:hover{
+    filter: contrast(50%);
+    transition: all .8s;
+    cursor: pointer;
+}
+#grupo-main .dropdown-header img{
+    filter: drop-shadow(0 0 0.75rem crimson);
+}
+.banner-group-main{
+    height: 70vh;
+}
+@media screen and (max-width:1100px) {
+    .banner-group-main{
+        height: 40vh;
+    }
+}
+
+.icon-edit-avatar-group {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translate(-50%, 30%);
+    color: white;
+    font-size: 2rem;
+}
+
+#grupo-main .update-avatar-photo{
+    width: 100vw;
+    height: 100dvh;
+    backdrop-filter: blur(3px);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
