@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
+@keyframes loader{
+    0%{
+        transform: scale(0);
+        opacity: 1;
+    }100%{
+        transform: scale(1);
+        opacity: 0;
+    }
+}
 *,::after, ::before{
     box-sizing: border-box;
 }
@@ -505,6 +514,11 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     transition: all .8s;
     cursor: pointer;
 }
+/* #grupo-main .banner-group-main .empty-div:hover{
+    filter: contrast(50%);
+    transition: all .8s;
+    cursor: pointer;
+} */
 #grupo-main .dropdown-header img{
     filter: drop-shadow(0 0 0.75rem crimson);
 }
@@ -533,4 +547,82 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     position: fixed;
     top: 0;
     z-index: 1000;
+}
+#grupo-main .update-avatar-photo .close-modal-update-avatar{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 3rem;
+    cursor: pointer;
+}
+#grupo-main .update-main-photo{
+    width: 100vw;
+    height: 100dvh;
+    backdrop-filter: blur(3px);
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+#grupo-main .update-main-photo .close-modal-update-main-photo{
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 3rem;
+    cursor: pointer;
+}
+#grupo-main .banner-group-main-photo-link{
+    position: absolute;
+    bottom: 0;
+    right: 2rem;
+}
+#reproductor{
+    background-color: #131312;
+    height: 100dvh;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr) 0.7fr;
+    grid-template-columns: 0.5fr repeat(4, 1fr);
+}
+#reproductor header{
+    /* border: 1px solid white; */
+    grid-row: 1/6;
+    grid-column: 1;
+    background-color: #111727;
+    width: 213px;
+}
+#reproductor main{
+    /* border: 1px solid white; */
+    grid-column: 2/6;
+    grid-row: 1/6;
+    background-color: #0b1320;
+    overflow-y: scroll;
+    position: relative;
+}
+#reproductor footer{
+    /* border: 1px solid white; */
+    grid-column: 1/-1;
+    grid-row: 6;
+    
+}
+#reproductor main section div{
+    width: 320px;
+    background-color: #060b13;
+}
+.loader::before,.loader::after{
+    animation: loader 1s linear infinite;
+    content: '';
+    border: 2px solid white;
+    width: 128px;
+    height: 128px;
+    position: absolute;
+    border-radius: 50%;
+}
+.loader::after{
+    opacity: 0;
+    animation-delay: 0.3s;
+}
+.loader{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }

@@ -36,6 +36,12 @@ function formatDate($date){
     return $fecha_formateada;
 }
 
+function unsetSessionVariable($array){
+    foreach($array as $variable){
+        unset($_SESSION[$variable]);
+    }
+}
+
 function getAutoID($tabla){
     $con = createConnection();
     $consulta_id = $con->prepare("select auto_increment cod from information_schema.tables where table_schema = 'sonicwaves' and table_name = ?");
@@ -72,7 +78,7 @@ function printMainMenu($location = "noindex"){
                     <nav>
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
-                            <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -94,7 +100,7 @@ function printMainMenu($location = "noindex"){
                     <nav>
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
-                            <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -160,7 +166,7 @@ function printMainMenu($location = "noindex"){
                     <nav>
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
-                            <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"\">Contacto</a></li>
                             <li><a href=\"login/login.php\">Iniciar sesión</a></li>
                         </ul>
@@ -197,7 +203,7 @@ function printMainMenu($location = "noindex"){
                     <nav>
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
-                            <li><a href=\"\">Reproductor</a></li>
+                            <li><a href=\"../reproductor/reproductor.php\">Reproductor</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">

@@ -168,7 +168,7 @@ session_start();
                     $mail_exists = mailRepeated($mail, "grupo");
 
                     if(!$mail_exists){
-                        insertNewGroup($nombre_grupo, $pass, $mail);
+                        insertNewGroup($nombre_grupo, $pass, $mail, 0);
                         echo "<div class=\"alert text-center mt-3 alert-success alert-dismissible fade show\" role=\"alert\">Solicitud de grupo registrada y a la espera de ser aprobada.</div>";
                     }else{
                         echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Correo ya registrado</div>";

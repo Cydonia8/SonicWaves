@@ -56,10 +56,10 @@
         $con->close();
     }
 
-    function insertNewGroup($nombre, $pass, $mail){
+    function insertNewGroup($nombre, $pass, $mail, $discografica){
         $con = createConnection();
-        $consulta = $con->prepare("INSERT INTO grupo (nombre, pass, correo) VALUES (?,?,?)");
-        $consulta->bind_param("sss", $nombre, $pass, $mail);
+        $consulta = $con->prepare("INSERT INTO grupo (nombre, pass, correo, discografica) VALUES (?,?,?,?)");
+        $consulta->bind_param("sssi", $nombre, $pass, $mail, $discografica);
         $consulta->execute();
         $consulta->close();
         $con->close();

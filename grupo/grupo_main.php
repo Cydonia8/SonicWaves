@@ -15,6 +15,23 @@
         }
         
     }
+    if(isset($_POST["actualizar-avatar"])){
+        $foto_avatar_correcta = checkPhoto("foto-avatar-nueva");
+        if($foto_avatar_correcta){
+            $foto_avatar = newPhotoPath("foto-avatar-nueva", "avatar");
+            updateAvatarPhoto($_SESSION["user"], $foto_avatar);
+        }else{
+            echo "<div class=\"alert alert-danger\" role=\"alert\">
+            Formato incorrecto
+          </div>";
+        }
+    }elseif(isset($_POST["actualizar-foto"])){
+        $foto_correcta = checkPhoto("foto-nueva");
+        if($foto_correcta){
+            $foto = newPhotoPath("foto-nueva", "");
+            updateMainPhoto($_SESSION["user"], $foto);
+        }
+    }
     
     closeSession($_POST);
 ?>

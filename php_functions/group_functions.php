@@ -19,6 +19,39 @@
         return $completo;
     }
 
+    function getGroupAlbums($mail){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT titulo, a.foto foto, lanzamiento from album a, grupo g where a.grupo = g.id and correo = ?");
+        $consulta->bind_param('s', $mail);
+        $consulta->bind_result($titulo, $foto, $lanzamiento);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows > 0){
+            $counter = 0;
+            while($consulta->fetch()){
+                if($counter % 3 == 0){
+                    echo "<div class='row gap-3'>";
+                }
+                $fecha = formatDate($lanzamiento);
+                echo "<div class='col-12 col-lg-3 d-flex justify-content-center gap-3'>
+                        <img class='w-50 rounded' src='$foto'>
+                        <div class='w-50'>
+                            <h4>$titulo</h4>
+                            <h4>Lanzado el $fecha</h4>
+                        </div>
+                    </div>";
+                if($counter+1 % 3 == 0){
+                    echo "</div>";
+                }
+                $counter++;
+            }
+        }else{
+            echo "<h2 class='text-center'>No hay discos publicados por el momento</h2>";
+        }
+        $consulta->close();
+        $con->close();
+    }
+
     function getGroupInfo($mail){
         $con = createConnection();
         $consulta = $con->prepare("SELECT nombre, foto, foto_avatar, biografia from grupo where correo = ?");
@@ -32,7 +65,7 @@
                         <img class='banner-group-main-avatar rounded-circle' src='$foto_avatar'>
                         <ion-icon class='icon-edit-avatar-group d-none' name=\"pencil-outline\"></ion-icon>
                     </a>
-                    
+                    <button class='banner-group-main-photo-link'>Editar</button>
                 </div>
             </section>
             <section class='d-flex flex-column align-items-center justify-content-center'>
@@ -43,16 +76,36 @@
                 </details>
             </section>
             <section class=\"update-avatar-photo d-none flex-column justify-content-center align-items-center\">
-                <ion-icon class='close-modal-update-avatar' name=\"close-outline\"></ion-icon>
+                <ion-icon class='close-modal-update-avatar position-absolute' name=\"close-outline\"></ion-icon>
+                <img class='rounded-circle w-25' src=\"$foto_avatar\" alt=\"\">
                 <form class='text-center' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">
-                    <img class='rounded-circle w-50' src=\"$foto_avatar\" alt=\"\">
                     <div class=\"input-field  mb-3 gap-2\">
-                        <div class=\" justify-content-between\"><label class=\"file\">Foto de avatar del grupo</label><ion-icon name=\"image-outline\"></ion-icon></div>
+                        <div class=\" justify-content-between\">
+                            <label class=\"file\">Foto de avatar del grupo</label>
+                            <ion-icon name=\"image-outline\"></ion-icon>
                             <input type=\"file\" class=\"custom-file-input\" name=\"foto-avatar-nueva\">
+                        </div>
                     </div>
                     <input type=\"submit\" value=\"Actualizar foto de avatar\" name=\"actualizar-avatar\">
                 </form>
-            </section>";
+            </section>
+            <section class=\"update-main-photo d-none flex-column justify-content-center align-items-center\">
+                <ion-icon class='close-modal-update-main-photo position-absolute' name=\"close-outline\"></ion-icon>
+                <img class='rounded w-50' src=\"$foto\" alt=\"\">
+                <form class='text-center' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">
+                    <div class=\"input-field  mb-3 gap-2\">
+                        <div class=\" justify-content-between\">
+                            <label class=\"file\">Foto principal del grupo</label>
+                            <ion-icon name=\"image-outline\"></ion-icon>
+                            <input type=\"file\" class=\"custom-file-input\" name=\"foto-nueva\">
+                        </div>
+                    </div>
+                    <input type=\"submit\" value=\"Actualizar foto principal\" name=\"actualizar-foto\">
+                </form>
+            </section>
+            <section class='container-xl'>";
+                getGroupAlbums($_SESSION["user"]);
+            echo "</section>";
         $consulta->close();
         $con->close();
     }
@@ -61,6 +114,15 @@
         $con = createConnection();
         $update = $con->prepare("UPDATE grupo set foto_avatar = ? where correo = ?");
         $update->bind_param('ss', $foto_avatar, $mail);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    function updateMainPhoto($mail, $foto){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo set foto = ? where correo = ?");
+        $update->bind_param('ss', $foto, $mail);
         $update->execute();
         $update->close();
         $con->close();
@@ -99,6 +161,7 @@
                     Menú de grupo
                     </button>
                     <ul class=\"dropdown-menu\">
+                        <li><a class=\"dropdown-item\" href=\"grupo_main.php\">Portada</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_nuevo_album.php\">Subir nuevo álbum</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_usuarios.php\">Editar perfil</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Añadir encuesta</a></li>

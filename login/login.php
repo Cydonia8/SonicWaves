@@ -17,8 +17,9 @@
                 echo "<meta http-equiv='refresh' content='0;url=../admin/admin_main.php'>";
             }else{
                 $_SESSION["user-type"] = "standard";
-                // keepSessionOpen();
-                // echo "<meta http-equiv='refresh' content='0;url=../standar/standar_main.php'>";
+                keepSessionOpen();
+                header('location:../reproductor/reproductor.php');
+                // echo "<meta http-equiv='refresh' content='0;url=../usuario/usuario.php'>";
             }
             
         }// }else{
