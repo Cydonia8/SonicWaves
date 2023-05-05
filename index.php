@@ -65,7 +65,7 @@
         <h2 class="text-center text-white">
           Algunas de las canciones que podrás encontrar
         </h2>
-        <div class="d-flex container-samples-index gap-5 align-items-center flex-column flex-md-row">
+        <div class="d-flex container-samples-index gap-5 flex-column flex-md-row">
         <?php
           $con = new mysqli('localhost', 'root', '', 'sonicwaves');
           $consulta = $con->query("select c.titulo titulo, g.nombre grup, archivo, a.foto portada from cancion c, album a, grupo g, incluye i where a.grupo = g.id and i.album = a.id and i.cancion = c.id and a.activo = 1 order by rand() limit 3");
@@ -76,8 +76,8 @@
             $foto = imageIndex($foto);
             $audio = imageIndex($audio);
             $artista = $fila["grup"];
-            echo "<div class=\"cancion-prev d-flex align-items-center justify-content-center flex-column gap-5\">
-                    <div class=\"text-center d-flex flex-column align-items-center gap-3\">
+            echo "<div class=\"cancion-prev d-flex align-items-center flex-column gap-5 justify-content-between\">
+                    <div class=\"text-center d-flex flex-column gap-3\">
                       <img class=\"rounded img-fluid\" src=\"$foto\">
                       <h2>$titulo</h2>
                       <h3>$artista</h3>

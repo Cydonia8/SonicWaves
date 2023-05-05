@@ -14,16 +14,22 @@
 }
 ::-webkit-scrollbar {
     width: 10px;
+    opacity: 0;
+  }
+  ::-webkit-scrollbar:hover{
+    opacity: 1;
   }
   
   /* Track */
   ::-webkit-scrollbar-track {
     background: #f1f1f1;
+    opacity: 0;
   }
    
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: #888; 
+    background: #888;
+    opacity: 0;
   }
   
   /* Handle on hover */
@@ -86,7 +92,7 @@ header.header-index{
     /* font-family: 'Hammersmith One', sans-serif; */
     display: flex;
     justify-content: space-between;
-    padding: 2rem;
+    padding: 0.7rem 1.3rem;
     align-items: center;
     position: absolute;
     z-index: 10000;
@@ -575,6 +581,26 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     bottom: 0;
     right: 2rem;
 }
+#grupo-main #edit-biografia-grupo,#edit-datos-grupo{
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all .8s;
+    padding: .4rem;
+}
+#grupo-main #edit-biografia-grupo:hover,#edit-datos-grupo:hover{ 
+    background-color: crimson;
+    filter: drop-shadow(0 0 0.75rem crimson);
+    transition: all .8s;
+}
+#grupo-main .album-container-group-main{
+    width: 30%;
+}
+@media screen and (max-width:1185px) {
+    #grupo-main .album-container-group-main{
+        width: 100%;
+    }
+}
 #reproductor{
     background-color: #131312;
     height: 100dvh;
@@ -594,7 +620,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     grid-column: 2/6;
     grid-row: 1/6;
     background-color: #0b1320;
-    overflow-y: scroll;
+    overflow-y: auto;
     position: relative;
 }
 #reproductor footer{

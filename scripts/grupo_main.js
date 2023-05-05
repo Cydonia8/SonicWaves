@@ -9,6 +9,39 @@ const section_update_avatar = document.querySelector(".update-avatar-photo")
 const edit_photo = document.querySelector(".banner-group-main-photo-link")
 const section_update_photo = document.querySelector(".update-main-photo")
 const close_modal_update_photo = document.querySelector(".close-modal-update-main-photo")
+const editar_bio = document.getElementById("edit-biografia-grupo")
+const biografia = document.querySelector("textarea")
+const editar_datos = document.getElementById("edit-datos-grupo")
+const submit_bio = document.getElementsByName("actualizar-bio")
+const submit_datos = document.querySelector(".actualizar-datos-submit")
+const input_datos = document.querySelectorAll(".form-edit-datos-grupo input:not([type=submit]):not(.pass-original)")
+console.log(input_datos)
+
+editar_bio.addEventListener("click", ()=>{
+    if(biografia.hasAttribute("disabled")){
+        biografia.removeAttribute("disabled")
+        submit_bio.forEach(sub=>sub.removeAttribute("hidden"))
+    }else{
+        biografia.setAttribute("disabled", true)
+        submit_bio.forEach(sub=>sub.setAttribute("hidden", true))
+    }
+    
+})
+
+editar_datos.addEventListener("click", ()=>{
+    input_datos.forEach(input=>{
+        if(input.hasAttribute("disabled")){
+            input.removeAttribute("disabled")
+        }else{
+            input.setAttribute("disabled", true)
+        }
+    })
+    if(submit_datos.hasAttribute("hidden")){
+        submit_datos.removeAttribute("hidden")
+    }else{
+        submit_datos.setAttribute("hidden", true)
+    }
+})
 
 
 let bg = section_group.getAttribute("data-bg")

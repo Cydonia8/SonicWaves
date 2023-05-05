@@ -32,6 +32,28 @@
             updateMainPhoto($_SESSION["user"], $foto);
         }
     }
+
+    if(isset($_POST["actualizar-bio"])){
+        $bio = $_POST["bio"] != '' ? $_POST["bio"] : NULL;
+
+        if($bio != NULL){
+            $bio = strip_tags($bio);
+            updateBio($_SESSION["user"], $bio);
+        }
+    }elseif(isset($_POST["actualizar-datos"])){
+        $mail = $_POST["mail"];
+        $pass = $_POST["pass"] != '' ? $_POST["pass"] : $_POST["pass-original"];
+        $mail_repetido = emailRepeatedAtUpdate($mail, $_SESSION["user"]);
+        if($mail_repetido == 1){
+            updateGroupData($_SESSION["user"], $mail, $pass);
+            $_SESSION["user"] = $mail;
+            echo $mail;
+            echo $pass;
+            echo $_SESSION["user"];
+        }else{
+            echo "ta repetio pirataaa";
+        }
+    }
     
     closeSession($_POST);
 ?>

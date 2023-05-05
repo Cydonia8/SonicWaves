@@ -29,21 +29,20 @@
         if($consulta->num_rows > 0){
             $counter = 0;
             while($consulta->fetch()){
-                if($counter % 3 == 0){
-                    echo "<div class='row gap-3'>";
-                }
+                // if($counter % 3 == 0){
+                //     echo "<div class='row gap-3'>";
+                // }
                 $fecha = formatDate($lanzamiento);
-                echo "<div class='col-12 col-lg-3 d-flex justify-content-center gap-3'>
+                echo "<div class='album-container-group-main d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-center gap-3'>
                         <img class='w-50 rounded' src='$foto'>
                         <div class='w-50'>
                             <h4>$titulo</h4>
                             <h4>Lanzado el $fecha</h4>
-                        </div>
-                    </div>";
-                if($counter+1 % 3 == 0){
-                    echo "</div>";
-                }
-                $counter++;
+                        </div></div>";
+                // if($counter+1 % 3 == 0){
+                //     echo "</div>";
+                // }
+                // $counter++;
             }
         }else{
             echo "<h2 class='text-center'>No hay discos publicados por el momento</h2>";
@@ -54,9 +53,9 @@
 
     function getGroupInfo($mail){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT nombre, foto, foto_avatar, biografia from grupo where correo = ?");
+        $consulta = $con->prepare("SELECT nombre, foto, pass, correo, foto_avatar, biografia from grupo where correo = ?");
         $consulta->bind_param('s', $mail);
-        $consulta->bind_result($nombre, $foto, $foto_avatar, $bio);
+        $consulta->bind_result($nombre, $foto, $pass, $correo, $foto_avatar, $bio);
         $consulta->execute();
         $consulta->fetch();
         echo "<section class='banner-group-main mb-5 pb-3' data-bg='$foto'>
@@ -68,12 +67,44 @@
                     <button class='banner-group-main-photo-link'>Editar</button>
                 </div>
             </section>
-            <section class='d-flex flex-column align-items-center justify-content-center'>
+            <section class='d-flex flex-column align-items-center justify-content-center pt-4'>
                 <h1 class='text-center'>$nombre</h1>
-                <details>
-                    <summary class='text-center'>Biografía</summary>
-                    <p class='text-center'>$bio</p>
-                </details>
+                <section class='group-main-info container-xl d-flex flex-column flex-md-row align-items-center align-items-md-start gap-5 mt-5 mb-5'>
+                    <div class='w-50'>
+                        <form action='#' method='post'>
+                            <legend class='text-center'>Biografía</legend>
+                            <div class='d-flex justify-content-center mb-4'>
+                                <ion-icon id='edit-biografia-grupo' name=\"pencil-outline\"></ion-icon>
+                            </div>
+                            <textarea name='bio' class='w-100' rows='20' cols='60' disabled>$bio</textarea>
+                            <input type='submit' name='actualizar-bio' value='Actualizar' hidden>
+                        </form>
+                    </div>
+                    <div class='w-50'>
+                        <form class='form-edit-datos-grupo' action='#' method='post'>
+                            <legend class='text-center'>Datos de grupo</legend>
+                            <div class='d-flex justify-content-center mb-2'>
+                                <ion-icon id='edit-datos-grupo' name=\"pencil-outline\"></ion-icon>
+                            </div>
+                            <div class=\"input-field d-flex flex-column mb-3\">
+                                <div class=\"input-visuals d-flex justify-content-between\">
+                                    <label for=\"mail\">Correo electrónico</label>
+                                    <ion-icon name=\"mail-outline\"></ion-icon>
+                                </div>
+                                <input disabled value='$correo' name=\"mail\" type=\"email\">                        
+                            </div>
+                            <div class=\"input-field d-flex flex-column mb-3\">
+                                <div class=\"input-visuals d-flex justify-content-between\">
+                                    <label for=\"pass\">Contraseña</label>
+                                    <ion-icon name=\"person-outline\"></ion-icon>
+                                </div>
+                                <input disabled name=\"pass\" type=\"password\">
+                                <input class='pass-original' hidden value='$pass' name='pass-original'>                        
+                            </div>
+                            <input type='submit' class='actualizar-datos-submit' name='actualizar-datos' value='Actualizar' hidden>
+                        </form>
+                    </div>
+                </section>
             </section>
             <section class=\"update-avatar-photo d-none flex-column justify-content-center align-items-center\">
                 <ion-icon class='close-modal-update-avatar position-absolute' name=\"close-outline\"></ion-icon>
@@ -103,9 +134,11 @@
                     <input type=\"submit\" value=\"Actualizar foto principal\" name=\"actualizar-foto\">
                 </form>
             </section>
-            <section class='container-xl'>";
+            <section class='container-fluid'>
+                <h2 class='text-center mb-4'>Discos publicados</h2>
+                <section class='d-flex flex-column flex-xl-row container-fluid gap-5 flex-wrap'>";
                 getGroupAlbums($_SESSION["user"]);
-            echo "</section>";
+            echo "</section></section>";
         $consulta->close();
         $con->close();
     }
@@ -273,7 +306,7 @@
     
     function getAllGroupSongs($mail){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT c.id cancion_id, c.titulo titulo_cancion from grupo g, album a, cancion c, incluye i where a.grupo = g.id and i.cancion = c.id and i.album = a.id and g.correo = ?");
+        $consulta = $con->prepare("SELECT distinct c.id cancion_id, c.titulo titulo_cancion from grupo g, album a, cancion c, incluye i where a.grupo = g.id and i.cancion = c.id and i.album = a.id and g.correo = ?");
         $consulta->bind_param('s', $mail);
         $consulta->bind_result($id, $cancion);
         $consulta->execute();
@@ -378,5 +411,35 @@
         $consulta->close();
         $con->close();
         return $nombre;
+    }
+
+    function updateBio($mail, $bio){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo set biografia = ? where correo = ?");
+        $update->bind_param('ss', $bio, $mail);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+
+    function emailRepeatedAtUpdate($mail, $mail_act){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT count(*) from grupo where correo = ? or correo = ?");
+        $consulta->bind_param('ss', $mail, $mail_act);
+        $consulta->bind_result($count);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $count;
+    }
+
+    function updateGroupData($user, $mail, $pass){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE grupo set correo = ?, pass = ? where correo = ?");
+        $update->bind_param('sss', $mail, $pass, $user);
+        $update->execute();
+        $update->close();
+        $con->close();
     }
 ?>

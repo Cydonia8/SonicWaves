@@ -106,7 +106,7 @@ function printMainMenu($location = "noindex"){
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
                                     <ul class=\"dropdown-menu\">
-                                        <li><a class=\"dropdown-item\" href=\"grupo/grupo_main.php\">Perfil</a></li>
+                                        <li><a class=\"dropdown-item\" href=\"reproductor/reproductor.php\">Perfil</a></li>
                                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                                     </ul>
                                 </div>
@@ -166,7 +166,7 @@ function printMainMenu($location = "noindex"){
                     <nav>
                         <ul class=\"links-header\">
                             <li><a href=\"\">Nosotros</a></li>
-                            <li><a href=\reproductor/reproductor.php\">Reproductor</a></li>
+                            <li><a href=\"reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"\">Contacto</a></li>
                             <li><a href=\"login/login.php\">Iniciar sesión</a></li>
                         </ul>

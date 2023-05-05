@@ -4,7 +4,8 @@
 	header("Access-Control-Allow-Origin: *");
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
     sleep(1);
-    $sentencia = $conexion->query("select a.id id, titulo, a.foto foto, nombre autor from album a, grupo g where a.grupo = g.id");
+    $id = $_GET["id"];
+    $sentencia = $conexion->query("select titulo, a.foto foto, nombre autor from album a, grupo g where a.grupo = g.id and a.id = $id");
     $datos = [];
     
     while($fila = $sentencia->fetch_array(MYSQLI_ASSOC)){

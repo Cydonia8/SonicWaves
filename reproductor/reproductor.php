@@ -2,8 +2,11 @@
     session_start();
     require_once "../php_functions/general.php";
     // echo $_SESSION["user"];
-    // echo $_SESSION["user-type"];
-    forbidAccess("standard");
+    if(!isset($_SESSION["user-type"])){
+        header("location:../login/login.php");
+    }else{
+        forbidAccess("standard");
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,17 +23,28 @@
     <title>Sonic Waves | Reproductor Web</title>
 </head>
 <body id="reproductor">
-    <header class="p-3">
-        <a href="../index.php">
+    <header class="p-3 d-flex flex-column align-items-start">
+        <a class="w-75" href="../index.php">
             <img class="img-fluid" src="../media/assets/sonic-waves-logo-simple.png" alt="">
         </a>
+        <ul>
+            <li>
+                <a id="home-link" href="">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Inicio</span>
+                </a>
+            </li>
+        </ul>
     </header>
     <main id="main-content">
+        <header>
+            
+        </header>
         <span class="loader d-none"></span>
         <button>Ver albumes</button>
     </main>
     <footer class="d-flex justify-content-center align-items-center" id="player">
-        <audio src="../media/audio/genesis@genesis.com/selling england by the pound/snapsave.io - genesis - firth of fifth (official audio) (320 kbps).mp3" controls autoplay></audio>
+        <audio src="../media/audio/genesis@genesis.com/selling england by the pound/snapsave.io - genesis - firth of fifth (official audio) (320 kbps).mp3" controls></audio>
     </footer>
 </body>
 </html>
