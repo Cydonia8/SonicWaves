@@ -45,7 +45,7 @@
                 // $counter++;
             }
         }else{
-            echo "<h2 class='text-center'>No hay discos publicados por el momento</h2>";
+            echo "<h2 class='mt-5'>No hay discos publicados por el momento</h2>";
         }
         $consulta->close();
         $con->close();
@@ -136,7 +136,7 @@
             </section>
             <section class='container-fluid'>
                 <h2 class='text-center mb-4'>Discos publicados</h2>
-                <section class='d-flex flex-column flex-xl-row container-fluid gap-5 flex-wrap'>";
+                <section class='d-flex flex-column flex-xl-row container-fluid gap-5 flex-wrap justify-content-center'>";
                 getGroupAlbums($_SESSION["user"]);
             echo "</section></section>";
         $consulta->close();
