@@ -33,7 +33,7 @@
                 //     echo "<div class='row gap-3'>";
                 // }
                 $fecha = formatDate($lanzamiento);
-                echo "<div class='album-container-group-main d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-center gap-3'>
+                echo "<div class='border rounded p-2 album-container-group-main d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-center gap-3'>
                         <img class='w-50 rounded' src='$foto'>
                         <div class='w-50'>
                             <h4>$titulo</h4>
@@ -196,9 +196,8 @@
                     <ul class=\"dropdown-menu\">
                         <li><a class=\"dropdown-item\" href=\"grupo_main.php\">Portada</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_nuevo_album.php\">Subir nuevo álbum</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_usuarios.php\">Editar perfil</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Añadir encuesta</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_discografica.php\">Añadir publicación</a></li>
+                        <li><a class=\"dropdown-item\" href=\"grupo_anadir_publicacion.php\">Añadir publicación</a></li>
                         <li><a class=\"dropdown-item\" href=\"#\">Reseñas de mis álbumes</a></li>
                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
@@ -441,5 +440,81 @@
         $update->execute();
         $update->close();
         $con->close();
+    }
+
+    function addPost($mail, $titulo, $contenido, $foto, $fecha){
+        $con = createConnection();
+        $id = getGroupID($mail);
+        $insert = $con->prepare("INSERT into publicacion (titulo, contenido, foto, fecha, grupo) values (?,?,?,?,?)");
+        $insert->bind_param('ssssi', $titulo, $contenido, $foto, $fecha, $id);
+        $insert->execute();
+        $insert->close();
+        $con->close();
+    }
+
+    function checkPhotosArray($nombre, $index){
+        $correcto = false;
+        $formato = $_FILES[$nombre]["type"][$index];
+        $size = $_FILES[$nombre]["size"][$index];
+        $size_mb = $size / pow(1024, 2);
+
+        if($size_mb < 10 and ($formato == "image/jpeg" or $formato == "image/png" or $formato == "image/gif" or $formato == "image/webp")){
+            $correcto = true;
+        }
+        return $correcto;
+    }
+
+    function newPhotoPathPost($tipo, $num_foto, $id_post, $ruta_serv){
+        $nuevo_nombre;
+        // $quitar = ["/", ".", "*","'"];
+        // $album = strtolower(str_replace($quitar, "", $album));
+
+        switch($tipo){
+            case "image/jpeg":
+                $nuevo_nombre = "foto".$num_foto."post".$id_post.".jpg";
+                break;
+            case "image/png":
+                $nuevo_nombre = "foto".$num_foto."post".$id_post.".png";
+                break;
+            case "image/gif":
+                $nuevo_nombre = "foto".$num_foto."post".$id_post.".gif";
+                break;
+            case "image/webp":
+                $nuevo_nombre = "foto".$num_foto."post".$id_post.".webp";
+                break;
+        }
+        if(!file_exists("../media/img_posts/".$_SESSION["user"])){
+            mkdir("../media/img_posts/".$_SESSION["user"], 0777, true);
+        }
+        $nueva_ruta = "../media/img_posts/".$_SESSION["user"]."/".$nuevo_nombre;
+        move_uploaded_file($ruta_serv, $nueva_ruta);
+        return $nueva_ruta;
+    }
+
+    function newMainPhotoPathPost($id_post){
+        $nuevo_nombre;
+        // $quitar = ["/", ".", "*","'"];
+        // $album = strtolower(str_replace($quitar, "", $album));
+
+        switch($_FILES["foto"]["type"]){
+            case "image/jpeg":
+                $nuevo_nombre = "fotoPrincipalpost".$id_post.".jpg";
+                break;
+            case "image/png":
+                $nuevo_nombre = "fotoPrincipalpost".$id_post.".png";
+                break;
+            case "image/gif":
+                $nuevo_nombre = "fotoPrincipalpost".$id_post.".gif";
+                break;
+            case "image/webp":
+                $nuevo_nombre = "fotoPrincipalpost".$id_post.".webp";
+                break;
+        }
+        if(!file_exists("../media/img_posts/".$_SESSION["user"])){
+            mkdir("../media/img_posts/".$_SESSION["user"], 0777, true);
+        }
+        $nueva_ruta = "../media/img_posts/".$_SESSION["user"]."/".$nuevo_nombre;
+        move_uploaded_file($_FILES["foto"]["tmp_name"], $nueva_ruta);
+        return $nueva_ruta;
     }
 ?>

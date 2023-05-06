@@ -11,7 +11,7 @@ function menuDiscograficaDropdown(){
                 <ul class=\"dropdown-menu\">
                     <li><a class=\"dropdown-item\" href=\"discografica_main.php\">Resumen de discográfica</a></li>
                     <li><a class=\"dropdown-item\" href=\"discografica_grupos.php\">Grupos gestionados</a></li>
-                    <li><a class=\"dropdown-item\" href=\"discografica_añadir_grupo.php\">Añadir nuevo grupo</a></li>
+                    <li><a class=\"dropdown-item\" href=\"discografica_anadir_grupo.php\">Añadir nuevo grupo</a></li>
                     <li><a class=\"dropdown-item\" href=\"admin_albumes.php\">Álbumes</a></li>
                     <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                 </ul>
@@ -68,7 +68,7 @@ function getDiscographicGroups($id_disc){
                         <input hidden value=\"$id\" name=\"id\">
                         <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Editar datos de grupo\">
                     </form>
-                    <form method=\"post\" action=\"../discografica/discografica_añadir_album.php\">
+                    <form method=\"post\" action=\"../discografica/discografica_anadir_album.php\">
                         <input hidden value=\"$id\" name=\"id\">
                         <input class=\"btn btn-outline-info\" type=\"submit\" name=\"ver\" value=\"Añadir nuevo álbum\">
                     </form>
@@ -105,7 +105,7 @@ function getDiscographicGroupsFiltered($id_disc, $filter){
                             <input hidden value=\"$id\" name=\"id\">
                             <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Editar datos de grupo\">
                         </form>
-                        <form method=\"post\" action=\"../discografica/discografica_añadir_album.php\">
+                        <form method=\"post\" action=\"../discografica/discografica_anadir_album.php\">
                             <input hidden value=\"$id\" name=\"id\">
                             <input class=\"btn btn-outline-info\" type=\"submit\" name=\"ver\" value=\"Añadir nuevo álbum\">
                         </form>

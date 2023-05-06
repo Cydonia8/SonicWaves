@@ -595,11 +595,36 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #grupo-main .album-container-group-main{
     width: 30%;
+    filter: drop-shadow(0 0 0.75rem crimson);
+    transition: background-color .8s;
+}
+#grupo-main .album-container-group-main:hover{
+    background-color: #242323;
+    transition: background-color .7s;
 }
 @media screen and (max-width:1185px) {
     #grupo-main .album-container-group-main{
         width: 100%;
     }
+}
+#grupo-añadir-publi .modal-añadir-fotos-publi{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(2px);
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+#grupo-añadir-publi .modal-añadir-fotos-publi .modal-añadir-fotos-container{
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    border: 1px solid;
+    padding: 0.4rem 0.6rem;
 }
 #reproductor{
     background-color: #131312;
