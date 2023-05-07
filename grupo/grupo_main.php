@@ -54,6 +54,36 @@
             echo "ta repetio pirataaa";
         }
     }
+    if(isset($_POST["añadir-fotos"])){
+        if(is_array($_FILES["fotos"])){
+            $total = 0;       
+            $cont = 0;
+            $id_grupo = getGroupID($_SESSION["user"]);
+            foreach($_FILES["fotos"]["tmp_name"] as $key => $tmp_name){
+                // var_dump($foto_op);
+                $file_name = $_FILES['fotos']['name'][$key];
+                $file_size =$_FILES['fotos']['size'][$key];
+                $file_tmp =$_FILES['fotos']['tmp_name'][$key];
+                $file_type=$_FILES['fotos']['type'][$key];
+                if($file_name != ''){
+                    $correct = checkPhotosArray("fotos", $key);
+                    $total++;
+                    if($correct){
+                        $cont++;
+                        $check_limit = checkPhotoLimit($_SESSION["user"]);
+                        if($check_limit < 8){
+                            $ruta = newGroupPhotoPath($cont, $file_type, $file_tmp);
+                            addGroupExtraPhoto($ruta, $id_grupo);                    
+                        }else{
+                            $limite_alcanzado = true;
+                        }
+                        
+                    }
+                }
+                
+            }
+        }
+    }
     
     closeSession($_POST);
 ?>
@@ -74,7 +104,6 @@
 </head>
 <body id="grupo-main">
     <?php
-        menuGrupoDropdown();
         $completo = checkInformationCompleted($_SESSION["user"]);
         if(!$completo){
             echo "<section class=\"form-group-completition gap-5\">
@@ -94,8 +123,11 @@
                         <input class=\"btn-completar-info-inicial\" type=\"submit\" name=\"completar\" value=\"Continuar\">
                     </form>
                 </section>";
+        }else{
+            menuGrupoDropdown();
+            getGroupInfo($_SESSION["user"], $limite_alcanzado);
         }
-        getGroupInfo($_SESSION["user"]);
+        
     ?>
     <!-- <section class="update-avatar-photo">
         <ion-icon name="close-outline"></ion-icon>

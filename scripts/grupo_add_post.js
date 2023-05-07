@@ -24,3 +24,9 @@ close_modal.addEventListener("click", ()=>{
 function cerosFecha(fecha){
     return fecha < 10 ? `0${fecha}` : fecha
 }
+
+setTimeout(()=> {
+    $(".alert").fadeTo(500, 0).slideUp(500, ()=>{
+        $(this).remove(); 
+    });
+}, 3000);

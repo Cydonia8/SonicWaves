@@ -51,7 +51,7 @@
         $con->close();
     }
 
-    function getGroupInfo($mail){
+    function getGroupInfo($mail, $limite_alcanzado){
         $con = createConnection();
         $consulta = $con->prepare("SELECT nombre, foto, pass, correo, foto_avatar, biografia from grupo where correo = ?");
         $consulta->bind_param('s', $mail);
@@ -64,7 +64,8 @@
                         <img class='banner-group-main-avatar rounded-circle' src='$foto_avatar'>
                         <ion-icon class='icon-edit-avatar-group d-none' name=\"pencil-outline\"></ion-icon>
                     </a>
-                    <button class='banner-group-main-photo-link'>Editar</button>
+                    
+                    <button style='--clr:#c49c23' class='btn-danger-own banner-group-main-photo-link'><span>Editar</span><i></i></button>
                 </div>
             </section>
             <section class='d-flex flex-column align-items-center justify-content-center pt-4'>
@@ -105,6 +106,27 @@
                         </form>
                     </div>
                 </section>
+                <section class='container-xl mb-5'>
+                    <form action='#' method='post' enctype='multipart/form-data'>
+                        <legend class='text-center'>Añade hasta 8 fotos adicionales</legend>
+                        <div class='row place-content-center gap-2 form-extra-fotos-grupo'>
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
+                        </div>
+                        <button name='añadir-fotos' style='--clr:#c49c23' class='btn-danger-own d-block mx-auto mt-4'><span>Añadir fotos</span><i></i></button>
+                    </form>";
+                if(isset($limite_alcanzado)){
+                    echo "<div class=\"text-center mt-3 alert alert-warning\" role=\"alert\">
+                    Has alcanzado el límite de fotos permitido.
+                  </div>";
+                }
+                echo "</section>
             </section>
             <section class=\"update-avatar-photo d-none flex-column justify-content-center align-items-center\">
                 <ion-icon class='close-modal-update-avatar position-absolute' name=\"close-outline\"></ion-icon>
@@ -138,7 +160,8 @@
                 <h2 class='text-center mb-4'>Discos publicados</h2>
                 <section class='d-flex flex-column flex-xl-row container-fluid gap-5 flex-wrap justify-content-center'>";
                 getGroupAlbums($_SESSION["user"]);
-            echo "</section></section>";
+            echo "</section>
+                </section>";
         $consulta->close();
         $con->close();
     }
@@ -516,5 +539,58 @@
         $nueva_ruta = "../media/img_posts/".$_SESSION["user"]."/".$nuevo_nombre;
         move_uploaded_file($_FILES["foto"]["tmp_name"], $nueva_ruta);
         return $nueva_ruta;
+    }
+
+    function addPostPhotos($enlace, $publicacion){
+        $con = createConnection();
+        $insert = $con->prepare("INSERT INTO foto_publicacion (enlace, publicacion) values (?, ?)");
+        $insert->bind_param('si', $enlace, $publicacion);
+        $insert->execute();
+    }
+
+    function newGroupPhotoPath($num, $tipo, $tmp){
+        $nuevo_nombre;
+        switch($tipo){
+            case "image/jpeg":
+                $nuevo_nombre = $_SESSION["user"]."fotoextra".$num.".jpg";
+                break;
+            case "image/png":
+                $nuevo_nombre = $_SESSION["user"]."fotoextra".$num.".png";
+                break;
+            case "image/gif":
+                $nuevo_nombre = $_SESSION["user"]."fotoextra".$num.".gif";
+                break;
+            case "image/webp":
+                $nuevo_nombre = $_SESSION["user"]."fotoextra".$num.".webp";
+                break;
+        }
+        if(!file_exists("../media/img_grupos/".$_SESSION["user"])){
+            mkdir("../media/img_grupos/".$_SESSION["user"], 0777, true);
+        }
+        $nueva_ruta = "../media/img_grupos/".$_SESSION["user"]."/".$nuevo_nombre;
+        move_uploaded_file($tmp, $nueva_ruta);
+        return $nueva_ruta;
+    }
+
+    function addGroupExtraPhoto($foto, $id_grupo){
+        $con = createConnection();
+        $insert = $con->prepare("INSERT INTO foto_grupo (enlace, grupo) values (?,?)");
+        $insert->bind_param('si', $foto, $id_grupo);
+        $insert->execute();
+        $insert->close();
+        $con->close();
+    }
+
+    function checkPhotoLimit($user){
+        $con = createConnection();
+        $id = getGroupID($user);
+        $consulta = $con->prepare("SELECT count(*) from foto_grupo where grupo = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($count);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $count;
     }
 ?>

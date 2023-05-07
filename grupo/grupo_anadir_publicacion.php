@@ -9,40 +9,36 @@
       $contenido = strip_tags($_POST["contenido"]);
       $foto_correcta = checkPhoto("foto");
       $fecha = $_POST["fecha"];
-
+      $nuevo_id = getAutoID("publicacion");
+    
       if($foto_correcta){
-        $ruta_princ = newMainPhotoPathPost(2);
-      }
-
-      if(is_array($_FILES["fotos"])){
-        $total = count($_FILES["fotos"]);
-        
-        $cont = 1;
-        foreach($_FILES["fotos"]["tmp_name"] as $key => $tmp_name){
-            // var_dump($foto_op);
-            $file_name = $_FILES['fotos']['name'][$key];
-            $file_size =$_FILES['fotos']['size'][$key];
-            $file_tmp =$_FILES['fotos']['tmp_name'][$key];
-            $file_type=$_FILES['fotos']['type'][$key];
-            if($file_name != ''){
-                $correct = checkPhotosArray("fotos", $key);
-                var_dump($correct);
-                if($correct){
-                    $ruta = newPhotoPathPost($file_type, $cont, 2, $file_tmp);
-                    $cont++;
+        $ruta_princ = newMainPhotoPathPost($nuevo_id);
+        addPost($_SESSION["user"], $titulo, $contenido, $ruta_princ, $fecha);
+        if(is_array($_FILES["fotos"])){
+            $total = 0;       
+            $cont = 0;
+            foreach($_FILES["fotos"]["tmp_name"] as $key => $tmp_name){
+                // var_dump($foto_op);
+                $file_name = $_FILES['fotos']['name'][$key];
+                $file_size =$_FILES['fotos']['size'][$key];
+                $file_tmp =$_FILES['fotos']['tmp_name'][$key];
+                $file_type=$_FILES['fotos']['type'][$key];
+                if($file_name != ''){
+                    $correct = checkPhotosArray("fotos", $key);
+                    $total++;
+                    var_dump($correct);
+                    if($correct){
+                        $cont++;
+                        $ruta = newPhotoPathPost($file_type, $cont, $nuevo_id, $file_tmp);
+                        addPostPhotos($ruta, $nuevo_id);                    
+                    }
                 }
-                // echo "$file_name";
-                // echo "<br>$file_size<br>$file_tmp<br>$file_type<br>";
+                
             }
-            
-            // echo $_FILES["fotos"][$key][0];
-            // echo $_FILES["fotos"][]
-            // print_r($foto_op);
-            // echo $total;
-            // ++$cont;
-            // echo "he";
         }
       }
+
+      
     }
 ?>
 <!DOCTYPE html>
@@ -57,10 +53,14 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
     <script src="../scripts/grupo_add_post.js" defer></script>
+    <script src="../scripts/jquery-3.2.1.min.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <title>Document</title>
 </head>
 <body id="grupo-añadir-publi">
+    <?php
+        menuGrupoDropdown();
+    ?>
     <form action="#" method="post" enctype="multipart/form-data">
         <div class="input-field  mb-3 gap-2">
             <div class=" justify-content-between">
@@ -79,20 +79,20 @@
         </div>
         <div class="input-field d-flex flex-column mb-3 gap-2">
             <div class="d-flex justify-content-between"><label class="file">Foto principal de la publicación</label><ion-icon name="image-outline"></ion-icon></div>
-                <input type="file" class="custom-file-input" name="foto" required accept=".jpeg,.webp,.png,.gif">             
+                <input type="file" class="custom-file-input" name="foto" required accept=".jpeg,.webp,.png,.gif,.jpg">             
         </div>
         <button type="button" id="btn-add-photos">Añadir fotos extra (máximo ocho)</button>
         <div class="modal-añadir-fotos-publi d-none">
             <ion-icon class='close-modal-photos-post position-absolute' name="close-outline"></ion-icon>
             <div class="modal-añadir-fotos-container">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
             </div>
         </div>
         <div class="input-field  mb-3 gap-2">
@@ -104,5 +104,16 @@
         </div>
         <input type="submit" name="subir" value="Crear publicación">
     </form>
+    <?php
+        if(isset($foto_correcta)){
+            if(!$foto_correcta){
+                echo "<div class=\"text-center alert alert-danger\" role=\"alert\">Publicación no creada. Fallo con la foto principal.</div>";
+            }else{
+                echo "<div class=\"text-center alert alert-danger\" role=\"alert\">Publicación creada.</div>";
+                echo "<div class=\"text-center alert alert-info\" role=\"alert\">Subidas $cont de $total fotos extra.</div>";
+            }
+            
+        }
+    ?>
 </body>
 </html>

@@ -31,7 +31,7 @@
                         <li><a class=\"dropdown-item\" href=\"admin_albumes.php\">Álbumes</a></li>
                         <li><a class=\"dropdown-item\" href=\"#\">Reseñas</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Estilos</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Publicaciones</a></li>
+                        <li><a class=\"dropdown-item\" href=\"admin_publicaciones.php\">Publicaciones</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Encuestas</a></li>
                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
@@ -118,28 +118,28 @@
                     if($fila["aprob"] == 1){
                         echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                                <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                                <button style='--clr:#09eb3a' class='btn-danger-own' name='aprobar'><span>Aprobar</span><i></i></button>
                                 </form>
                                 <form method=\"post\" action=\"#\">
                                     <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                                    <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                    <button style='--clr:#e80c0c' class='btn-danger-own' name='denegar'><span>Denegar</span><i></i></button>
                                 </form></div>";
                     }else{
                         if($fila["grupo_activo"] == 0){
                             echo "<form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                            <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                            <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Activar</span><i></i></button>
                             </form>";
                         }elseif($fila["grupo_activo"] == 1){
                             echo "<form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                            <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                            <button style='--clr:#e80c0c' class='btn-danger-own' name='desactivar'><span>Desactivar</span><i></i></button>
                             </form>";
                         }else{
                             echo "<div class=\"alert alert-danger\" role=\"alert\">
                             Petición denegada<form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                            <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                            <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Pulsa para aprobar</span><i></i></button>
                             </form>
                           </div>";
                         }
@@ -182,24 +182,25 @@
                                 </form>
                                 <form method=\"post\" action=\"#\">
                                     <input hidden name=\"id\" value=\"$id_grupo\">
-                                    <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                    
+                                    <button style='--clr:#e80c0c' class='btn-danger-own' name='denegar'><span>Denegar</span><i></i></button>
                                 </form></div>";
                     }else{
                         if($grupo_activo == 0){
                             echo "<form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$id_grupo\">
-                            <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                            <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Activar</span><i></i></button>
                             </form>";
                         }elseif($grupo_activo == 1){
                             echo "<form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$id_grupo\">
-                            <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                            <button style='--clr:#e80c0c' class='btn-danger-own' name='desactivar'><span>Desactivar</span><i></i></button>
                             </form>";
                         }else{
                             echo "<div class=\"alert alert-danger\" role=\"alert\">
                             Petición denegada<form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$id_grupo\">
-                            <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                            <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Pulsa para aprobar</span><i></i></button>
                             </form>
                           </div>";
                         }
@@ -216,46 +217,46 @@
         
     }
 
-    function getAllGroupsNoDisc(){
-        $con = createConnection();
-        $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.correo correo_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, pendiente_aprobacion aprob from grupo g where g.discografica is null");
+    // function getAllGroupsNoDisc(){
+    //     $con = createConnection();
+    //     $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.correo correo_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, pendiente_aprobacion aprob from grupo g where g.discografica is null");
 
-        while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
-            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
-                <div class=\"w-50\">
-                    <img class=\"img-fluid rounded-circle\" src=\"$fila[avatar_grupo]\">
-                </div>
-                <div class=\"d-flex flex-column justify-content-between\">
-                    <p>ID: $fila[id_grupo]</p>
-                    <p>Nombre: $fila[nom_grupo]</p>
-                    <p>Correo: $fila[correo_grupo]</p>";
-                if($fila["aprob"] == 1){
-                    echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
-                            <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                            <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
-                            </form>
-                            <form method=\"post\" action=\"#\">
-                                <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                                <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
-                            </form></div>";
-                }else{
-                    if($fila["grupo_activo"] == 0){
-                        echo "<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
-                        </form>";
-                    }else{
-                        echo "<form method=\"post\" action=\"#\">
-                        <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
-                        </form>";
-                    }
-                }
+    //     while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
+    //         echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+    //             <div class=\"w-50\">
+    //                 <img class=\"img-fluid rounded-circle\" src=\"$fila[avatar_grupo]\">
+    //             </div>
+    //             <div class=\"d-flex flex-column justify-content-between\">
+    //                 <p>ID: $fila[id_grupo]</p>
+    //                 <p>Nombre: $fila[nom_grupo]</p>
+    //                 <p>Correo: $fila[correo_grupo]</p>";
+    //             if($fila["aprob"] == 1){
+    //                 echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
+    //                         <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+    //                         <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+    //                         </form>
+    //                         <form method=\"post\" action=\"#\">
+    //                             <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+    //                             <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+    //                         </form></div>";
+    //             }else{
+    //                 if($fila["grupo_activo"] == 0){
+    //                     echo "<form method=\"post\" action=\"#\">
+    //                     <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+    //                     <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+    //                     </form>";
+    //                 }else{
+    //                     echo "<form method=\"post\" action=\"#\">
+    //                     <input hidden name=\"id\" value=\"$fila[id_grupo]\">
+    //                     <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+    //                     </form>";
+    //                 }
+    //             }
                 
-                echo "</div>
-            </div>";
-        }
-    }
+    //             echo "</div>
+    //         </div>";
+    //     }
+    // }
     
 
     function groupsPerRecordLabel($id){
@@ -347,23 +348,24 @@
                             <form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id]\">
                                 <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                <button style='--clr:#e80c0c' class='btn-danger-own' name='denegar'><span>Denegar</span><i></i></button>
                             </form></div>";
                         }else{
                             if($fila["activo"] == 0){
                                 echo "<form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id]\">
-                                <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                                <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Activar</span><i></i></button>
                                 </form>";
                             }elseif($fila["activo"] == 1){
                                 echo "<form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id]\">
-                                <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                                <button style='--clr:#e80c0c' class='btn-danger-own' name='desactivar'><span>Desactivar</span><i></i></button>
                                 </form>";
                             }else{
                                 echo "<div class=\"alert alert-danger\" role=\"alert\">
                                 Petición denegada<form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id]\">
-                                <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                                <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Pulsa para aprobar</span><i></i></button>
                                 </form>
                               </div>";
                             }
@@ -402,23 +404,24 @@
                             <form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id\">
                                 <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
+                                <button style='--clr:#e80c0c' class='btn-danger-own' name='denegar'><span>Denegar</span><i></i></button>
                             </form></div>";
                         }else{
                             if($activo == 0){
                                 echo "<form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id\">
-                                <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                                <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Activar</span><i></i></button>
                                 </form>";
                             }elseif($activo == 1){
                                 echo "<form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id\">
-                                <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                                <button style='--clr:#e80c0c' class='btn-danger-own' name='desactivar'><span>Desactivar</span><i></i></button>
                                 </form>";
                             }else{
                                 echo "<div class=\"alert alert-danger\" role=\"alert\">
                                 Petición denegada<form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id\">
-                                <input type=\"submit\" name=\"activar\" value=\"Pulsa para aprobar\" class=\"btn btn-success\">
+                                <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Pulsa para aprobar</span><i></i></button>
                                 </form>
                               </div>";
                             }
@@ -450,17 +453,17 @@
                 if($fila["album_activo"] == 0){
                     echo "<form method=\"post\" action=\"#\">
                     <input hidden name=\"id\" value=\"$fila[id_album]\">
-                    <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                    <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Activar</span><i></i></button>
                     </form>";
                 }else{
                     echo "<form method=\"post\" action=\"#\">
                     <input hidden name=\"id\" value=\"$fila[id_album]\">
-                    <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                    <button style='--clr:#e80c0c' class='btn-danger-own' name='desactivar'><span>Desactivar</span><i></i></button>
                     </form>";
                 }
                 echo "<form method=\"post\" action=\"admin_listado_canciones.php\">
                         <input hidden name=\"id\" value=\"$fila[id_album]\">
-                        <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Ver canciones\">
+                        <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver'><span>Ver canciones</span><i></i></button>
                       </form>
                 </div>
                 </div>";
@@ -490,17 +493,17 @@
                     if($album_activo == 0){
                         echo "<form method=\"post\" action=\"#\">
                         <input hidden name=\"id\" value=\"$id_album\">
-                        <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
+                        <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Activar</span><i></i></button>
                         </form>";
                     }else{
                         echo "<form method=\"post\" action=\"#\">
                         <input hidden name=\"id\" value=\"$id_album\">
-                        <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
+                        <button style='--clr:#e80c0c' class='btn-danger-own' name='desactivar'><span>Desactivar</span><i></i></button>
                         </form>";
                     }
                     echo "<form method=\"post\" action=\"admin_listado_canciones.php\">
                             <input hidden name=\"id\" value=\"$id_album\">
-                            <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Ver canciones\">
+                            <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver'><span>Ver canciones</span><i></i></button>
                         </form>
                     </div>
                     </div>";
@@ -584,6 +587,84 @@
         $con->close();
     }
 
+    function getAllPosts(){
+        $con = createConnection();
+        $consulta = $con->query("SELECT p.id id, titulo, contenido, fecha, p.foto foto, g.nombre grupo from publicacion p, grupo g where p.grupo = g.id order by g.nombre asc");
+        while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
+            $fecha = formatDate($fila["fecha"]);
+            echo "<div class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
+                    <img src='$fila[foto]' class='w-50 rounded'>
+                    <div class='d-flex flex-column gap-2'>
+                        <p>Título: $fila[titulo]</p>
+                        <p>Fecha de publicación: $fecha</p>
+                        <p>Autor: $fila[grupo]</p>
+                        <div class='d-flex gap-2 flex-column flex-lg-row'>
+                            <form action='admin_publicacion_completa.php' method='get'>
+                                <input hidden value='$fila[id]' name='id'>
+                                <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver-mas'><span>Ver más</span><i></i></button>
+                            </form>
+                            <form action='#' method='post'>
+                                <input hidden value='$fila[id]' name='id'>
+                                <button style='--clr:#e80c0c' class='btn-danger-own' name='borrar'><span>Eliminar</span><i></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>";
+        }
+        $con->close();
+    }
+
+    function getAllPostsFiltered($filter){
+        $con = createConnection();
+        $filtro = $filter."%";
+        $consulta = $con->prepare("SELECT p.id id, titulo, contenido, fecha, p.foto foto, g.nombre grupo from publicacion p, grupo g where p.grupo = g.id and g.nombre like ?");
+        $consulta->bind_param('s', $filtro);
+        $consulta->bind_result($id, $titulo, $contenido, $fecha, $foto, $grupo);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows>0){
+            while($consulta->fetch()){
+                $fecha = formatDate($fecha);
+                echo "<div class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
+                        <img src='$foto' class='w-50 rounded'>
+                        <div class='d-flex flex-column'>
+                            <p>Título: $titulo</p>
+                            <p>Fecha de publicación: $fecha</p>
+                            <p>Autor: $grupo</p>
+                            <div class='d-flex gap-2 flex-column flex-lg-row'>
+                            <form action='admin_publicacion_completa.php' method='get'>
+                                <input hidden value='$id' name='id'>
+                                <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver-mas'><span>Ver más</span><i></i></button>
+                            </form>
+                            <form action='#' method='post'>
+                                <input hidden value='$id' name='id'>
+                                <button style='--clr:#e80c0c' class='btn-danger-own' name='borrar'><span>Eliminar</span><i></i></button>
+                            </form>
+                        </div>
+                        </div>
+                    </div>";
+            }
+        }else{
+            echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
+        }
+        
+        $consulta->close();
+        $con->close();
+    }
+
+    function deletePost($id){
+        $con = createConnection();
+        $delete1 = $con->prepare("DELETE FROM foto_publicacion where publicacion = ?");
+        $delete1->bind_param('i', $id);
+        $delete1->execute();
+        $delete1->close();
+        $delete2 = $con->prepare("DELETE FROM publicacion where id = ?");
+        $delete2->bind_param('i', $id);
+        $delete2->execute();
+        $delete2->close();
+        $con->close();
+    }
+
     function approveGroupCreation($id){
         $con = createConnection();
         $update = $con->prepare("UPDATE grupo set activo = 1, pendiente_aprobacion = 0 where id = ?");
@@ -620,10 +701,10 @@
         $con->close();
     }
 
-    function printFilterForm(){
-        echo "<h3 class=\"text-center mt-4\">Filtro alfabético</h3>
+    function printFilterForm($tipo_filtro = ""){
+        echo "<h3 class=\"text-center mt-4\">Filtro alfabético $tipo_filtro</h3>
         <form action=\"#\" method=\"post\">
-            <ul class=\"d-flex list-style-none justify-content-center gap-3 flex-wrap mb-3 pe-2 ps-2\">
+            <ul class=\"filter-alphabetic d-flex list-style-none justify-content-center gap-3 flex-wrap mb-3 pe-2 ps-2\">
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"a\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"d\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"b\"></li>
@@ -654,6 +735,71 @@
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"\"></li>
             </ul>
         </form>";
+    }
+
+    function getPostPhotos($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT f.id id, enlace from foto_publicacion f, publicacion p where f.publicacion = p.id and p.id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($id_f, $foto);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows > 0){
+
+            echo "<h3>Fotografías adicionales</h3><div class='row gap-2'><div class='row gap-2'>";
+            while($consulta->fetch()){
+                echo "<form class='col-5 col-xl-3 position-relative' action='#' method='post'>
+                        <img src='$foto' class='img-fluid rounded'>
+                        <input hidden value='$id_f' name='id-foto'>
+                        <button style='--clr:#e80c0c' name='eliminar' class='btn-eliminar-foto-publicacion position-absolute btn-danger-own'><span>Eliminar</span><i></i></button>
+                    </form>";
+            }
+            echo "</div></div>";
+        }
+        $consulta->close();
+        $con->close();
+    }
+
+    function deletePostPhoto($id){
+        $con = createConnection();
+        $delete = $con->prepare("DELETE FROM foto_publicacion where id = ?");
+        $delete->bind_param('i', $id);
+        $delete->execute();
+        $delete->close();
+        $con->close();
+    }
+
+    function getPost($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT titulo, contenido, p.foto foto, fecha, g.nombre grupo from publicacion p, grupo g where p.grupo = g.id and p.id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($titulo, $contenido, $foto, $fecha, $grupo);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows != 0){
+            $consulta->fetch();
+            $consulta->close();
+            $fecha = formatDate($fecha);
+                echo "<section class='container-fluid mt-4'>
+                            <div class='d-flex flex-column flex-xl-row gap-3'>
+                                <img src='$foto' class='img-fluid rounded object-fit-cover'>
+                                <div class='d-flex flex-column gap-3'>
+                                    <h1>$titulo</h1>
+                                    <p>$contenido</p>
+                                    <i>$fecha</i>
+                                    <strong>Publicado por: $grupo</strong>"; 
+                                getPostPhotos($id);  
+                                echo "</div>
+                            </div>
+                    </section>";
+            
+        }else{
+            echo "<div class=\"alert-post-missing-info text-center alert alert-warning position-absolute\" role=\"alert\">
+            No se ha encontrado ningun publicación.
+          </div>";
+        }
+        
+        $con->close();
     }
 
     
