@@ -358,6 +358,34 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     text-align: center;
     z-index: 100000;
 }
+#grupo-main .grid-fotos-group{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: .7rem;
+    place-items: center;
+}
+#grupo-main form.form-fotos-extra-group{
+    width: 50%;
+}
+#grupo-main .grid-fotos-group{
+    width: 50%;
+}
+@media screen and (max-width:991px) {
+    #grupo-main .grid-fotos-group{
+        grid-template-columns: 1fr;
+        grid-template-rows:max-content;
+        width: 100%;
+    }
+    #grupo-main form.form-fotos-extra-group{
+        width: 100%;
+    }
+}
+#grupo-main .grid-fotos-group form button{
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -30%);
+}
 #grupo-main .form-extra-fotos-grupo{
     place-content: center;
 }

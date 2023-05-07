@@ -50,31 +50,31 @@ function getDiscographicGroups($id_disc){
     $consulta->execute();
     while($consulta->fetch()){
         echo "<div data-name=\"$nombre\" class=\"disc-grupo-detalle border rounded d-flex justify-content-around p-3 gap-3 col-12 col-lg-3\">
-                <div>
+                <div class='w-50'>
                     <img class=\"img-fluid rounded-circle mb-2\" src=\"$foto_avatar\" alt=\"\">
                     <p class=\"text-center font-weight-bold\">$nombre</p>
                 </div>";
                 if($activo == 0 and $aprob == 1){
-                    echo "<div class=\"d-flex flex-column justify-content-center w-100\"><div class=\"alert alert-info\" role=\"alert\">
+                    echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-info\" role=\"alert\">
                     Pendiente de aprobación
                   </div></div>";
                 }elseif($activo == 0 and $aprob == 0){
-                    echo "<div class=\"d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
+                    echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
                     Grupo actualmente desactivado. Póngase en contacto con el administrador del sitio para más información.
                   </div></div>";     
                 }elseif($activo == 1){
-                    echo "<div class=\"d-flex flex-column justify-content-center gap-5\">
+                    echo "<div class=\"w-50 d-flex flex-column justify-content-center gap-5\">
                     <form method=\"post\" action=\"discografica_editar_grupo.php\">
                         <input hidden value=\"$id\" name=\"id\">
-                        <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Editar datos de grupo\">
+                        <button style='--clr:#3232e3' class='btn-danger-own btn' name='ver-mas'><span>Editar datos de grupo</span><i></i></button>
                     </form>
                     <form method=\"post\" action=\"../discografica/discografica_anadir_album.php\">
                         <input hidden value=\"$id\" name=\"id\">
-                        <input class=\"btn btn-outline-info\" type=\"submit\" name=\"ver\" value=\"Añadir nuevo álbum\">
+                        <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver'><span>Añadir nuevo álbum</span><i></i></button>
                     </form>
                 </div>";
                 }else{
-                    echo "<div class=\"d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
+                    echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
                     Creación de grupo denegada. Póngase en contacto con el administrador del sitio para más información.
                   </div></div>";
                 }
@@ -88,35 +88,50 @@ function getDiscographicGroups($id_disc){
 function getDiscographicGroupsFiltered($id_disc, $filter){
     $con = createConnection();
     $filtro = $filter."%";
-    $consulta = $con->prepare("SELECT id, nombre, activo, foto_avatar from grupo where discografica = ? and nombre like ? order by nombre asc");
+    $consulta = $con->prepare("SELECT id, nombre, activo, foto_avatar, pendiente_aprobacion aprob from grupo where discografica = ? and nombre like ? order by nombre asc");
     $consulta->bind_param('is', $id_disc, $filtro);
-    $consulta->bind_result($id, $nombre, $foto_avatar);
+    $consulta->bind_result($id, $nombre, $activo, $foto_avatar, $aprob);
     $consulta->execute();
     $consulta->store_result();
     if($consulta->num_rows > 0){
         while($consulta->fetch()){
             echo "<div data-name=\"$nombre\" class=\"disc-grupo-detalle border rounded d-flex justify-content-around p-3 gap-3 col-12 col-lg-3\">
-                    <div>
+                    <div class='w-50'>
                         <img class=\"img-fluid rounded-circle mb-2\" src=\"$foto_avatar\" alt=\"\">
                         <p class=\"text-center font-weight-bold\">$nombre</p>
-                    </div>
-                    <div class=\"d-flex flex-column justify-content-center gap-5\">
+                    </div>";
+                    if($activo == 0 and $aprob == 1){
+                        echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-info\" role=\"alert\">
+                        Pendiente de aprobación
+                      </div></div>";
+                    }elseif($activo == 0 and $aprob == 0){
+                        echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
+                        Grupo actualmente desactivado. Póngase en contacto con el administrador del sitio para más información.
+                      </div></div>";     
+                    }elseif($activo == 1){
+                        echo "<div class=\"w-50 d-flex flex-column justify-content-center gap-5\">
                         <form method=\"post\" action=\"discografica_editar_grupo.php\">
                             <input hidden value=\"$id\" name=\"id\">
-                            <input class=\"btn btn-outline-primary\" type=\"submit\" name=\"ver\" value=\"Editar datos de grupo\">
+                            <button style='--clr:#3232e3' class='btn-danger-own btn' name='ver-mas'><span>Editar datos de grupo</span><i></i></button>
                         </form>
                         <form method=\"post\" action=\"../discografica/discografica_anadir_album.php\">
                             <input hidden value=\"$id\" name=\"id\">
-                            <input class=\"btn btn-outline-info\" type=\"submit\" name=\"ver\" value=\"Añadir nuevo álbum\">
+                            <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver'><span>Añadir nuevo álbum</span><i></i></button>
                         </form>
-                    </div>
-                  </div>";
+                    </div>";
+                    }else{
+                        echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
+                        Creación de grupo denegada. Póngase en contacto con el administrador del sitio para más información.
+                      </div></div>";
+                    }
+                    
+                  echo "</div>";
         }
-        $consulta->close();
     }else{
-        echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
+        echo "<h2 class='text-center'>No hay coincidencias</h2>";
     }
     
+    $consulta->close();
     $con->close();
 }
 

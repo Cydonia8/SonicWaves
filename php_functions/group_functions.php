@@ -45,13 +45,13 @@
                 // $counter++;
             }
         }else{
-            echo "<h2 class='mt-5'>No hay discos publicados por el momento</h2>";
+            echo "<h2 class='mt-3 mb-5'>No hay discos publicados por el momento</h2>";
         }
         $consulta->close();
         $con->close();
     }
 
-    function getGroupInfo($mail, $limite_alcanzado){
+    function getGroupInfo($mail){
         $con = createConnection();
         $consulta = $con->prepare("SELECT nombre, foto, pass, correo, foto_avatar, biografia from grupo where correo = ?");
         $consulta->bind_param('s', $mail);
@@ -106,28 +106,6 @@
                         </form>
                     </div>
                 </section>
-                <section class='container-xl mb-5'>
-                    <form action='#' method='post' enctype='multipart/form-data'>
-                        <legend class='text-center'>Añade hasta 8 fotos adicionales</legend>
-                        <div class='row place-content-center gap-2 form-extra-fotos-grupo'>
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                            <input name='fotos[]' type=\"file\" class=\"col-4 p-0 custom-file-input\">
-                        </div>
-                        <button name='añadir-fotos' style='--clr:#c49c23' class='btn-danger-own d-block mx-auto mt-4'><span>Añadir fotos</span><i></i></button>
-                    </form>";
-                if(isset($limite_alcanzado)){
-                    echo "<div class=\"text-center mt-3 alert alert-warning\" role=\"alert\">
-                    Has alcanzado el límite de fotos permitido.
-                  </div>";
-                }
-                echo "</section>
-            </section>
             <section class=\"update-avatar-photo d-none flex-column justify-content-center align-items-center\">
                 <ion-icon class='close-modal-update-avatar position-absolute' name=\"close-outline\"></ion-icon>
                 <img class='rounded-circle w-25' src=\"$foto_avatar\" alt=\"\">
@@ -157,7 +135,7 @@
                 </form>
             </section>
             <section class='container-fluid'>
-                <h2 class='text-center mb-4'>Discos publicados</h2>
+                <h2 class='text-center text-decoration-underline mb-4'>Discos publicados</h2>
                 <section class='d-flex flex-column flex-xl-row container-fluid gap-5 flex-wrap justify-content-center'>";
                 getGroupAlbums($_SESSION["user"]);
             echo "</section>
@@ -592,5 +570,37 @@
         $consulta->close();
         $con->close();
         return $count;
+    }
+
+    function getGroupExtraPhotos($user){
+        $con = createConnection();
+        $id = getGroupID($user);
+        $consulta = $con->prepare("SELECT id, enlace from foto_grupo where grupo = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($id, $enlace);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows > 0){
+            while($consulta->fetch()){
+                echo "<form action='#' method='post' class='position-relative'>
+                        <img src='$enlace' class='img-fluid object-fit-cover'>
+                        <input hidden value='$id' name='id-foto'>
+                        <button style='--clr:#e80c0c' class='btn-danger-own position-absolute' name='eliminar-foto'><span>Eliminar</span><i></i></button>
+                     </form>";
+            }
+        }else{
+            echo "<div class=\"alert alert-warning mt-3\" role=\"alert\">Sin fotos extra</div>";
+        }
+        $consulta->close();
+        $con->close();
+    }
+
+    function deletePhoto($id){
+        $con = createConnection();
+        $delete = $con->prepare("DELETE FROM foto_grupo where id = ?");
+        $delete->bind_param('i', $id);
+        $delete->execute();
+        $delete->close();
+        $con->close();
     }
 ?>

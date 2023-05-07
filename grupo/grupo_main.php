@@ -84,6 +84,9 @@
             }
         }
     }
+    if(isset($_POST["eliminar-foto"])){
+        deletePhoto($_POST["id-foto"]);
+    }
     
     closeSession($_POST);
 ?>
@@ -125,16 +128,32 @@
                 </section>";
         }else{
             menuGrupoDropdown();
-            getGroupInfo($_SESSION["user"], $limite_alcanzado);
+            getGroupInfo($_SESSION["user"]);
+            echo "<h2 class='text-center text-decoration-underline mb-2 mt-5'>Fotos de grupo</h2>";
+            echo "<section class='container-fluid d-flex flex-column flex-lg-row mb-5 align-items-center'>
+            <form class='form-fotos-extra-group' action='#' method='post' enctype='multipart/form-data'>
+                <legend class='text-center'>Añade hasta 8 fotos adicionales</legend>
+                <div class='row place-content-center gap-2 form-extra-fotos-grupo'>
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                    <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\">
+                </div>
+                <button name='añadir-fotos' style='--clr:#c49c23' class='btn-danger-own d-block mx-auto mt-4 mb-3'><span>Añadir fotos</span><i></i></button>
+            </form>
+            <div class='grid-fotos-group'>";
+                getGroupExtraPhotos($_SESSION["user"]);
+            echo "</div>";
+            if(isset($limite_alcanzado)){
+                echo "<div class=\"text-center mt-3 alert alert-warning\" role=\"alert\"> Has alcanzado el límite de fotos permitido.</div>";
+            }
+            echo "</section>";
         }
         
     ?>
-    <!-- <section class="update-avatar-photo">
-        <ion-icon name="close-outline"></ion-icon>
-        <form action="#" method="post" enctype="multipart/form-data">
-            <img src="" alt="">
-            <input type="submit" value="Actualizar foto de avatar" name="actualizar-avatar">
-        </form>
-    </section> -->
 </body>
 </html>
