@@ -66,11 +66,11 @@ function getDiscographicGroups($id_disc){
                     echo "<div class=\"w-50 d-flex flex-column justify-content-center gap-5\">
                     <form method=\"post\" action=\"discografica_editar_grupo.php\">
                         <input hidden value=\"$id\" name=\"id\">
-                        <button style='--clr:#3232e3' class='btn-danger-own btn' name='ver-mas'><span>Editar datos de grupo</span><i></i></button>
+                        <button style='--clr:#3232e3' class='btn-danger-own btn' name='editar-group'><span>Editar datos de grupo</span><i></i></button>
                     </form>
                     <form method=\"post\" action=\"../discografica/discografica_anadir_album.php\">
                         <input hidden value=\"$id\" name=\"id\">
-                        <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver'><span>Añadir nuevo álbum</span><i></i></button>
+                        <button style='--clr:#0ce8e8' class='btn-danger-own' name='anadir'><span>Añadir nuevo álbum</span><i></i></button>
                     </form>
                 </div>";
                 }else{
@@ -112,11 +112,11 @@ function getDiscographicGroupsFiltered($id_disc, $filter){
                         echo "<div class=\"w-50 d-flex flex-column justify-content-center gap-5\">
                         <form method=\"post\" action=\"discografica_editar_grupo.php\">
                             <input hidden value=\"$id\" name=\"id\">
-                            <button style='--clr:#3232e3' class='btn-danger-own btn' name='ver-mas'><span>Editar datos de grupo</span><i></i></button>
+                            <button style='--clr:#3232e3' class='btn-danger-own btn' name='editar-group'><span>Editar datos de grupo</span><i></i></button>
                         </form>
                         <form method=\"post\" action=\"../discografica/discografica_anadir_album.php\">
                             <input hidden value=\"$id\" name=\"id\">
-                            <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver'><span>Añadir nuevo álbum</span><i></i></button>
+                            <button style='--clr:#0ce8e8' class='btn-danger-own' name='anadir'><span>Añadir nuevo álbum</span><i></i></button>
                         </form>
                     </div>";
                     }else{

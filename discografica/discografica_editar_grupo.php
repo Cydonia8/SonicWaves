@@ -6,7 +6,8 @@
     require_once "../php_functions/group_functions.php";
     forbidAccess("disc");
     closeSession($_POST);
-    if(isset($_POST["ver"])){
+
+    if(isset($_POST["editar-group"])){
         $_SESSION["id"] = $_POST["id"];
     }
     

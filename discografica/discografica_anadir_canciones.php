@@ -6,7 +6,6 @@
     forbidAccess("disc");
     closeSession($_POST);
     $id_grupo = $_SESSION["id"];
-    echo $id_grupo;
     if(isset($_POST["cargar"])){
         
         $nombre_grupo = getGroupName($id_grupo);
@@ -21,28 +20,10 @@
                 addSong($titulo, $ruta, $minutos, $estilo);
                 $id_cancion = getLastSongID();
                 linkSongToAlbum($_SESSION["id_album"], $id_cancion);
-            }else{
+            }elseif($_SESSION["recopilatorio"]=="si"){
                 linkSongToAlbum($_SESSION["id_album"], $_POST["cancion".$i]);
             }
-            // echo $_FILES["archivo".$i]["name"];
-            // echo "<br>";
-            // echo $_POST["titulo".$i];
-            // $titulo = $_POST["titulo".$i];
-            // echo "<br>";
-            // echo $_SESSION["id_album"];
-            // echo "<br>";
-            // $minutos = getDuration($_FILES["archivo".$i]["tmp_name"]);
-            // echo $minutos;
-            // echo "<br>";
-            // echo $_POST["estilo".$i];
-            // $estilo = $_POST["estilo".$i];
-            // echo "<br>";
-            // $ruta = moveUploadedSong("archivo".$i, $_SESSION["user"], $_SESSION["titulo_album"]);
-            // echo $ruta;
-            // addSong($titulo, $ruta, $minutos, $estilo);
-            // $id_cancion = getLastSongID();
-            // echo $id_cancion;
-            // linkSongToAlbum($_SESSION["id_album"], $id_cancion);
+            unsetSessionVariable(array('titulo_album', 'lanzamiento', 'num_canciones', 'recopilatorio', 'foto_album'));
         }
     }
 ?>

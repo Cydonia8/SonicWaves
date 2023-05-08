@@ -85,14 +85,14 @@
         <div class="modal-añadir-fotos-publi d-none">
             <ion-icon class='close-modal-photos-post position-absolute' name="close-outline"></ion-icon>
             <div class="modal-añadir-fotos-container">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg" multiple>
+                <!-- <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
                 <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
                 <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
                 <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
                 <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
                 <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
+                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg"> -->
             </div>
         </div>
         <div class="input-field  mb-3 gap-2">

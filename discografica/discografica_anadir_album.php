@@ -6,6 +6,12 @@
     forbidAccess("disc");
     closeSession($_POST);
 
+    if(isset($_POST["anadir"])){
+        $id = $_POST["id"];
+        $total = checkEnoughSongs($id);
+    }else{
+        header("location:discografica_grupos.php");
+    }
     $nuevo_id = getAutoID("album");
     $_SESSION["id_album"] = $nuevo_id;
     
@@ -28,8 +34,8 @@
         }
         
     }
-    $id = $_POST["id"];
-    $total = checkEnoughSongs($id);
+    
+    
     
 ?>
 <!DOCTYPE html>
