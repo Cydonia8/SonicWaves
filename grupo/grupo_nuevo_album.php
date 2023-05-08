@@ -8,12 +8,13 @@
     $nuevo_id = getAutoID("album");
     $_SESSION["id_album"] = $nuevo_id;
     $id_grupo = getGroupID($_SESSION["user"]);
+    $total = checkEnoughSongsGroup($id_grupo);
 
     if(isset($_POST["crear"])){
         $_SESSION["titulo_album"] = $_POST["nombre"];
         $_SESSION["lanzamiento"] = $_POST["fecha"];
         $_SESSION["num_canciones"] = $_POST["num-canciones"];
-        $_SESSION["recopilatorio"] = $_POST["recopilatorio"];
+        $_SESSION["recopilatorio"] = isset($_POST["recopilatorio"]) ? $_POST["recopilatorio"] : NULL;
         $foto_correcta = checkPhoto("foto");
 
         if($foto_correcta){
@@ -42,7 +43,7 @@
 </head>
 <body id="grupo-nuevo-album">
     <?php
-        menuGrupoDropdown();
+        menuGrupoDropdown("position-static");
     ?>
     <form action="#" method="post" enctype="multipart/form-data">
         <input type="text" placeholder="Nombre del album" name="nombre" required>
@@ -53,13 +54,18 @@
         <br>
         <label for="">Numero de canciones</label><input type="number" required value="1" name="num-canciones" min="1" id="">
         <br>
-        <fieldset>
-            <legend>¿Es un álbum recopilatorio?</legend>
-            <input type="radio" id="si" name="recopilatorio" value="si" required>
-            <label for="si">Sí</label>
-            <input type="radio" id="no" name="recopilatorio" value="no" required>
-            <label for="si">No</label>
-        </fieldset>
+        <?php
+            if($total >= 10){
+                echo "<fieldset>
+                        <legend>¿Es un álbum recopilatorio?</legend>
+                        <input type=\"radio\" id=\"si\" name=\"recopilatorio\" value=\"si\" required>
+                        <label for=\"si\">Sí</label>
+                        <input type=\"radio\" id=\"no\" name=\"recopilatorio\" value=\"no\" required>
+                        <label for=\"si\">No</label>
+                    </fieldset>";
+            }
+        ?>
+        
         <input type="submit" value="Pasar a añadir canciones" name="crear">
     </form>
 </body>

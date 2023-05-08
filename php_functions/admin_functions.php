@@ -651,18 +651,44 @@
         $consulta->close();
         $con->close();
     }
+    function getPostMainPhotoLink($id, $con){
+        $consulta = $con->prepare("SELECT foto from publicacion where id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($foto);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        return $foto;
+    }
+
+    function deletePostExtraPhotosLinks($id, $con){
+        $consulta = $con->prepare("SELECT enlace from foto_publicacion where publicacion = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($enlace);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows > 0){
+            while($consulta->fetch()){
+                unlink($enlace);
+            }
+        }
+        $consulta->close();
+    }
 
     function deletePost($id){
         $con = createConnection();
+        deletePostExtraPhotosLinks($id, $con);
         $delete1 = $con->prepare("DELETE FROM foto_publicacion where publicacion = ?");
         $delete1->bind_param('i', $id);
         $delete1->execute();
         $delete1->close();
+        $foto = getPostMainPhotoLink($id, $con);
         $delete2 = $con->prepare("DELETE FROM publicacion where id = ?");
         $delete2->bind_param('i', $id);
         $delete2->execute();
         $delete2->close();
         $con->close();
+        unlink($foto);
     }
 
     function approveGroupCreation($id){
@@ -732,7 +758,7 @@
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"x\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"y\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"z\"></li>
-                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"\"></li>
+                <li class='position-relative'><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"\"><ion-icon class=\"position-absolute top-50 start-50 translate-middle\" name=\"refresh-outline\"></ion-icon></li>
             </ul>
         </form>";
     }
@@ -749,7 +775,7 @@
             echo "<h3>Fotografías adicionales</h3><div class='row gap-2'><div class='row gap-2'>";
             while($consulta->fetch()){
                 echo "<form class='col-5 col-xl-3 position-relative' action='#' method='post'>
-                        <img src='$foto' class='img-fluid rounded'>
+                        <img src='$foto' class='img-fluid rounded object-fit-cover post-admin-extra-photos'>
                         <input hidden value='$id_f' name='id-foto'>
                         <button style='--clr:#e80c0c' name='eliminar' class='btn-eliminar-foto-publicacion position-absolute btn-danger-own'><span>Eliminar</span><i></i></button>
                     </form>";
@@ -759,14 +785,28 @@
         $consulta->close();
         $con->close();
     }
+    
+    function getPostPhotoLink($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT enlace from foto_publicacion where id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($enlace);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $enlace;
+    }
 
     function deletePostPhoto($id){
+        $enlace = getPostPhotoLink($id);
         $con = createConnection();
         $delete = $con->prepare("DELETE FROM foto_publicacion where id = ?");
         $delete->bind_param('i', $id);
         $delete->execute();
         $delete->close();
         $con->close();
+        unlink($enlace);
     }
 
     function getPost($id){
@@ -782,7 +822,7 @@
             $fecha = formatDate($fecha);
                 echo "<section class='container-fluid mt-4'>
                             <div class='d-flex flex-column flex-xl-row gap-3'>
-                                <img src='$foto' class='img-fluid rounded object-fit-cover'>
+                                <img src='$foto' class='img-fluid rounded object-fit-cover ratio ratio-1x1'>
                                 <div class='d-flex flex-column gap-3'>
                                     <h1>$titulo</h1>
                                     <p>$contenido</p>

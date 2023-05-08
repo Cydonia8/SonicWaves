@@ -66,16 +66,21 @@
     <section class="container-añadir-canciones">
     <?php
         if(isset($_SESSION["foto_album"])){
-            if($_SESSION["recopilatorio"] == "no"){
+            if($_SESSION["recopilatorio"] == NULL){
                 echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
                 generateInputs($_SESSION["num_canciones"]);
             }else{
-                echo "<form action=\"#\" method=\"post\">";
-                generateSelects($_SESSION["num_canciones"]);
-                echo "</form>";
+                if($_SESSION["recopilatorio"] == "no"){
+                    echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
+                    generateInputs($_SESSION["num_canciones"]);
+                }else{
+                        echo "<form action=\"#\" method=\"post\">";
+                        generateSelects($_SESSION["num_canciones"]);
+                        echo "</form>";                   
+                }
             }
         }else{
-            
+            echo "<h2>Faltan datos</h2>";
         }
     ?>
     </section>

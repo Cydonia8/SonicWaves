@@ -186,8 +186,8 @@
         $con->close();
     }
 
-    function menuGrupoDropdown(){
-        echo "<header class=\"dropdown-header d-flex justify-content-between align-items-center pt-3 pe-5 pb-2 ps-5 position-absolute w-100\">
+    function menuGrupoDropdown($position = "position-absolute"){
+        echo "<header class=\"dropdown-header d-flex justify-content-between align-items-center pt-3 pe-5 pb-2 ps-5 $position w-100\">
                 <a class=\"dropdown-link-responsive\" href=\"../index.php\"><img src=\"../media/assets/sonic-waves-logo-simple.png\"></a>
                 <a href=\"../index.php\"><img class=\"w-25\" src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\"></a>
                 <div class=\"dropdown\">
@@ -197,7 +197,7 @@
                     <ul class=\"dropdown-menu\">
                         <li><a class=\"dropdown-item\" href=\"grupo_main.php\">Portada</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_nuevo_album.php\">Subir nuevo álbum</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Añadir encuesta</a></li>
+                        <li><a class=\"dropdown-item\" href=\"grupo_anadir_encuesta.php\">Añadir encuesta</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_anadir_publicacion.php\">Añadir publicación</a></li>
                         <li><a class=\"dropdown-item\" href=\"#\">Reseñas de mis álbumes</a></li>
                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
@@ -595,12 +595,34 @@
         $con->close();
     }
 
+    function getPhotoLink($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT enlace from foto_grupo where id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($enlace);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $enlace;
+    }
+
     function deletePhoto($id){
+        $enlace = getPhotoLink($id);
         $con = createConnection();
         $delete = $con->prepare("DELETE FROM foto_grupo where id = ?");
         $delete->bind_param('i', $id);
         $delete->execute();
         $delete->close();
         $con->close();
+        unlink($enlace);
+    }
+
+    function checkEnoughSongsGroup($id_grupo){
+        $con = createConnection();
+        $consulta = $con->query("SELECT distinct c.id from album a, incluye i, grupo g, cancion c where a.grupo = g.id and i.album = a.id and c.id = i.cancion and g.id = $id_grupo");
+        $total = $consulta->num_rows;
+        $con->close();
+        return $total;
     }
 ?>

@@ -59,7 +59,7 @@
 </head>
 <body id="grupo-añadir-publi">
     <?php
-        menuGrupoDropdown();
+        menuGrupoDropdown("position-static");
     ?>
     <form action="#" method="post" enctype="multipart/form-data">
         <div class="input-field  mb-3 gap-2">

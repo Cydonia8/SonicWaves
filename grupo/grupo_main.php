@@ -72,7 +72,8 @@
                         $cont++;
                         $check_limit = checkPhotoLimit($_SESSION["user"]);
                         if($check_limit < 8){
-                            $ruta = newGroupPhotoPath($cont, $file_type, $file_tmp);
+                            $id_foto = getAutoID("foto_grupo");
+                            $ruta = newGroupPhotoPath($id_foto, $file_type, $file_tmp);
                             addGroupExtraPhoto($ruta, $id_grupo);                    
                         }else{
                             $limite_alcanzado = true;
@@ -85,7 +86,7 @@
         }
     }
     if(isset($_POST["eliminar-foto"])){
-        deletePhoto($_POST["id-foto"]);
+        deletePhoto($_POST["id-foto"], "foto_grupo");
     }
     
     closeSession($_POST);
@@ -148,10 +149,10 @@
             <div class='grid-fotos-group'>";
                 getGroupExtraPhotos($_SESSION["user"]);
             echo "</div>";
+            echo "</section>";
             if(isset($limite_alcanzado)){
                 echo "<div class=\"text-center mt-3 alert alert-warning\" role=\"alert\"> Has alcanzado el límite de fotos permitido.</div>";
             }
-            echo "</section>";
         }
         
     ?>

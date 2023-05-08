@@ -220,4 +220,12 @@ function editGroup($id, $bio, $foto, $foto_avatar){
     $con->close();
 }
 
+function checkEnoughSongs($id_grupo){
+    $con = createConnection();
+    $consulta = $con->query("SELECT distinct c.id from album a, incluye i, grupo g, cancion c where a.grupo = g.id and i.album = a.id and c.id = i.cancion and g.id = $id_grupo");
+    $total = $consulta->num_rows;
+    $con->close();
+    return $total;
+}
+
 ?>
