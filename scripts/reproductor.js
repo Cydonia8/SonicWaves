@@ -3,9 +3,14 @@ const button = document.querySelector("button")
 const main = document.getElementById("main-content")
 const loader = document.querySelector(".loader")
 const link_inicio = document.getElementById("home-link")
+
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
 const dot = document.querySelector(".master-play .time-bar .dot")
+const volume_input = document.getElementById("volume-slider")
+const volume_bar = document.querySelector(".vol-bar")
+const volume_dot = document.querySelector(".vol-dot")
+
 const current_time = document.getElementById("current-time")
 const end_time = document.getElementById("end-time")
 const play_pause = document.getElementById("play-pause")
@@ -59,23 +64,52 @@ async function getAlbums(){
     })
     loader.classList.add("d-none")
 }
+//Actualizar tiempo actual de la canción
 audio.addEventListener("timeupdate", ()=>{
     let current_minutos = Math.floor(audio.currentTime/60)
     let current_segundos = Math.floor(audio.currentTime - current_minutos * 60)
+
+    let width = parseFloat((audio.currentTime / audio.duration) * 100)
+    seek.value = width
+    console.log(seek.value)
+    let seekb = seek.value
+    // console.log(width)
+    bar2.style.width=`${seekb}%`
+    dot.style.left=`${seekb}%`
     if(current_segundos < 10){
         current_segundos = `0${current_segundos}`
     }
     current_time.innerText=`${current_minutos}:${current_segundos}`
 })
+//Actualizar duración total de la canción
 audio.addEventListener("loadedmetadata", ()=>{
-    // timeline.max=audio.duration
+    seek.max=audio.duration
     let duracion_min = Math.floor(audio.duration/60)
     let duracion_segundos = Math.floor(audio.duration - duracion_min * 60);
     if(duracion_segundos < 10){
         duracion_segundos = `0${duracion_segundos}`
-    }
-   
+    }   
     end_time.innerText=`${duracion_min}:${duracion_segundos}`
+})
+
+
+seek.addEventListener("input", ()=>{
+    audio.currentTime=seek.value
+})
+
+audio.addEventListener("ended", ()=>{
+    bar2.style.width='0%'
+    dot.style.left='0'
+    current_time.innerText='0:00'
+    end_time.innerText='0:00'
+})
+
+volume_input.addEventListener("input", ()=>{
+    let valor = volume_input.value
+    audio.volume=valor
+    let width = valor*100
+    volume_bar.style.width=`${width}%`
+    volume_dot.style.left=`${width}%`
 })
 
 async function createDOMAlbums(dom, album, element){

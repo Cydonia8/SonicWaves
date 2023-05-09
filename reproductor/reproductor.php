@@ -67,11 +67,11 @@
         <span class="loader d-none"></span>
         <button>Ver albumes</button>
     </main>
-    <footer class="master-play d-flex justify-content-center align-items-center" id="player">
+    <footer class="master-play d-flex justify-content-around align-items-center" id="player">
         <div class="bar-control-icons d-flex gap-3 me-3">
-            <ion-icon name="play-skip-forward-outline"></ion-icon>
-            <ion-icon id="play-pause" name="play-outline"></ion-icon>
-            <ion-icon name="play-skip-forward-outline"></ion-icon>
+            <ion-icon class="control-icons" name="play-skip-forward-outline"></ion-icon>
+            <ion-icon class="control-icons" id="play-pause" name="play-outline"></ion-icon>
+            <ion-icon class="control-icons" name="play-skip-forward-outline"></ion-icon>
         </div>
         <span class="me-2" id="current-time">0:00</span>
         <div class="time-bar position-relative">
@@ -80,6 +80,11 @@
             <div class="dot"></div>
         </div>
         <span id="end-time">0:00</span>
+        <div class="volume-control position-relative">
+            <input type="range" id="volume-slider" min="0" max="1" step="0.05">
+            <div class="vol-bar position-absolute"></div>
+            <div class="vol-dot position-absolute"></div>
+        </div>
     </footer>
 </body>
 </html>

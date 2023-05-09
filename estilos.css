@@ -750,7 +750,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #reproductor .master-play .time-bar{
     width: 45%;
-    height: 2px;
+    height: 4px;
     background: rgb(105, 105, 170, .1);
     margin: 0px 15px 0px 10px;
 }
@@ -763,19 +763,24 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #reproductor .master-play .time-bar .bar2{
     position: absolute;
-    width: 50%;
+    width: 0%;
     height: 100%;
     top: 0px;
     background: #07bfec;
+    transition: width 1s ease-in-out;
+}
+#reproductor .master-play .control-icons{
+    font-size: 1.3rem
 }
 #reproductor .master-play .time-bar .dot{
     position: absolute;
     width: 5px;
     height: 5px;
     top: -1.5px;
-    left: 0;
+    left: -1px;
     background: #05bfee;
     border-radius: 50%;
+    transition: all 1s ease-in-out;
 }
 #reproductor .master-play .time-bar .dot::before{
     position: absolute;
@@ -783,10 +788,57 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    left: -5.5px;
-    top: -5.5px;
+    left: -4.5px;
+    top: -5px;
     border: 1px solid #0dbeeb;
     box-shadow: inset 0px 0px 3px #08c4f3;
+    transition: width 1s ease-in-out;
+}
+#reproductor .master-play .volume-control{
+    width: 7%;
+    height: 4px;
+    background: rgb(105, 105, 170, .1);
+    margin: 0px 15px 0px 10px;
+}
+#reproductor .master-play .volume-control input{
+    width: 100%;
+    position: absolute;
+    top: -7px;
+    cursor: pointer;
+    z-index: 999999999999;
+    left: 9;
+    opacity: 0;
+}
+#reproductor .master-play .vol-bar{
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    background: #07bfec;
+    transition: width 1s ease-in-out;
+}
+#reproductor .master-play .vol-dot{
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: -1.5px;
+    left: 2px;
+    background: #05bfee;
+    border-radius: 50%;
+    transition: all 1s ease-in-out;
+    z-index: 10000;
+}
+#reproductor .master-play .vol-dot::before{
+    position: absolute;
+    content: '';
+    width: 15px;
+    display: block;
+    height: 15px;
+    border-radius: 50%;
+    left: -4.5px;
+    top: -4.5px;
+    border: 1px solid #0dbeeb;
+    box-shadow: inset 0px 0px 3px #08c4f3;
+    transition: width 1s ease-in-out;
 }
 .loader::before,.loader::after{
     animation: loader 1s linear infinite;
