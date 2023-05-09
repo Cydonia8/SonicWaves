@@ -2,7 +2,7 @@
     session_start();
     require_once "../php_functions/login_register_functions.php";
     require_once "../square_image_creator/create_square_image.php";
-    if(isset($_SESSION["user"])){
+    if(isset($_SESSION["user"]) and isset($_SESSION["user-type"])){
         header("Location:../index.php");
     }
     if(isset($_POST["acceder-user"])){

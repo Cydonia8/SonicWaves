@@ -2,19 +2,38 @@
 const button = document.querySelector("button")
 const main = document.getElementById("main-content")
 const loader = document.querySelector(".loader")
-const audio = document.querySelector("audio")
 const link_inicio = document.getElementById("home-link")
-
+const seek = document.getElementById("seek")
+const bar2 = document.getElementById("bar2")
+const dot = document.querySelector(".master-play .time-bar .dot")
+const current_time = document.getElementById("current-time")
+const end_time = document.getElementById("end-time")
+const play_pause = document.getElementById("play-pause")
+const audio = new Audio()
+console.log(dot)
 let albums = []
 
 getAlbums()
-
+document.addEventListener("DOMContentLoaded", async ()=>{
+    const respuesta = await fetch('../api_audio/canciones.php')
+    const datos = await respuesta.json()
+    let cancion = datos['datos']
+    audio.src=cancion[0].archivo
+})
 // button.addEventListener("click", async ()=>{
     
 //     await createDOMAlbums(main, albums, createAlbumPreview)
 //     loader.classList.add("d-none")
 // })
-
+play_pause.addEventListener("click", ()=>{
+    if(audio.paused){
+        audio.play()
+        play_pause.setAttribute("name", "pause-outline")
+    }else{
+        audio.pause()
+        play_pause.setAttribute("name", "play-outline")
+    }
+})
 link_inicio.addEventListener("click", initializePlayer)
 
 async function initializePlayer(evt){
@@ -40,6 +59,24 @@ async function getAlbums(){
     })
     loader.classList.add("d-none")
 }
+audio.addEventListener("timeupdate", ()=>{
+    let current_minutos = Math.floor(audio.currentTime/60)
+    let current_segundos = Math.floor(audio.currentTime - current_minutos * 60)
+    if(current_segundos < 10){
+        current_segundos = `0${current_segundos}`
+    }
+    current_time.innerText=`${current_minutos}:${current_segundos}`
+})
+audio.addEventListener("loadedmetadata", ()=>{
+    // timeline.max=audio.duration
+    let duracion_min = Math.floor(audio.duration/60)
+    let duracion_segundos = Math.floor(audio.duration - duracion_min * 60);
+    if(duracion_segundos < 10){
+        duracion_segundos = `0${duracion_segundos}`
+    }
+   
+    end_time.innerText=`${duracion_min}:${duracion_segundos}`
+})
 
 async function createDOMAlbums(dom, album, element){
     const contenedor = document.createElement("section")
@@ -77,3 +114,4 @@ async function createAlbumView(album, dom){
     dom.innerHTML=''
     dom.appendChild(element)
 }
+ 

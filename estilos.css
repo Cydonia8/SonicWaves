@@ -748,6 +748,46 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     width: 320px;
     background-color: #060b13;
 }
+#reproductor .master-play .time-bar{
+    width: 45%;
+    height: 2px;
+    background: rgb(105, 105, 170, .1);
+    margin: 0px 15px 0px 10px;
+}
+#reproductor .master-play .time-bar input{
+    top: -7px;
+    cursor: pointer;
+    left: 0; 
+    z-index: 999999999999;
+    opacity: 0;
+}
+#reproductor .master-play .time-bar .bar2{
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0px;
+    background: #07bfec;
+}
+#reproductor .master-play .time-bar .dot{
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    top: -1.5px;
+    left: 0;
+    background: #05bfee;
+    border-radius: 50%;
+}
+#reproductor .master-play .time-bar .dot::before{
+    position: absolute;
+    content: '';
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    left: -5.5px;
+    top: -5.5px;
+    border: 1px solid #0dbeeb;
+    box-shadow: inset 0px 0px 3px #08c4f3;
+}
 .loader::before,.loader::after{
     animation: loader 1s linear infinite;
     content: '';

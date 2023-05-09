@@ -22,6 +22,30 @@
     <link rel="stylesheet" href="../estilos.css">
     <title>Sonic Waves | Reproductor Web</title>
 </head>
+<style>
+    /* input{
+        width: 50%;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        height: 5px;
+        background: #0e21f0;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+        border-radius: 15px;
+        filter: drop-shadow(0 0 0.75rem #0e21f0);
+    }
+    input::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 15px;
+        height: 15px;
+        background: #fff;
+        border-radius: 50%;
+        cursor: pointer;
+    } */
+</style>
 <body id="reproductor">
     <header class="p-3 d-flex flex-column align-items-start">
         <a class="w-75" href="../index.php">
@@ -43,8 +67,19 @@
         <span class="loader d-none"></span>
         <button>Ver albumes</button>
     </main>
-    <footer class="d-flex justify-content-center align-items-center" id="player">
-        <audio src="../media/audio/genesis@genesis.com/selling england by the pound/snapsave.io - genesis - firth of fifth (official audio) (320 kbps).mp3" controls></audio>
+    <footer class="master-play d-flex justify-content-center align-items-center" id="player">
+        <div class="bar-control-icons d-flex gap-3 me-3">
+            <ion-icon name="play-skip-forward-outline"></ion-icon>
+            <ion-icon id="play-pause" name="play-outline"></ion-icon>
+            <ion-icon name="play-skip-forward-outline"></ion-icon>
+        </div>
+        <span class="me-2" id="current-time">0:00</span>
+        <div class="time-bar position-relative">
+            <input class="position-absolute w-100" type="range" id="seek" min="0" max="100">
+            <div class="bar2" id="bar2"></div>
+            <div class="dot"></div>
+        </div>
+        <span id="end-time">0:00</span>
     </footer>
 </body>
 </html>
