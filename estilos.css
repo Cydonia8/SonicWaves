@@ -810,7 +810,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     opacity: 0;
 }
 #reproductor .master-play .vol-bar{
-    width: 100%;
+    width: 50%;
     height: 100%;
     top: 0px;
     background: #07bfec;

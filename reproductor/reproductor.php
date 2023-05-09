@@ -81,7 +81,7 @@
         </div>
         <span id="end-time">0:00</span>
         <div class="volume-control position-relative">
-            <input type="range" id="volume-slider" min="0" max="1" step="0.05">
+            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5">
             <div class="vol-bar position-absolute"></div>
             <div class="vol-dot position-absolute"></div>
         </div>

@@ -18,6 +18,7 @@ const audio = new Audio()
 console.log(dot)
 let albums = []
 
+initialVolume()
 getAlbums()
 document.addEventListener("DOMContentLoaded", async ()=>{
     const respuesta = await fetch('../api_audio/canciones.php')
@@ -147,5 +148,13 @@ async function createAlbumView(album, dom){
                             <h3>${album[0].autor}</h3>`
     dom.innerHTML=''
     dom.appendChild(element)
+}
+
+function initialVolume(){
+    document.addEventListener("DOMContentLoaded", ()=>{
+        audio.volume='0.5'
+        volume_bar.style.width=`50%`
+        volume_dot.style.left=`50%`
+    })
 }
  
