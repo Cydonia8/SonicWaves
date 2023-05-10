@@ -7,6 +7,7 @@
     }else{
         forbidAccess("standard");
     }
+    $user = $_SESSION["user"];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +48,7 @@
     } */
 </style>
 <body id="reproductor">
-    <header class="p-3 d-flex flex-column align-items-start">
+    <header id="side-menu" class="p-3 d-flex flex-column align-items-start">
         <a class="w-75" href="../index.php">
             <img class="img-fluid" src="../media/assets/sonic-waves-logo-simple.png" alt="">
         </a>
@@ -61,26 +62,34 @@
         </ul>
     </header>
     <main id="main-content">
-        <header>
-            
+        <header class="profile-menu d-flex justify-content-between align-items-center" <?php echo "data-user='$user'"; ?>>
+            <span></span>
+            <img class="profile-menu-avatar" src="" alt="">
         </header>
+        <section id="main-content-dynamic-container">
+
+        </section>
         <span class="loader d-none"></span>
-        <button>Ver albumes</button>
     </main>
-    <footer class="master-play d-flex justify-content-around align-items-center" id="player">
-        <div class="bar-control-icons d-flex gap-3 me-3">
-            <ion-icon class="control-icons" name="play-skip-forward-outline"></ion-icon>
-            <ion-icon class="control-icons" id="play-pause" name="play-outline"></ion-icon>
-            <ion-icon class="control-icons" name="play-skip-forward-outline"></ion-icon>
-        </div>
-        <span class="me-2" id="current-time">0:00</span>
+    <footer class="master-play d-flex justify-content-between align-items-center" id="player">
+        <div class="track-info d-flex gap-2 align-items-center">
+            <img src="../media/assets/no_cover.jpg" class="rounded">
+        </div>   
         <div class="time-bar position-relative">
+            <div class="bar-control-icons d-flex gap-3 align-items-center">
+                <ion-icon class="control-icons" name="play-skip-back-outline"></ion-icon>
+                <ion-icon class="control-icons" id="play-pause" name="play-outline"></ion-icon>
+                <ion-icon class="control-icons" name="play-skip-forward-outline"></ion-icon>
+            </div>
+            <span class="me-2" id="current-time">0:00</span>
             <input class="position-absolute w-100" type="range" id="seek" min="0" max="100">
             <div class="bar2" id="bar2"></div>
             <div class="dot"></div>
+            <span id="end-time">0:00</span>
         </div>
-        <span id="end-time">0:00</span>
+        
         <div class="volume-control position-relative">
+            <ion-icon class="volume-icon" name="volume-medium-outline"></ion-icon>
             <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5">
             <div class="vol-bar position-absolute"></div>
             <div class="vol-dot position-absolute"></div>

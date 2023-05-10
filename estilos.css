@@ -722,13 +722,15 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     display: grid;
     grid-template-rows: repeat(5, 1fr) 0.7fr;
     grid-template-columns: 0.5fr repeat(4, 1fr);
+    gap: 1rem;
 }
-#reproductor header{
+#reproductor header#side-menu{
     /* border: 1px solid white; */
     grid-row: 1/6;
     grid-column: 1;
     background-color: #111727;
     width: 213px;
+    border-radius: 15px;
 }
 #reproductor main{
     /* border: 1px solid white; */
@@ -737,16 +739,46 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     background-color: #0b1320;
     overflow-y: auto;
     position: relative;
+    border-radius: 15px;
 }
 #reproductor footer{
     /* border: 1px solid white; */
     grid-column: 1/-1;
     grid-row: 6;
-    
+    padding: 0 .8rem;
 }
-#reproductor main section div{
+
+#reproductor .profile-menu{
+    padding: 0.4rem 0.7rem;
+}
+#reproductor .profile-menu .profile-menu-avatar{
+    width: 50px;
+}
+#reproductor main .banner-recomended .img-banner-recomended{
+    aspect-ratio: 16/4;
+    object-fit: cover;
+    height: 40vh;
+    width: 90%;
+    border-radius: 15px;
+}
+#reproductor .master-play .track-info{
     width: 320px;
-    background-color: #060b13;
+}
+#reproductor .master-play .track-info img{
+    width: 70px;
+}
+#reproductor .master-play .track-info .track-info-title{
+    font-size: 0.9rem;
+    overflow-x: hidden;
+}
+#reproductor .master-play .track-info .track-info-artist{
+    font-size: 0.8rem;
+}
+#reproductor .master-play .bar-control-icons{
+    position: absolute;
+    left: 50%;
+    bottom: -55px;
+    transform: translate(-50%, -50%);
 }
 #reproductor .master-play .time-bar{
     width: 45%;
@@ -767,10 +799,14 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     height: 100%;
     top: 0px;
     background: #07bfec;
-    transition: width 1s ease-in-out;
+    /* transition: width 1s ease-in-out; */
 }
 #reproductor .master-play .control-icons{
-    font-size: 1.3rem
+    font-size: 1.3rem;
+    cursor: pointer;
+}
+#reproductor .master-play .bar-control-icons .control-icons:nth-of-type(2){
+    font-size: 2rem;
 }
 #reproductor .master-play .time-bar .dot{
     position: absolute;
@@ -780,7 +816,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     left: -1px;
     background: #05bfee;
     border-radius: 50%;
-    transition: all 1s ease-in-out;
+    /* transition: all 1s ease-in-out; */
 }
 #reproductor .master-play .time-bar .dot::before{
     position: absolute;
@@ -788,17 +824,33 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    left: -4.5px;
+    left: -5.5px;
     top: -5px;
     border: 1px solid #0dbeeb;
     box-shadow: inset 0px 0px 3px #08c4f3;
     transition: width 1s ease-in-out;
+}
+#reproductor .master-play #current-time{
+    position: absolute;
+    top: -9px;
+    left: -50px;
+}
+#reproductor .master-play #end-time{
+    position: absolute;
+    top: -9px;
+    right: -50px;
 }
 #reproductor .master-play .volume-control{
     width: 7%;
     height: 4px;
     background: rgb(105, 105, 170, .1);
     margin: 0px 15px 0px 10px;
+}
+#reproductor .master-play .volume-icon{
+    position: absolute;
+    top: -8px;
+    left: -30px;
+    font-size: 1.3rem;
 }
 #reproductor .master-play .volume-control input{
     width: 100%;
@@ -814,7 +866,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     height: 100%;
     top: 0px;
     background: #07bfec;
-    transition: width 1s ease-in-out;
+    /* transition: width 1s ease-in-out; */
 }
 #reproductor .master-play .vol-dot{
     position: absolute;
@@ -824,7 +876,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     left: 2px;
     background: #05bfee;
     border-radius: 50%;
-    transition: all 1s ease-in-out;
+    /* transition: all 1s ease-in-out; */
     z-index: 10000;
 }
 #reproductor .master-play .vol-dot::before{
