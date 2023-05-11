@@ -745,7 +745,8 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     /* border: 1px solid white; */
     grid-column: 2/6;
     grid-row: 1/6;
-    background-color: #0b1320;
+    /* background-color: #0b1320; */
+    background-color: #111727;
     overflow-y: auto;
     position: relative;
     border-radius: 15px;
@@ -802,23 +803,35 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     rgba(0,0,0,0));
 }
 
-#reproductor main .main-content-albums-container>div{
+#reproductor main .main-content-albums-container>div,.main-content-artists-container>div{
     width: 200px;
     border-radius: 15px;
     background-color: #0e0d0da8;
-    padding: .7rem;
+    padding: .4rem .7rem;
+    transition: all .4s;
+}
+#reproductor .artist-link,#reproductor .album-link{
+    text-decoration: none;
+    color: white;
+}
+#reproductor .artist-link:hover,#reproductor .album-link:hover{
+    text-decoration: underline
+}
+#reproductor main .album-inner-container:hover,#reproductor main .artist-inner-container:hover{
+    background-color: #332f2fa8;
+    transition: all .4s;
+    cursor: pointer;
 }
 @media screen and (max-width:1540px) {
-    #reproductor main .main-content-albums-container>div{
+    #reproductor main .main-content-albums-container>div,.main-content-artists-container>div{
         width: 25%;
     }
-    #reproductor main .main-content-albums-container{
+    #reproductor main .main-content-albums-container,.main-content-artists-container{
         flex-wrap: wrap;
-        align-items: center;
     }
 }
 @media screen and (max-width:991px) {
-    #reproductor main .main-content-albums-container>div{
+    #reproductor main .main-content-albums-container>div,.main-content-artists-container>div{
         width: 50%;
     }
     #reproductor main .banner-recomended .recomended-group-name{
@@ -827,8 +840,9 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     
 }
 @media screen and (max-width:695px) {
-    #reproductor main .main-content-albums-container>div{
+    #reproductor main .main-content-albums-container>div,.main-content-artists-container>div{
         width: 100%;
+        align-items: center;
     }
 }
 

@@ -22,11 +22,13 @@ const audio = new Audio()
 console.log(dot)
 let albums = []
 
+initialSong()
 initializeUser()
 initialVolume()
 playerMainState()
 // getAlbums()
-document.addEventListener("DOMContentLoaded", async ()=>{
+
+async function initialSong(){
     const respuesta = await fetch('../api_audio/canciones.php')
     const datos = await respuesta.json()
     let cancion = datos['datos']
@@ -37,8 +39,20 @@ document.addEventListener("DOMContentLoaded", async ()=>{
                                 <span class='track-info-title'>${cancion[0].titulo}</span>
                                 <span class='track-info-artist'>${cancion[0].grupo}</span>
                             </div>`
+}
+// document.addEventListener("DOMContentLoaded", async ()=>{
+//     const respuesta = await fetch('../api_audio/canciones.php')
+//     const datos = await respuesta.json()
+//     let cancion = datos['datos']
+//     audio.src=cancion[0].archivo
+//     console.log(cancion[0].archivo)
+//     track_info.innerHTML=`<img src='${cancion[0].caratula}' class='rounded'>
+//                             <div class='d-flex flex-column'>
+//                                 <span class='track-info-title'>${cancion[0].titulo}</span>
+//                                 <span class='track-info-artist'>${cancion[0].grupo}</span>
+//                             </div>`
                         
-})
+// })
 // button.addEventListener("click", async ()=>{
     
 //     await createDOMAlbums(main, albums, createAlbumPreview)
@@ -55,9 +69,13 @@ play_pause.addEventListener("click", ()=>{
         player_logo.classList.remove("active")
     }
 })
-link_inicio.addEventListener("click", initializePlayer)
+link_inicio.addEventListener("click", (evt)=>{
+    evt.preventDefault()
+    playerMainState()
+})
 
 async function playerMainState(){
+    main_content.innerHTML=''
     loader.classList.add("d-flex")
     loader.classList.remove("d-none")
     const respuesta = await fetch("../api_audio/player_main_state.php")
@@ -71,7 +89,7 @@ async function playerMainState(){
         nombre: datos["nombre_grupo_recomendado"],
         discografica: datos["discografica"]
     }
-    let disco = recomendado.discografica == 0 ? '' : 'Grupo esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
+    let disco = recomendado.discografica == 0 ? '' : 'Artista esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
     main_content.innerHTML=`<div class='banner-recomended mx-auto d-flex align-items-center flex-column justify-content-end position-relative mb-4'>
         <h2 class='recomended-group-name mb-0'>${recomendado.nombre}</h2>
         <h5 class='ms-3 d-flex align-items-center gap-2 grupo-esencial-badge'>${disco}</h5>
@@ -81,14 +99,28 @@ async function playerMainState(){
     banner_recomended.style.backgroundSize='cover'
     banner_recomended.style.backgroundPosition='center'
     banner_recomended.style.height='40vh'
-    main_content.innerHTML+=`<h2 class='ms-4'>Álbumes populares</h2><div class="main-content-albums-container container-fluid d-flex flex-column flex-lg-row gap-3"></div>`
+    main_content.innerHTML+=`<h2 class='ms-4'>Álbumes populares</h2><div class="main-content-albums-container container-fluid d-flex flex-column flex-lg-row gap-3 mb-5"></div>`
     const main_content_albums_container = main_content.querySelector(".main-content-albums-container")
+   
     datos["datos"].forEach(disco=>{
-        main_content_albums_container.innerHTML+=`<div class='d-flex flex-column justify-content-around'>
-            <img src='${disco.foto}' class='img-fluid rounded'>
-            <a data-album-id="${disco.id}">${disco.titulo}</a>
-            <a data-group-id="${disco.grupo_id}">${disco.autor}</a>
-            </div>`
+        const div_album_container = document.createElement("div")
+        
+        div_album_container.classList.add("d-flex", "flex-column", "justify-content-around", "album-inner-container")
+        div_album_container.setAttribute("data-album-id", disco.id)
+        div_album_container.innerHTML= `<img src='${disco.foto}' class='img-fluid rounded'>
+        <a>${disco.titulo}</a>
+        <a class='artist-link' href="${disco.grupo_id}">${disco.autor}</a>`
+        main_content_albums_container.appendChild(div_album_container)
+        
+    })
+    
+    main_content.innerHTML+=`<h2 class='ms-4 mt-3'>Artistas populares</h2><div class="main-content-artists-container container-fluid d-flex flex-column flex-lg-row gap-3"></div>`
+    const main_content_artists_container = main_content.querySelector(".main-content-artists-container")
+    datos["artistas"].forEach(artista=>{
+        main_content_artists_container.innerHTML+=`<div data-artist-id='${artista.id}' class='d-flex flex-column justify-content-around artist-inner-container'>
+        <img src='${artista.foto_avatar}' class='img-fluid rounded-circle'>
+        <a>${artista.nombre}</a>
+        </div>`
     })
 }
 
@@ -134,6 +166,14 @@ audio.addEventListener("timeupdate", ()=>{
     }
     current_time.innerText=`${current_minutos}:${current_segundos}`
 })
+
+document.addEventListener("click", (evt)=>{
+    const target = evt.target.closest(".album-inner-container"); // Or any other selector.
+  
+    if(target){
+      showAlbum(target)
+    }
+  });
 
 //Actualizar duración total de la canción
 audio.addEventListener("loadedmetadata", ()=>{
@@ -228,4 +268,10 @@ async function initializeUser(){
     let usuario_datos = datos["datos"]
     profile_menu_avatar.src=usuario_datos[0].foto_avatar
     profile_top_menu.children[0].innerText=`${usuario_datos[0].estilo}`
+}
+
+async function showAlbum(target){
+    const id = target.getAttribute("data-album-id")
+     main_content.innerHTML=''
+     main_content.innerHTML=`<h1>${id}</h1>`
 }

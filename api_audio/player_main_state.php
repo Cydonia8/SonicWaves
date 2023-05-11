@@ -46,10 +46,18 @@
     // $datos["grupo_recomendado"] = $recomendado;
     
     $datos_recogidos = [];
-    $sentencia_albumes = $conexion->query("select a.id id, titulo, a.foto foto, nombre autor, g.id grupo_id from album a, grupo g where a.grupo = g.id");
+    $sentencia_albumes = $conexion->query("select a.id id, titulo, a.foto foto, nombre autor, g.id grupo_id from album a, grupo g where a.grupo = g.id and a.activo = 1 order by rand() limit 8");
     while($fila = $sentencia_albumes->fetch_array(MYSQLI_ASSOC)){
         $datos_recogidos[] = $fila;
     }
     $datos['datos'] = $datos_recogidos;
+
+    $artistas_recogidos = [];
+    $sentencia_artistas = $conexion->query("SELECT nombre, foto_avatar, id from grupo where activo = 1 and id <> 0 order by rand() limit 8");
+    while($fila = $sentencia_artistas->fetch_array(MYSQLI_ASSOC)){
+        $artistas_recogidos[] = $fila;
+    }
+
+    $datos["artistas"] = $artistas_recogidos;
 
     echo json_encode($datos);
