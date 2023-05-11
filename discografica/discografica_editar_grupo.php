@@ -16,21 +16,27 @@
         $nombre = $_POST["nombre"];
         $bio = $_POST["bio"];
         $foto = $_FILES["foto-nueva"]["name"] != '' ? checkPhoto("foto-nueva") : $_POST["foto-original"];
+        $foto_correcta = true;
+        $foto_avatar_correcta= true;
         if(is_bool($foto)){
             if($foto){
                 $foto = newPhotoPathDisc("foto-nueva", "", $nombre, $_SESSION["id"]);
                 $foto_correcta = true;
+            }else{
+                $foto_correcta = false;
             }
         }
         $foto_avatar = $_FILES["foto-avatar-nueva"]["name"] != '' ? checkPhoto("foto-avatar-nueva") : $_POST["foto-avatar-original"];   
+        
         if(is_bool($foto_avatar)){
             if($foto_avatar){
                 $foto_avatar = newPhotoPathDisc("foto-avatar-nueva", "avatar",  $nombre, $_SESSION["id"]);
-                $foto_avatar_correcta = true;
+                $foto_avatar_correcta = true;               
+            }else{
+                $foto_avatar_correcta = false;
             }
         }
-
-        if(isset($foto_correcta) and isset($foto_avatar_correcta)){
+        if($foto_correcta and $foto_avatar_correcta){
             editGroup($_SESSION["id"], $bio, $foto, $foto_avatar);
         }
     }

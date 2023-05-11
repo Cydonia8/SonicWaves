@@ -59,6 +59,18 @@
                     <span>Inicio</span>
                 </a>
             </li>
+            <li>
+                <a id="home-link" href="">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Mis discos esenciales</span>
+                </a>
+            </li>
+            <li>
+                <a id="home-link" href="">
+                    <ion-icon name="home-outline"></ion-icon>
+                    <span>Buscar</span>
+                </a>
+            </li>
         </ul>
     </header>
     <main id="main-content">
@@ -81,6 +93,7 @@
                 <ion-icon class="control-icons" id="play-pause" name="play-outline"></ion-icon>
                 <ion-icon class="control-icons" name="play-skip-forward-outline"></ion-icon>
             </div>
+            <img src="../media/assets/sonic-waves-logo-simple.png" class="position-absolute player-logo-color-changer" alt="">
             <span class="me-2" id="current-time">0:00</span>
             <input class="position-absolute w-100" type="range" id="seek" min="0" max="100">
             <div class="bar2" id="bar2"></div>

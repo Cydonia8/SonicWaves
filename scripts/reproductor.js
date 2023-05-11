@@ -13,6 +13,7 @@ const volume_bar = document.querySelector(".vol-bar")
 const volume_dot = document.querySelector(".vol-dot")
 const volume_icon = document.querySelector(".volume-icon")
 const track_info = document.querySelector(".track-info")
+const player_logo = document.querySelector(".player-logo-color-changer")
 
 const current_time = document.getElementById("current-time")
 const end_time = document.getElementById("end-time")
@@ -30,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
     const datos = await respuesta.json()
     let cancion = datos['datos']
     audio.src=cancion[0].archivo
+    console.log(cancion[0].archivo)
     track_info.innerHTML=`<img src='${cancion[0].caratula}' class='rounded'>
                             <div class='d-flex flex-column'>
                                 <span class='track-info-title'>${cancion[0].titulo}</span>
@@ -46,31 +48,48 @@ play_pause.addEventListener("click", ()=>{
     if(audio.paused){
         audio.play()
         play_pause.setAttribute("name", "pause-outline")
+        player_logo.classList.add("active")
     }else{
         audio.pause()
         play_pause.setAttribute("name", "play-outline")
+        player_logo.classList.remove("active")
     }
 })
 link_inicio.addEventListener("click", initializePlayer)
 
 async function playerMainState(){
+    loader.classList.add("d-flex")
+    loader.classList.remove("d-none")
     const respuesta = await fetch("../api_audio/player_main_state.php")
     const datos = await respuesta.json()
+    loader.classList.remove("d-flex")
+    loader.classList.add("d-none")
     console.log(datos)
     const recomendado = {
         foto: datos["grupo_recomendado"],
         id: datos["id_grupo_recomendado"],
-        nombre: datos["nombre_grupo_recomendado"]
+        nombre: datos["nombre_grupo_recomendado"],
+        discografica: datos["discografica"]
     }
-    main_content.innerHTML=`<div class='banner-recomended w-100 d-flex justify-content-center position-relative'>
-        <img src='${recomendado.foto}' class='img-banner-recomended'>
-        <h2 class='position-absolute bottom-0'>${recomendado.nombre}</h2>
+    let disco = recomendado.discografica == 0 ? '' : 'Grupo esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
+    main_content.innerHTML=`<div class='banner-recomended mx-auto d-flex align-items-center flex-column justify-content-end position-relative mb-4'>
+        <h2 class='recomended-group-name mb-0'>${recomendado.nombre}</h2>
+        <h5 class='ms-3 d-flex align-items-center gap-2 grupo-esencial-badge'>${disco}</h5>
     </div>`
-    // const banner_recomended = main_content.querySelector(".banner-recomended")
-    // banner_recomended.style.backgroundImage=`url(${recomendado.foto})`
-    // banner_recomended.style.backgroundSize='cover'
-    // // banner_recomended.style.backgroundPosition='center'
-    // banner_recomended.style.height='45vh'
+    const banner_recomended = main_content.querySelector(".banner-recomended")
+    banner_recomended.style.backgroundImage=`url('${recomendado.foto}')`
+    banner_recomended.style.backgroundSize='cover'
+    banner_recomended.style.backgroundPosition='center'
+    banner_recomended.style.height='40vh'
+    main_content.innerHTML+=`<h2 class='ms-4'>Álbumes populares</h2><div class="main-content-albums-container container-fluid d-flex flex-column flex-lg-row gap-3"></div>`
+    const main_content_albums_container = main_content.querySelector(".main-content-albums-container")
+    datos["datos"].forEach(disco=>{
+        main_content_albums_container.innerHTML+=`<div class='d-flex flex-column justify-content-around'>
+            <img src='${disco.foto}' class='img-fluid rounded'>
+            <a data-album-id="${disco.id}">${disco.titulo}</a>
+            <a data-group-id="${disco.grupo_id}">${disco.autor}</a>
+            </div>`
+    })
 }
 
 async function initializePlayer(evt){

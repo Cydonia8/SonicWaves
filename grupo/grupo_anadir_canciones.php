@@ -9,7 +9,7 @@
         $id_grupo = getGroupID($_SESSION["user"]);
         addAlbum($id_grupo, $_SESSION["titulo_album"], $_SESSION["foto_album"], $_SESSION["lanzamiento"], 1);
         for($i = 1; $i <= $_SESSION["num_canciones"]; $i++){
-            if($_SESSION["recopilatorio"] == "no"){
+            if($_SESSION["recopilatorio"] == "no" or $_SESSION["recopilatorio"] == NULL){
                 $titulo = $_POST["titulo".$i];
                 $minutos = getDuration($_FILES["archivo".$i]["tmp_name"]);
                 $estilo = $_POST["estilo".$i];
