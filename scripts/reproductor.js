@@ -300,7 +300,7 @@ async function showAlbum(target){
     const datos_album = datos["datos_album"]
     
     const section_album_head = document.createElement("section")
-    section_album_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "album-page-header", "gap-3", "align-items-center", "p-3", "border-bottom")
+    section_album_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "album-page-header", "gap-3", "align-items-center", "p-3")
     section_album_head.innerHTML=`<canvas></canvas>
                                     <div class='d-flex flex-column gap-3'>
                                         <h1>${datos_album[0].titulo}</h1>
@@ -331,8 +331,13 @@ async function showAlbum(target){
     const quantColors = quantization(rgb_array, 0)
     quantColors.sort((a,b) => a-b)
     console.log(quantColors)
+    let color1 = quantColors[quantColors.length-2]
+    let color2 = quantColors[quantColors.length-7]
+    let color3 = quantColors[quantColors.length-4]
+    let color4 = quantColors[quantColors.length-11]
+    console.log(color1)
     // buildPalette(quantColors);
-    
+    section_album_head.style.background=`linear-gradient(180deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.9500175070028011) 50% ,rgba(${color2.r},${color2.g},${color2.b},0.9500175070028011) 70%, rgba(${color4.r},${color4.g},${color4.b},0.9500175070028011) 90%)`
     main_content.appendChild(section_album_head)
     const lista_canciones = datos["lista_canciones"]
     const section_lista_canciones = document.createElement("section")
