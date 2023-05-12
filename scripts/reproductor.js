@@ -298,13 +298,15 @@ async function showAlbum(target){
         let indice = index+1
         const cancion_container = document.createElement("div")
         cancion_container.classList.add("d-flex", "justify-content-between", "cancion-row")
+        cancion_container.setAttribute("data-cancion", cancion.album)
+        cancion_container.setAttribute("data-index", index)
         cancion_container.innerHTML=`<div class='d-flex gap-3'>
                                         <span>${indice}</span>
-                                        <h5 data-cancion='${cancion.album}' data-index='${index}' class='m-0 cancion-link'>${cancion.titulo}</h5>
+                                        <h5 class='m-0 cancion-link'>${cancion.titulo}</h5>
                                     </div>
                                     <span>${cancion.duracion}</span>`
-        const cancion_link = cancion_container.querySelector(".cancion-link")
-        cancion_link.addEventListener("click", loadPlayingList)
+        // const cancion_link = cancion_container.querySelector(".cancion-link")
+        cancion_container.addEventListener("click", loadPlayingList)
         // cancion_container.addEventListener("click", ()=>{
         //     console.log("click")
         // })                                    
@@ -315,13 +317,20 @@ async function showAlbum(target){
 
 async function loadPlayingList(evt){
     cola_reproduccion.length=0
+    let padre = evt.currentTarget.parentElement
+    for(const child of padre.children){
+        console.log(child)
+        if(child.children[0].children[1].classList.contains("current-song-playing")){
+            child.children[0].children[1].classList.remove("current-song-playing")
+        }
+    }
+    evt.currentTarget.children[0].children[1].classList.add("current-song-playing")
     const id = evt.currentTarget.getAttribute("data-cancion")
     const index = evt.currentTarget.getAttribute("data-index")
     indice = index
     const respuesta = await fetch(`../api_audio/array_reproduccion.php?id=${id}`)
     const datos = await respuesta.json()
     const lista = datos["lista_canciones"]
-    console.log(lista)
     lista.forEach(cancion=>{
         cola_reproduccion.push(cancion)
     })
