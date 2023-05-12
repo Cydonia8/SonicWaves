@@ -78,6 +78,7 @@ link_inicio.addEventListener("click", (evt)=>{
 
 async function playerMainState(){
     main_content.innerHTML=''
+    main_content.classList.remove("position-absolute")
     loader.classList.add("d-flex")
     loader.classList.remove("d-none")
     const respuesta = await fetch("../api_audio/player_main_state.php")
@@ -298,7 +299,7 @@ async function showAlbum(target){
     loader.classList.add("d-none")
     loader.classList.remove("d-flex")
     const datos_album = datos["datos_album"]
-    
+    main_content.classList.add("position-absolute", "w-100", "top-0")
     const section_album_head = document.createElement("section")
     section_album_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "album-page-header", "gap-3", "align-items-center", "p-3")
     section_album_head.innerHTML=`<canvas></canvas>
@@ -331,13 +332,14 @@ async function showAlbum(target){
     const quantColors = quantization(rgb_array, 0)
     quantColors.sort((a,b) => a-b)
     console.log(quantColors)
-    let color1 = quantColors[quantColors.length-2]
-    let color2 = quantColors[quantColors.length-7]
+    let color1 = quantColors[quantColors.length-1]
+    let color2 = quantColors[quantColors.length-8]
     let color3 = quantColors[quantColors.length-4]
     let color4 = quantColors[quantColors.length-11]
+    let color5 = quantColors[quantColors.length-13]
     console.log(color1)
     // buildPalette(quantColors);
-    section_album_head.style.background=`linear-gradient(180deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.9500175070028011) 50% ,rgba(${color2.r},${color2.g},${color2.b},0.9500175070028011) 70%, rgba(${color4.r},${color4.g},${color4.b},0.9500175070028011) 90%)`
+    section_album_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_album_head)
     const lista_canciones = datos["lista_canciones"]
     const section_lista_canciones = document.createElement("section")
