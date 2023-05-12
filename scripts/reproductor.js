@@ -14,13 +14,16 @@ const volume_dot = document.querySelector(".vol-dot")
 const volume_icon = document.querySelector(".volume-icon")
 const track_info = document.querySelector(".track-info")
 const player_logo = document.querySelector(".player-logo-color-changer")
+const next = document.getElementById("next")
+const previous = document.getElementById("previous")
 
 const current_time = document.getElementById("current-time")
 const end_time = document.getElementById("end-time")
 const play_pause = document.getElementById("play-pause")
 const audio = new Audio()
-console.log(dot)
-let albums = []
+
+let cola_reproduccion = []
+let indice
 
 initialSong()
 initializeUser()
@@ -33,7 +36,6 @@ async function initialSong(){
     const datos = await respuesta.json()
     let cancion = datos['datos']
     audio.src=cancion[0].archivo
-    console.log(cancion[0].archivo)
     track_info.innerHTML=`<img src='${cancion[0].caratula}' class='rounded'>
                             <div class='d-flex flex-column'>
                                 <span class='track-info-title'>${cancion[0].titulo}</span>
@@ -82,7 +84,6 @@ async function playerMainState(){
     const datos = await respuesta.json()
     loader.classList.remove("d-flex")
     loader.classList.add("d-none")
-    console.log(datos)
     const recomendado = {
         foto: datos["grupo_recomendado"],
         id: datos["id_grupo_recomendado"],
@@ -134,7 +135,6 @@ async function playerMainState(){
 
 async function initializePlayer(evt){
     evt.preventDefault()
-    console.log(albums)
 }
 
 async function getAlbums(){
@@ -161,12 +161,7 @@ audio.addEventListener("timeupdate", ()=>{
     let current_segundos = Math.floor(audio.currentTime - current_minutos * 60)
 
     let width = parseFloat(audio.currentTime / audio.duration * 100)
-    // console.log(audio.currentTime/audio.duration*100)
-    // console.log(audio.duration)
     seek.value = width
-    // console.log(seek.value)
-    // let seekb = seek.value
-    // console.log(width)
     bar2.style.width=`${width}%`
     dot.style.left=`${width}%`
     if(current_segundos < 10){
@@ -204,6 +199,28 @@ audio.addEventListener("ended", ()=>{
     current_time.innerText='0:00'
     end_time.innerText='0:00'
     play_pause.setAttribute("name", "play-outline")
+    indice++
+    if(indice <= cola_reproduccion.length){
+        playSong(indice)
+    }else{
+        playSong(0)
+    }   
+})
+next.addEventListener("click", ()=>{
+    indice++
+    if(indice < cola_reproduccion.length){
+        playSong(indice)
+    }else{
+        playSong(0)
+    }
+})
+previous.addEventListener("click", ()=>{
+    indice--
+    if(indice >= 0){
+        playSong(indice)
+    }else{
+        playSong(0)
+    }
 })
 
 volume_input.addEventListener("input", ()=>{
@@ -240,7 +257,6 @@ function initialVolume(){
  
 async function initializeUser(){
     let user = profile_top_menu.getAttribute("data-user")
-    console.log(user)
     const respuesta = await fetch(`../api_audio/info_user.php?usuario=${user}`)
     const datos = await respuesta.json()
     let usuario_datos = datos["datos"]
@@ -284,15 +300,33 @@ async function showAlbum(target){
         cancion_container.classList.add("d-flex", "justify-content-between", "cancion-row")
         cancion_container.innerHTML=`<div class='d-flex gap-3'>
                                         <span>${indice}</span>
-                                        <h5 class='m-0'>${cancion.titulo}</h5>
+                                        <h5 data-cancion='${cancion.album}' data-index='${index}' class='m-0 cancion-link'>${cancion.titulo}</h5>
                                     </div>
                                     <span>${cancion.duracion}</span>`
-        cancion_container.addEventListener("click", ()=>{
-            console.log("click")
-        })                                    
+        const cancion_link = cancion_container.querySelector(".cancion-link")
+        cancion_link.addEventListener("click", loadPlayingList)
+        // cancion_container.addEventListener("click", ()=>{
+        //     console.log("click")
+        // })                                    
         section_lista_canciones.appendChild(cancion_container)
     })
     main_content.appendChild(section_lista_canciones)
+}
+
+async function loadPlayingList(evt){
+    cola_reproduccion.length=0
+    const id = evt.currentTarget.getAttribute("data-cancion")
+    const index = evt.currentTarget.getAttribute("data-index")
+    indice = index
+    const respuesta = await fetch(`../api_audio/array_reproduccion.php?id=${id}`)
+    const datos = await respuesta.json()
+    const lista = datos["lista_canciones"]
+    console.log(lista)
+    lista.forEach(cancion=>{
+        cola_reproduccion.push(cancion)
+    })
+    playSong(indice)
+    
 }
 
 async function showGroup(evt){
@@ -327,6 +361,18 @@ async function showGroup(evt){
     main_content.appendChild(section_artist_head)
 }
 
-function clickOnSong(){
+function playSong(index){
+    audio.src=cola_reproduccion[index].archivo
+    track_info.innerHTML=`<img src='${cola_reproduccion[index].caratula}' class='rounded'>
+                            <div class='d-flex flex-column'>
+                                <span class='track-info-title'>${cola_reproduccion[index].titulo}</span>
+                                <span class='track-info-artist'>${cola_reproduccion[index].autor}</span>
+                            </div>`
+    bar2.style.width='0%'
+    dot.style.left='0'
+    current_time.innerText='0:00'
+    audio.play()
+    play_pause.setAttribute("name", "pause-outline")
+    player_logo.classList.add("active")
 
 }

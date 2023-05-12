@@ -91,9 +91,9 @@
         </div>   
         <div class="time-bar position-relative">
             <div class="bar-control-icons d-flex gap-3 align-items-center">
-                <ion-icon class="control-icons" name="play-skip-back-outline"></ion-icon>
+                <ion-icon class="control-icons" name="play-skip-back-outline" id="previous"></ion-icon>
                 <ion-icon class="control-icons" id="play-pause" name="play-outline"></ion-icon>
-                <ion-icon class="control-icons" name="play-skip-forward-outline"></ion-icon>
+                <ion-icon class="control-icons" name="play-skip-forward-outline" id="next"></ion-icon>
             </div>
             <img src="../media/assets/sonic-waves-logo-simple.png" class="position-absolute player-logo-color-changer" alt="">
             <span class="me-2" id="current-time">0:00</span>
