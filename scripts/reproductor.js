@@ -200,26 +200,49 @@ audio.addEventListener("ended", ()=>{
     end_time.innerText='0:00'
     play_pause.setAttribute("name", "play-outline")
     indice++
-    if(indice <= cola_reproduccion.length){
+    const row_album = document.querySelectorAll(".cancion-row")
+    let arr = Array.from(row_album)
+    const filtro = arr.filter(cont=>cont.children[0].children[0].innerText == indice+1)
+    if(indice < cola_reproduccion.length){
+        arr.forEach(item=>{
+            item.children[0].children[1].classList.remove("current-song-playing")
+        })
+        filtro[0].children[0].children[1].classList.add("current-song-playing")
         playSong(indice)
-    }else{
-        playSong(0)
-    }   
+    }
 })
 next.addEventListener("click", ()=>{
     indice++
+    const row_album = document.querySelectorAll(".cancion-row")
+    let arr = Array.from(row_album)
+    const filtro = arr.filter(cont=>cont.children[0].children[0].innerText == indice+1)
     if(indice < cola_reproduccion.length){
+        arr.forEach(item=>{
+            item.children[0].children[1].classList.remove("current-song-playing")
+        })
+        filtro[0].children[0].children[1].classList.add("current-song-playing")
         playSong(indice)
     }else{
-        playSong(0)
+        indice = 0
+        row_album.item(row_album.length-1).children[0].children[1].classList.remove("current-song-playing")
+        row_album.item(0).children[0].children[1].classList.add("current-song-playing")
+        playSong(indice)
     }
 })
 previous.addEventListener("click", ()=>{
     indice--
+    const row_album = document.querySelectorAll(".cancion-row")
+    let arr = Array.from(row_album)
+    const filtro = arr.filter(cont=>cont.children[0].children[0].innerText == indice+1)
     if(indice >= 0){
+        arr.forEach(item=>{
+            item.children[0].children[1].classList.remove("current-song-playing")
+        })
+        filtro[0].children[0].children[1].classList.add("current-song-playing")
         playSong(indice)
     }else{
-        playSong(0)
+        indice = 0
+        playSong(indice)
     }
 })
 
@@ -319,12 +342,13 @@ async function loadPlayingList(evt){
     cola_reproduccion.length=0
     let padre = evt.currentTarget.parentElement
     for(const child of padre.children){
-        console.log(child)
-        if(child.children[0].children[1].classList.contains("current-song-playing")){
-            child.children[0].children[1].classList.remove("current-song-playing")
+        let titulo = child.children[0].children[1]
+        if(titulo.classList.contains("current-song-playing")){
+            titulo.classList.remove("current-song-playing")
         }
     }
-    evt.currentTarget.children[0].children[1].classList.add("current-song-playing")
+    let titulo_actual = evt.currentTarget.children[0].children[1]
+    titulo_actual.classList.add("current-song-playing")
     const id = evt.currentTarget.getAttribute("data-cancion")
     const index = evt.currentTarget.getAttribute("data-index")
     indice = index
