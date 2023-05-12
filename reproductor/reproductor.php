@@ -19,8 +19,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="../scripts/reproductor.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
+    <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
     <title>Sonic Waves | Reproductor Web</title>
 </head>
 <style>
@@ -75,7 +77,7 @@
     </header>
     <main id="main-content">
         <header class="profile-menu d-flex justify-content-between align-items-center" <?php echo "data-user='$user'"; ?>>
-            <span></span>
+            <input type="text" placeholder="Búsqueda..." id="search-bar">
             <img class="profile-menu-avatar" src="" alt="">
         </header>
         <section id="main-content-dynamic-container">

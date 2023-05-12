@@ -741,6 +741,10 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     width: 213px;
     border-radius: 15px;
 }
+#reproductor header#side-menu a{
+    text-decoration: none;
+    color: white;
+}
 #reproductor main{
     /* border: 1px solid white; */
     grid-column: 2/6;
@@ -761,9 +765,18 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 
 #reproductor .profile-menu{
     padding: 0.2rem 0.5rem;
+    z-index: 100000;
+    position: sticky;
 }
 #reproductor .profile-menu .profile-menu-avatar{
     width: 40px;
+}
+#reproductor .profile-menu #search-bar{
+    border-radius: 15px;
+    padding: .2rem .4rem;
+    border: 1px solid snow;
+    background-color: #0f0f117a;
+    color: white;
 }
 #reproductor main .banner-recomended{
     width: 90%;
@@ -771,6 +784,42 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     -webkit-box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
     -moz-box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
     box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
+}
+#reproductor .add-favorite-album,#reproductor .add-album-review{
+    font-size: 2rem;
+}
+
+#reproductor main .album-page-header h1{
+    font-size: 4rem;
+}
+#reproductor main .album-page-header img.album-page-portada{
+    width: 350px;
+}
+#reproductor main .album-page-header .avatar-album-page{
+    width: 30px;
+    border: 1px solid snow;
+    border-radius: 50%;
+}
+#reproductor main .cancion-row{
+    cursor: pointer;
+    padding: .5rem;
+    border-radius: 10px;
+}
+#reproductor main .cancion-row:hover{
+    background-color: #615c5ca8;
+    transition: all .3s;
+}
+#reproductor main .section-artist-avatar{
+    position: absolute;
+    width: 150px;
+    left: 50%;
+    bottom: 0%;
+    transform: translate(-50%, 30%);
+    border: 1px solid snow;
+}
+#reproductor main .section-artist-title{
+    font-size: 4rem;
+    filter: drop-shadow(0 0 0.5rem black);
 }
 /* #reproductor main .banner-recomended .img-banner-recomended{
     aspect-ratio: 16/4;
@@ -785,10 +834,14 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     margin-left: .6rem;
     filter: drop-shadow(0 0 0.5rem black);
 }
-#reproductor main .banner-recomended .grupo-esencial-badge{
+#reproductor main .grupo-esencial-badge:not(:empty){
     /* font-size: 4rem;
     margin-left: .6rem; */
-    filter: drop-shadow(0 0 .5rem #0a90dd);
+    filter: drop-shadow(0 0 .5rem #0a90dd);    
+    -webkit-box-shadow: 3px 5px 23px 8px #0A90DD;
+    box-shadow: inset 3px 5px 23px 8px #0A90DD;
+    border-radius: 15px;
+    padding: .2rem .4rem;
 }
 
 #reproductor main .banner-recomended img::after{
