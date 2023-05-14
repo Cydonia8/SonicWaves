@@ -80,6 +80,8 @@
                     echo "</form>";
                 }            
             }
+        }elseif(isset($id_grupo)){
+            
         }else{
             echo "<h2>Faltan datos</h2>";
         }

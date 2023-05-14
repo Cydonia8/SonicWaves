@@ -21,3 +21,4 @@
     // $datos["lista_canciones"] = $datos_canciones;
 
     echo json_encode($datos);
+    $conexion->close();

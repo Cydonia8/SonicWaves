@@ -61,3 +61,4 @@
     $datos["artistas"] = $artistas_recogidos;
 
     echo json_encode($datos);
+    $conexion->close();

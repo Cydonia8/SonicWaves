@@ -785,8 +785,9 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     -moz-box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
     box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
 }
-#reproductor .add-favorite-album,#reproductor .add-album-review{
+#reproductor .add-favorite-album,#reproductor .add-album-review, #reproductor .see-album-reviews, #reproductor .album-song-list{
     font-size: 2rem;
+    cursor: pointer;
 }
 
 #reproductor main .album-page-header h1{
@@ -802,8 +803,16 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #reproductor main .cancion-row{
     cursor: pointer;
-    padding: .5rem;
+    padding: .6rem;
     border-radius: 10px;
+}
+#reproductor main .cancion-row .add-song-to-playlist{
+    font-size: 1.5rem;
+    opacity: 0;
+}
+#reproductor main .cancion-row:hover .add-song-to-playlist{
+    opacity: 1;
+    transition: all .7s;
 }
 #reproductor main .cancion-row:hover{
     background-color: #615c5ca8;
@@ -813,7 +822,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     position: absolute;
     width: 150px;
     left: 50%;
-    bottom: 0%;
+    bottom: -7%;
     transform: translate(-50%, 30%);
     border: 1px solid snow;
 }
@@ -905,7 +914,14 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #reproductor .master-play .track-info{
     width: 320px;
 }
+@media screen and (max-width:576px){
+    #reproductor .master-play .track-info{
+        width: 50%;
+    }
+}
 #reproductor .master-play .track-info img{
+    /* width: 7%;
+    min-width: 60px; */
     width: 60px;
 }
 #reproductor .master-play .track-info .track-info-title{

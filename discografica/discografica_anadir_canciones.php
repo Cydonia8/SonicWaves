@@ -23,8 +23,9 @@
             }elseif($_SESSION["recopilatorio"]=="si"){
                 linkSongToAlbum($_SESSION["id_album"], $_POST["cancion".$i]);
             }
-            unsetSessionVariable(array('titulo_album', 'lanzamiento', 'num_canciones', 'recopilatorio', 'foto_album'));
+            
         }
+        unsetSessionVariable(array('titulo_album', 'lanzamiento', 'num_canciones', 'recopilatorio', 'foto_album'));
     }
 ?>
 <!DOCTYPE html>

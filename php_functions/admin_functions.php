@@ -29,7 +29,7 @@
                         <li><a class=\"dropdown-item\" href=\"admin_grupos.php\">Grupos</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_discografica.php\">Discográficas</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_albumes.php\">Álbumes</a></li>
-                        <li><a class=\"dropdown-item\" href=\"#\">Reseñas</a></li>
+                        <li><a class=\"dropdown-item\" href=\"admin_resenas.php\">Reseñas</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Estilos</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_publicaciones.php\">Publicaciones</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Encuestas</a></li>
@@ -343,11 +343,10 @@
                         if($fila["aprob"] == 1){
                             echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$fila[id]\">
-                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            <button style='--clr:#09eb3a' class='btn-danger-own' name='aprobar'><span>Aprobar</span><i></i></button>
                             </form>
                             <form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$fila[id]\">
-                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
                                 <button style='--clr:#e80c0c' class='btn-danger-own' name='denegar'><span>Denegar</span><i></i></button>
                             </form></div>";
                         }else{
@@ -399,11 +398,10 @@
                         if($aprob == 1){
                             echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$id\">
-                            <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                            <button style='--clr:#09eb3a' class='btn-danger-own' name='aprobar'><span>Aprobar</span><i></i></button>
                             </form>
                             <form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id\">
-                                <input type=\"submit\" name=\"denegar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
                                 <button style='--clr:#e80c0c' class='btn-danger-own' name='denegar'><span>Denegar</span><i></i></button>
                             </form></div>";
                         }else{
@@ -840,6 +838,10 @@
         }
         
         $con->close();
+    }
+
+    function getAllReviews(){
+        
     }
 
     

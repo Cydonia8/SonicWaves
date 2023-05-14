@@ -6,7 +6,7 @@
     forbidAccess("disc");
     closeSession($_POST);
 
-    if(isset($_POST["anadir"])){
+    if(isset($_POST["anadir"]) or isset($_POST["crear"])){
         $id = $_POST["id"];
         $total = checkEnoughSongs($id);
     }else{

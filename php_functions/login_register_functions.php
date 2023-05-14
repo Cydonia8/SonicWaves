@@ -47,10 +47,10 @@
         return $exists;
     }
 
-    function insertNewUser($user, $nombre, $apellidos, $pass, $mail, $estilo){
+    function insertNewUser($user, $nombre, $apellidos, $pass, $mail){
         $con = createConnection();
-        $consulta = $con->prepare("INSERT INTO USUARIO (usuario, nombre, apellidos, pass, correo) VALUES (?,?,?,?,?,?)");
-        $consulta->bind_param("sssssi", $user, $nombre, $apellidos, $pass, $mail);
+        $consulta = $con->prepare("INSERT INTO USUARIO (usuario, nombre, apellidos, pass, correo) VALUES (?,?,?,?,?)");
+        $consulta->bind_param("sssss", $user, $nombre, $apellidos, $pass, $mail);
         $consulta->execute();
         $consulta->close();
         $con->close();
