@@ -867,7 +867,9 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     rgba(0,0,0,1),
     rgba(0,0,0,0));
 }
-
+#reproductor main .main-content-albums-container, #reproductor main .main-content-artists-container{
+    place-content: center;
+}
 #reproductor main .main-content-albums-container>div,.main-content-artists-container>div{
     width: 200px;
     border-radius: 15px;
