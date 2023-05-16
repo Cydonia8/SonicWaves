@@ -13,6 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="estilos.css">
     <script src="scripts/index.js" defer></script>
     <link rel="icon" type="image/png" href="media/assets/favicon-32x32-modified.png" sizes="32x32" />
@@ -69,6 +71,7 @@
         <?php
           $con = new mysqli('localhost', 'root', '', 'sonicwaves');
           $consulta = $con->query("select c.titulo titulo, g.nombre grup, archivo, a.foto portada from cancion c, album a, grupo g, incluye i where a.grupo = g.id and i.album = a.id and i.cancion = c.id and a.activo = 1 order by rand() limit 3");
+          $cont = 1;
           while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $titulo = $fila["titulo"];
             $audio = $fila["archivo"];
@@ -76,16 +79,25 @@
             $foto = imageIndex($foto);
             $audio = imageIndex($audio);
             $artista = $fila["grup"];
-            echo "<div class=\"cancion-prev d-flex align-items-center flex-column gap-5 justify-content-between\">
+            
+            echo "<div class=\"cancion-prev d-flex align-items-center flex-column gap-3 justify-content-between\">
                     <div class=\"text-center d-flex flex-column gap-3\">
                       <img class=\"rounded img-fluid\" src=\"$foto\">
                       <h2>$titulo</h2>
                       <h3>$artista</h3>
+                      
                     </div>
-                    <div class=\"\">
-                      <audio src=\"$audio\" controls></audio>
-                    </div>
+                      
+                      <ion-icon data-audio='play-audio$cont' name=\"play-circle-outline\" class='play-simbol mx-auto'></ion-icon>
+                      <div class='position-relative w-75 timebar-container'>
+                        
+                        <div class='bar2 play-audio$cont'></div>                  
+                      </div>
+                      
+                      <audio data-audio='play-audio$cont' src=\"$audio\" class='audio-index'></audio>
+                    
                 </div>";
+            $cont++;
           }
           
         ?>

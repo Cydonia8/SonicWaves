@@ -50,35 +50,45 @@
     } */
 </style>
 <body id="reproductor">
-    <header id="side-menu" class="p-3 d-flex flex-column align-items-start">
+    <ion-icon id="arrow-show-aside" name="chevron-forward-outline"></ion-icon>
+    <header id="side-menu" class="p-3 gap-3">
+        <div class="p-2 modal-new-playlist d-flex flex-column">
+            <h5 class="text-center">Nueva playlist</h5>
+            <form action="" class="d-flex flex-column align-items-start gap-2">
+                <input type="text" placeholder="Nombre">
+                <input type="file" class="custom-file-input">
+                <button>Crear</button>
+            </form>
+        </div>
         <a class="w-75" href="../index.php">
             <img class="img-fluid" src="../media/assets/sonic-waves-logo-simple.png" alt="">
         </a>
-        <ul>
+        <ul class="d-flex flex-column gap-3 header-main-menu">
             <li>
-                <a id="home-link" href="">
-                    <ion-icon name="home-outline"></ion-icon>
+                <a class="d-flex align-items-center gap-2" id="home-link" href="">
+                    <ion-icon class="side-header-icons" name="home-outline"></ion-icon>
                     <span>Inicio</span>
                 </a>
             </li>
             <li>
-                <a id="home-link" href="">
-                    <ion-icon name="home-outline"></ion-icon>
+                <a class="d-flex align-items-center gap-2" id="home-link" href="">
+                    <ion-icon class="side-header-icons" name="disc-outline"></ion-icon>
                     <span>Mis discos esenciales</span>
                 </a>
             </li>
-            <li>
-                <a id="home-link" href="">
-                    <ion-icon name="home-outline"></ion-icon>
-                    <span>Buscar</span>
-                </a>
-            </li>
         </ul>
+        <span class="d-flex playlists-title gap-2 align-items-center w-100 justify-content-between">
+            <span class="d-flex align-items-center gap-2"><ion-icon name="library-outline"></ion-icon>Mis listas</span>
+            <ion-icon id="add-new-playlist" name="add-outline"></ion-icon>
+        </span>
+        <div class="d-flex flex-column gap-3" id="playlists-container">
+
+        </div>
     </header>
     <main id="main-content">
-        <header class="profile-menu d-flex justify-content-between align-items-center" <?php echo "data-user='$user'"; ?>>
+        <header class="profile-menu d-flex justify-content-between align-items-center">
             <input type="text" placeholder="Búsqueda..." id="search-bar">
-            <img class="profile-menu-avatar" src="" alt="">
+            <img class="profile-menu-avatar rounded-circle" src="" alt="">
         </header>
         <section id="main-content-dynamic-container">
 

@@ -52,9 +52,12 @@
     <section class="grupos-container container-activo container-fluid mx-auto row gap-3">
        
        <?php
-            if(!isset($_POST["filtro"])){
-                getAllGroups();
-            }else{
+            // if(!isset($_POST["filtro"])){
+            //     getAllGroups();
+            // }else{
+            //     getGroupsFiltered($_POST["filtro"]);
+            // }
+            if(isset($_POST["filtro"])){
                 getGroupsFiltered($_POST["filtro"]);
             }
             

@@ -176,7 +176,7 @@
 
     function getStyles(){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT nombre, id FROM estilo");
+        $consulta = $con->prepare("SELECT nombre, id FROM estilo where id <> 0");
         $consulta->bind_result($nombre, $id);
         $consulta->execute();
         while($consulta->fetch()) {

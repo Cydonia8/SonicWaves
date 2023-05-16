@@ -2,6 +2,58 @@ const audios = document.querySelectorAll("audio");
 const img = document.querySelectorAll(".cancion-prev .img-fluid")
 const button_menu = document.querySelector(".button-menu-responsive")
 const header = document.querySelector("header")
+const audio_index = document.querySelectorAll(".audio-index")
+const play_index = document.querySelectorAll(".play-simbol")
+const inputs = document.querySelectorAll(".timebar-container input")
+
+play_index.forEach(play=>{
+    play.addEventListener("click", (evt)=>{
+        const id = evt.target.getAttribute("data-audio")
+        audio_index.forEach(audio=>{
+            let limite = (audio.duration/2) + 15
+            inputs.forEach(input=>{
+                input.setAttribute("max", limite)
+                input.setAttribute("min", audio.duration/2)
+            })
+            const id_audio = audio.getAttribute("data-audio")
+            if(id === id_audio){
+                audio.currentTime = audio.duration/2
+                
+                if(audio.paused){
+                    audio.play()
+                    play.setAttribute("name", "pause-circle-outline")
+                }else{
+                    audio.pause()
+                    play.setAttribute("name", "play-circle-outline")
+                }
+                const inp = document.querySelector(`div.bar2.${id_audio}`)
+                console.log(inp)
+                let width=0
+                audio.addEventListener("timeupdate", ()=>{
+                    inp.style.width=`${width}%`
+                    if(audio.currentTime >= limite){
+                        audio.pause()
+                        play.setAttribute("name", "play-circle-outline")
+                        inp.style.width='0'
+                    }
+                    width+=1.76
+                })
+                
+            }
+        })
+    })
+})
+// audio_index.forEach(audio=>{
+//     let limite = (audio.duration/2) + 15
+//     audio.addEventListener("timeupdate", ()=>{
+//         console.log(audio.currentTime)
+//         if(audio.currentTime >= limite){
+//             audio.pause()
+//         }
+//     })
+// })
+
+
 
 // const height = img.clientHeight
 // const width = img.clientWidth
@@ -40,95 +92,13 @@ img.forEach(imagen => {
     })
 })
 
-audios.forEach((audio) => {
-    let start = 30
-    audio.currentTime=start
-    audio.addEventListener("timeupdate", (e) => {
-        let currentTime = e.target.currentTime
-        if (currentTime > start + 15){
-            audio.pause()
-        }
-    })
-})
-
-// (function() {
-  
-//     var carousel = document.getElementsByClassName('carousel')[0],
-//         slider = carousel.getElementsByClassName('carousel__slider')[0],
-//         items = carousel.getElementsByClassName('carousel__slider__item'),
-//         prevBtn = carousel.getElementsByClassName('carousel__prev')[0],
-//         nextBtn = carousel.getElementsByClassName('carousel__next')[0];
-    
-//     var width, height, totalWidth, margin = 20,
-//         currIndex = 0,
-//         interval, intervalTime = 4000;
-    
-//     function init() {
-//         resize();
-//         move(Math.floor(items.length / 2));
-//         bindEvents();
-      
-//         timer();
-//     }
-    
-//     function resize() {
-//         width = Math.max(window.innerWidth * .20, 276),
-//         height = window.innerHeight * 1,
-//         totalWidth = width * items.length;
-      
-//         slider.style.width = totalWidth + "px";
-      
-//         for(var i = 0; i < items.length; i++) {
-//             let item = items[i];
-//             item.style.width = (width - (margin * 2)) + "px";
-//             item.style.height = height + "px";
+// audios.forEach((audio) => {
+//     let start = 30
+//     audio.currentTime=start
+//     audio.addEventListener("timeupdate", (e) => {
+//         let currentTime = e.target.currentTime
+//         if (currentTime > start + 15){
+//             audio.pause()
 //         }
-//     }
-    
-//     function move(index) {
-      
-//         if(index < 1) index = items.length;
-//         if(index > items.length) index = 1;
-//         currIndex = index;
-      
-//         for(var i = 0; i < items.length; i++) {
-//             let item = items[i],
-//                 box = item.getElementsByClassName('item__3d-frame')[0];
-//             if(i == (index - 1)) {
-//                 item.classList.add('carousel__slider__item--active');
-//                 box.style.transform = "perspective(1200px)"; 
-//             } else {
-//               item.classList.remove('carousel__slider__item--active');
-//                 box.style.transform = "perspective(1200px) rotateY(" + (i < (index - 1) ? 40 : -40) + "deg)";
-//             }
-//         }
-      
-//         slider.style.transform = "translate3d(" + ((index * -width) + (width / 2) + window.innerWidth / 2) + "px, 0, 0)";
-//     }
-    
-//     function timer() {
-//         clearInterval(interval);    
-//         interval = setInterval(() => {
-//           move(++currIndex);
-//         }, intervalTime);    
-//     }
-    
-//     function prev() {
-//       move(--currIndex);
-//       timer();
-//     }
-    
-//     function next() {
-//       move(++currIndex);    
-//       timer();
-//     }
-    
-    
-//     function bindEvents() {
-//         window.onresize = resize;
-//         prevBtn.addEventListener('click', () => { prev(); });
-//         nextBtn.addEventListener('click', () => { next(); });    
-//     }
-//     init();
-  
-// })();  
+//     })
+// })

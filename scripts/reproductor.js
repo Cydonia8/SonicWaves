@@ -4,6 +4,11 @@ const loader = document.querySelector(".loader")
 const link_inicio = document.getElementById("home-link")
 const profile_top_menu = document.querySelector(".profile-menu")
 const profile_menu_avatar = document.querySelector(".profile-menu .profile-menu-avatar")
+const arrow_show_aside = document.getElementById("arrow-show-aside")
+const header_aside = document.getElementById("side-menu")
+const add_new_playlist = document.getElementById("add-new-playlist")
+const playlists_container = document.getElementById("playlists-container")
+const new_playlist_container = document.querySelector(".modal-new-playlist")
 
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
@@ -29,7 +34,18 @@ initialSong()
 initializeUser()
 initialVolume()
 playerMainState()
-// getAlbums()
+getAllPlaylists()
+
+
+arrow_show_aside.addEventListener("click", ()=>{
+    if(header_aside.classList.contains("show")){
+        header_aside.classList.remove("show")
+        arrow_show_aside.setAttribute("name", "chevron-forward-outline")
+    }else{
+        header_aside.classList.add("show")
+        arrow_show_aside.setAttribute("name", "chevron-back-outline")
+    }
+})
 
 async function initialSong(){
     const respuesta = await fetch('../api_audio/canciones.php')
@@ -60,6 +76,36 @@ async function initialSong(){
 //     await createDOMAlbums(main, albums, createAlbumPreview)
 //     loader.classList.add("d-none")
 // })
+add_new_playlist.addEventListener("click", ()=>{
+    new_playlist_container.classList.add("show-modal-playlist")
+})
+ 
+async function createNewList(){
+
+}
+
+async function getAllPlaylists(){
+    const respuesta = await fetch('../api_audio/playlists.php')
+    const datos = await respuesta.json()
+    const listas = datos["listas"]
+    console.log(listas)
+    listas.forEach(lista=>{
+        const div = createPlaylistsLinks(lista.id, lista.nombre, lista.foto, lista.usuario)
+        playlists_container.appendChild(div)
+    })
+}
+
+function createPlaylistsLinks(id, nombre, foto, usuario){
+    const div = document.createElement("div")
+    div.setAttribute("data-list-id", id)
+    div.classList.add("d-flex", "gap-2", "w-100", "align-items-center")
+    div.innerHTML=`<div class='list-image-container-menu'><img src='${foto}' class='playlist-side-menu-foto rounded img-fluid object-fit-cover'></div>
+                    <div class='list-text-container-menu d-flex flex-column justify-content-around'>
+                        <span>${nombre}</span>
+                        <span class='list-creator'>${usuario}</span>
+                    </div>`
+    return div
+}
 play_pause.addEventListener("click", ()=>{
     if(audio.paused){
         audio.play()
@@ -302,14 +348,98 @@ function initialVolume(){
 }
  
 async function initializeUser(){
-    let user = profile_top_menu.getAttribute("data-user")
-    const respuesta = await fetch(`../api_audio/info_user.php?usuario=${user}`)
+    const respuesta = await fetch(`../api_audio/info_user.php`)
     const datos = await respuesta.json()
     let usuario_datos = datos["datos"]
+    console.log(usuario_datos)
+    let completado = datos["perfil_completado"]
+    if(completado == 0){
+        const respuesta_est = await fetch('../api_audio/estilos.php');
+        const datos_est = await respuesta_est.json()
+        const estilos = datos_est["estilos"]
+
+        const formulario_completar = document.createElement("section")
+        formulario_completar.classList.add("position-fixed", "top-0", "d-flex", "justify-content-center", "align-items-center")
+        const div_container = document.createElement("div")
+        div_container.classList.add("d-flex", "flex-column", "p-3", "gap-3","border", "align-items-center")
+        div_container.style.background=`linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(12,159,196,1) 55%, rgba(0,0,0,1) 93%)`
+        div_container.innerHTML=`<img src='../media/assets/sonic-waves-logo-simple.png' class="w-25 mx-auto">
+        <h1 class='text-center'>¡Bienvenido a Sonic Waves!</h1>
+        <p class="w-50 text-center">¡Enhorabuena ${usuario_datos[0].nombre} ${usuario_datos[0].apellidos}! Ya formas parte de la familia de Sonic Waves. Antes de podar usar
+        nuestro reproductor y todas las posibilidades que este ofrece deberás completar tu perfil. Pero 
+        ¡no te preocupes, no te llevará más de 30 segundos!</p>`
+        const form = document.createElement("form")
+        form.classList.add("d-flex", "flex-column", "align-items-center", "gap-3")
+        form.setAttribute("enctype", "multipart/form-data")
+        form.setAttribute("method", "post")
+        const select_estilo = createSelect(estilos)
+        form.appendChild(select_estilo)
+        form.innerHTML+=`<div class="input-field d-flex flex-column mb-3">
+                            <div class="input-visuals d-flex justify-content-between align-items-center gap-3">
+                                <label for="usuario">Fecha de nacimiento</label>
+                                <ion-icon name="calendar-outline"></ion-icon>
+                            </div>
+                            <input id="f_nac" name='f_nac' type='date'>                        
+                        </div>
+                        <div class="input-field d-flex flex-column mb-3">
+                            <div class="input-visuals d-flex justify-content-between align-items-center gap-3">
+                                <label for="usuario">Foto de avatar</label>
+                                <ion-icon name="image-outline"></ion-icon>
+                            </div>
+                            <input id="foto_avatar" class="custom-file-input" type="file" accept=".jpg,.png,.webp">                        
+                        </div>                  
+                        
+                        <button type="button" style='--clr:#0ce8e8' class='btn-danger-own' id='completar-perfil'><span>Completar datos</span><i></i></button>`
+        const input_fecha = form.querySelector("#f_nac")
+        const input_foto = form.querySelector("#foto_avatar")
+        const input_estilo = form.querySelector("select")
+        const btn_update = form.querySelector("#completar-perfil")
+        console.log(btn_update)
+        div_container.appendChild(form)
+        formulario_completar.style.width="100%"
+        formulario_completar.style.height="100dvh"
+        formulario_completar.style.backdropFilter="blur(3px)"
+        formulario_completar.style.zIndex="8888888888888888888888888888888888888888888888888888888888888"
+        formulario_completar.appendChild(div_container)
+        document.body.appendChild(formulario_completar)
+        btn_update.addEventListener("click", ()=>{
+            if(input_estilo.value.trim() !== "" && input_foto.value.trim() !== "" && input_fecha.value.trim() !== ""){
+                updateProfile(input_foto, input_estilo, input_fecha, form)
+                location.reload()
+            }
+            
+        })
+        
+    }
     profile_menu_avatar.src=usuario_datos[0].foto_avatar
 }
 
 
+function createSelect(estilos){
+    const select = document.createElement("select")
+    select.classList.add("p-1")
+    select.setAttribute("name", "estilo")
+    select.innerHTML="<option checked hidden value='null'>Escoge un estilo</option>"
+    estilos.forEach(estilo=>{
+        select.innerHTML+=`<option value="${estilo.id}">${estilo.nombre}</option>`
+    })
+    
+    return select
+}
+
+async function updateProfile(input_foto, input_estilo, input_fecha, formulario_perfil){
+    const formData = new FormData()
+    formData.append("foto_avatar", input_foto.files[0])
+    formData.append("estilo", input_estilo.value)
+    formData.append("f_nac", input_fecha.value)
+    formData.forEach(val=>{console.log(val)})
+    
+    await fetch(`../api_audio/actualizar_perfil.php`, {
+        method: 'POST',
+        body: formData
+    })
+    
+}
 
 async function showAlbum(target){
     main_content.innerHTML=''
@@ -327,8 +457,8 @@ async function showAlbum(target){
     const section_album_head = document.createElement("section")
     section_album_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "album-page-header", "gap-3", "align-items-center", "p-3")
     section_album_head.innerHTML=`<canvas></canvas>
-                                    <div class='d-flex flex-column gap-3'>
-                                        <h1>${datos_album[0].titulo}</h1>
+                                    <div class='d-flex flex-column gap-3 align-items-center align-items-md-start'>
+                                        <h1 class='text-sm-center'>${datos_album[0].titulo}</h1>
                                         <div class='d-flex align-items-center gap-2'>
                                             <img src='${datos_album[0].avatar}' class='avatar-album-page'>
                                             <h3 data-artist-id=${datos_album[0].id_grupo} class='m-0'>${datos_album[0].autor}</h3>
@@ -361,7 +491,7 @@ async function showAlbum(target){
     let color2 = quantColors[quantColors.length-8]
     let color3 = quantColors[quantColors.length-4]
     let color4 = quantColors[quantColors.length-11]
-    let color5 = quantColors[quantColors.length-13]
+    let color5 = quantColors[quantColors.length-14]
 
     section_album_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_album_head)
@@ -439,7 +569,7 @@ async function seeAlbumReviews(evt){
     canvas.height='300'
     img.src=`${datos_album[0].foto}`
     let ctxt = canvas.getContext("2d")
-    ctxt.drawImage(img, 10, 10, 320, 320)
+    ctxt.drawImage(img, 0, 0, 280, 280)
     const image_data = ctxt.getImageData(0,0,canvas.width, canvas.height)
     let rgb_array = buildRGBArray(image_data.data)
     const quantColors = quantization(rgb_array, 0)
@@ -488,10 +618,11 @@ async function seeAlbumReviews(evt){
     datos_reviews.forEach(review=>{
         let fecha = formatDate(review.fecha)
         const review_cont = document.createElement("div")
-        review_cont.classList.add("d-flex", "flex-column", "single-review-container", "border")
+        review_cont.classList.add("d-flex", "flex-column", "single-review-container", "p-2","rounded")
         review_cont.innerHTML=`<h3>${review.titulo}</h3>
                                 <p>${review.contenido}</p>
                                 <i>Escrita por ${review.autor} el ${fecha}</i>`
+        // review_cont.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color2.r}, ${color2.g}, ${color2.b}, .5), rgba(${color5.r},${color5.g},${color5.b},.5) 70%)`
         reviews_container.appendChild(review_cont)
     })
     section_reviews.appendChild(reviews_container)
