@@ -772,14 +772,33 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     flex-direction: column;
     align-items: flex-start;
 }
+#reproductor header#side-menu #form-new-list input[type="text"]{
+    background: none;
+    border: 0;
+    border-bottom: 1.5px solid white;
+    color: white;
+}
+#reproductor header#side-menu #form-new-list input[type="text"]:focus{
+    outline: none;
+}
 #reproductor header#side-menu .modal-new-playlist{
     position: fixed;
     border-radius: 10px;
     z-index: 1000000000000;
     top: 3.5rem;
-    background: #07bfec99;
+    /* background: #0A90DD; */
+    background: rgb(194,189,189);
+background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 57%);
     visibility: hidden;
     opacity: 0;
+    transition: all .7s;
+}
+#reproductor header#side-menu .modal-new-playlist #close-modal-new-list{
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-left: auto;
+    border: 2.5px solid black;
+    border-radius: 50%;
 }
 #reproductor header#side-menu .modal-new-playlist.show-modal-playlist{
     visibility: visible;
@@ -807,7 +826,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     overflow: auto;
 }
 #reproductor header#side-menu #playlists-container .playlist-side-menu-foto{
-    aspect-ratio: 4/3;
+    aspect-ratio: 4/4;
 }
 #reproductor header#side-menu #playlists-container .list-image-container-menu{
     width: 40%;
@@ -834,6 +853,16 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #reproductor header#side-menu ul.header-main-menu{
     list-style: none;
     padding: 0;
+}
+#reproductor header#side-menu .playlist-side-menu-container{
+    cursor: pointer;
+    transition: background-color .2s;
+    padding: .3rem .5rem;
+    border-radius: 6px;
+}
+#reproductor header#side-menu .playlist-side-menu-container:hover{
+    background-color: #2d3d69;
+    transition: background-color .2s;
 }
 
 #reproductor main{
@@ -905,13 +934,13 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     cursor: pointer;
 }
 
-#reproductor main .album-page-header h1{
+#reproductor main .album-page-header h1,#reproductor main .lista-page-header h1{
     font-size: 4rem;
 }
 #reproductor main .album-page-header img.album-page-portada{
     width: 350px;
 }
-#reproductor main .album-page-header .avatar-album-page{
+#reproductor main .album-page-header .avatar-album-page, #reproductor main .lista-page-header .avatar-lista-page{
     width: 30px;
     border: 1px solid snow;
     border-radius: 50%;
@@ -921,9 +950,15 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     padding: .6rem;
     border-radius: 10px;
 }
+ul.dropdown-menu-add-playlist{
+    background-color: #61bcf1;
+}
 #reproductor main .cancion-row .add-song-to-playlist{
     font-size: 1.5rem;
     opacity: 0;
+}
+#reproductor main .cancion-row .add-song-to-playlist ion-icon{
+    color: white;
 }
 #reproductor main .cancion-row:hover .add-song-to-playlist{
     opacity: 1;

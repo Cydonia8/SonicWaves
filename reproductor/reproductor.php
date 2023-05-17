@@ -53,12 +53,19 @@
     <ion-icon id="arrow-show-aside" name="chevron-forward-outline"></ion-icon>
     <header id="side-menu" class="p-3 gap-3">
         <div class="p-2 modal-new-playlist d-flex flex-column">
+            <ion-icon id="close-modal-new-list" name="close-outline"></ion-icon>
             <h5 class="text-center">Nueva playlist</h5>
-            <form action="" class="d-flex flex-column align-items-start gap-2">
-                <input type="text" placeholder="Nombre">
-                <input type="file" class="custom-file-input">
-                <button>Crear</button>
-            </form>
+            <form id="form-new-list" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-start gap-2">
+                <div class="input-field d-flex flex-column mb-3">
+                    <div class="input-visuals d-flex justify-content-between">
+                        <label for="usuario">Nombre</label>
+                        <ion-icon name="at-outline"></ion-icon>
+                    </div>
+                    <input id="nombre-nueva-lista" type="text" placeholder="Nombre">                      
+                </div>
+                
+                <input id="foto-nueva-lista" type="file" class="custom-file-input" accept=".png,.webp,.jpg,.jpeg">
+                <button type="button" style='--clr:#0ce8e8' class='btn-danger-own' id='crear-lista'><span>Añadir lista</span><i></i></button>
         </div>
         <a class="w-75" href="../index.php">
             <img class="img-fluid" src="../media/assets/sonic-waves-logo-simple.png" alt="">

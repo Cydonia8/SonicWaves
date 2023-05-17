@@ -13,7 +13,7 @@
     }
     $datos['datos_album'] = $datos_album;
 
-    $consulta_canciones = $conexion->query("select i.album album, titulo, duracion, archivo, e.nombre estilo from cancion c, incluye i, estilo e where c.id = i.cancion and e.id = c.estilo and i.album = $id");
+    $consulta_canciones = $conexion->query("select i.album album, titulo, duracion, archivo, e.nombre estilo, c.id id from cancion c, incluye i, estilo e where c.id = i.cancion and e.id = c.estilo and i.album = $id");
     $datos_canciones = [];
     while($fila = $consulta_canciones->fetch_array(MYSQLI_ASSOC)){
         $datos_canciones[] = $fila;
