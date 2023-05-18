@@ -2,7 +2,7 @@
     header("Content-Type: application/json");
     header("Access-Control-Allow-Origin: *");
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
-    sleep(1);
+    sleep(1.5);
 
     $id_grupo_recomendado = $conexion->query("SELECT id from grupo where id <> 0 and foto is not null and activo = 1 order by rand() limit 1");
     $fila = $id_grupo_recomendado->fetch_array(MYSQLI_ASSOC);

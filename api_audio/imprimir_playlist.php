@@ -19,7 +19,7 @@
     $datos["datos_lista"] = $datos_lista;
     $consulta_lista_datos->close();
 
-    $consulta_canciones_lista = $conexion->prepare("SELECT a.id album, c.titulo titulo, duracion, c.id id, archivo from cancion c, contiene co, album a, incluye i where c.id = co.cancion and a.id = i.album and i.cancion = c.id and co.lista = ? order by orden asc");
+    $consulta_canciones_lista = $conexion->prepare("SELECT distinct a.id album, c.titulo titulo, duracion, c.id id, archivo from cancion c, contiene co, album a, incluye i where c.id = co.cancion and a.id = i.album and i.cancion = co.cancion and co.lista = ? group by c.id order by orden asc");
     $consulta_canciones_lista->bind_param('i', $id);
     $consulta_canciones_lista->execute();
     $resultado_lista_canciones = $consulta_canciones_lista->get_result();

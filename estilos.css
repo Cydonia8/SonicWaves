@@ -940,6 +940,21 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
 #reproductor main .album-page-header img.album-page-portada{
     width: 350px;
 }
+#reproductor main .lista-page-header #icon-borrar-playlist{
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all .5s;
+}
+#reproductor main .lista-page-header #icon-borrar-playlist:hover{
+    color: crimson;
+    transition: all .5s;
+}
+#reproductor main .delete-song-from-playlist{
+    opacity: 0;
+    color: crimson;
+    font-size: 2rem;
+}
+
 #reproductor main .album-page-header .avatar-album-page, #reproductor main .lista-page-header .avatar-lista-page{
     width: 30px;
     border: 1px solid snow;
@@ -954,13 +969,17 @@ ul.dropdown-menu-add-playlist{
     background-color: #61bcf1;
 }
 #reproductor main .cancion-row .add-song-to-playlist{
-    font-size: 1.5rem;
+    font-size: 2rem;
     opacity: 0;
+}
+#reproductor main .song-search-individual-result .add-song-to-playlist, #reproductor main .song-search-individual-result .add-song-to-playlist ion-icon{
+    color: white;
+    font-size: 2rem;
 }
 #reproductor main .cancion-row .add-song-to-playlist ion-icon{
     color: white;
 }
-#reproductor main .cancion-row:hover .add-song-to-playlist{
+#reproductor main .cancion-row:hover .add-song-to-playlist,#reproductor main .cancion-row:hover .delete-song-from-playlist{
     opacity: 1;
     transition: all .7s;
 }
@@ -1029,10 +1048,10 @@ ul.dropdown-menu-add-playlist{
 }
 #reproductor .artist-link,#reproductor .album-link{
     text-decoration: none;
-    color: white;
+    color: #d6d0d0;
 }
 #reproductor .artist-link:hover,#reproductor .album-link:hover{
-    text-decoration: underline
+    /* text-decoration: underline */
 }
 #reproductor main .album-inner-container:hover,#reproductor main .artist-inner-container:hover{
     background-color: #332f2fa8;
@@ -1082,6 +1101,7 @@ ul.dropdown-menu-add-playlist{
 }
 #reproductor .master-play .track-info .track-info-artist{
     font-size: 0.8rem;
+    color: #d6d0d0;
 }
 #reproductor .master-play .bar-control-icons{
     position: absolute;
@@ -1212,10 +1232,123 @@ ul.dropdown-menu-add-playlist{
     box-shadow: inset 0px 0px 3px #08c4f3;
     transition: width 1s ease-in-out;
 }
+#reproductor main .groups-search-results, #reproductor main .albums-search-results, #reproductor main .songs-search-results{
+    width: 33.33%;
+    background-color: #090f1f;
+    padding: .7rem 1rem;
+    border-radius: 10px;
+    height: 100%;
+}
+#reproductor main .groups-search-results .group-search-individual-result, #reproductor main .albums-search-results .album-search-individual-result,
+#reproductor main .songs-search-results .song-search-individual-result{
+    transition: all .2s;
+    border-radius: 15px;
+    padding: .7rem 1rem;
+    cursor: pointer;
+}
+#reproductor main .groups-search-results .group-search-individual-result:hover, #reproductor main .albums-search-results .album-search-individual-result:hover,
+#reproductor main .songs-search-results .song-search-individual-result:hover{
+    background-color: #2d3d69;
+    transition: background-color .2s; 
+}
+.lds-roller {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-roller div {
+    animation: lds-roller 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    transform-origin: 40px 40px;
+    
+  }
+  .lds-roller div:after {
+    content: " ";
+    display: block;
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #fff;
+    margin: -4px 0 0 -4px;
+  }
+  .lds-roller div:nth-child(1) {
+    animation-delay: -0.036s;
+  }
+  .lds-roller div:nth-child(1):after {
+    top: 63px;
+    left: 63px;
+    background-color: #0A90DD;
+  }
+  .lds-roller div:nth-child(2) {
+    animation-delay: -0.072s;
+  }
+  .lds-roller div:nth-child(2):after {
+    top: 68px;
+    left: 56px;
+    background-color: #0A90DD;
+  }
+  .lds-roller div:nth-child(3) {
+    animation-delay: -0.108s;
+    
+  }
+  .lds-roller div:nth-child(3):after {
+    top: 71px;
+    left: 48px;
+    background-color: #0A90DD;
+  }
+  .lds-roller div:nth-child(4) {
+    animation-delay: -0.144s;
+  }
+  .lds-roller div:nth-child(4):after {
+    top: 72px;
+    left: 40px;
+    background-color: #0A90DD;
+  }
+  .lds-roller div:nth-child(5) {
+    animation-delay: -0.18s;
+  }
+  .lds-roller div:nth-child(5):after {
+    top: 71px;
+    left: 32px;
+    background-color: #0A90DD;
+  }
+  .lds-roller div:nth-child(6) {
+    animation-delay: -0.216s;
+  }
+  .lds-roller div:nth-child(6):after {
+    top: 68px;
+    left: 24px;
+    background-color: #0A90DD;
+  }
+  .lds-roller div:nth-child(7) {
+    animation-delay: -0.252s;
+  }
+  .lds-roller div:nth-child(7):after {
+    top: 63px;
+    left: 17px;
+    background-color: #0A90DD;
+  }
+  .lds-roller div:nth-child(8) {
+    animation-delay: -0.288s;
+  }
+  .lds-roller div:nth-child(8):after {
+    top: 56px;
+    left: 12px;
+    background-color: #0A90DD;
+  }
+  @keyframes lds-roller {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 .loader::before,.loader::after{
     animation: loader 1s linear infinite;
     content: '';
-    border: 2px solid white;
+    border: 6px solid #0A90DD;
     width: 128px;
     height: 128px;
     position: absolute;
@@ -1225,11 +1358,20 @@ ul.dropdown-menu-add-playlist{
     opacity: 0;
     animation-delay: 0.3s;
 }
-.loader{
-    position: absolute;
-    top: 50%;
+#loader{
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+    top: 0;
+    left: 0;
+    height: 100dvh;
+    width: 100vw;
+    z-index: 10000000;
+    /* top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
 }
 /* button.btn-danger.own{
     color: red;

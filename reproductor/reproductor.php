@@ -25,30 +25,6 @@
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
     <title>Sonic Waves | Reproductor Web</title>
 </head>
-<style>
-    /* input{
-        width: 50%;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        height: 5px;
-        background: #0e21f0;
-        -webkit-transition: .2s;
-        transition: opacity .2s;
-        border-radius: 15px;
-        filter: drop-shadow(0 0 0.75rem #0e21f0);
-    }
-    input::-webkit-slider-thumb{
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        width: 15px;
-        height: 15px;
-        background: #fff;
-        border-radius: 50%;
-        cursor: pointer;
-    } */
-</style>
 <body id="reproductor">
     <ion-icon id="arrow-show-aside" name="chevron-forward-outline"></ion-icon>
     <header id="side-menu" class="p-3 gap-3">
@@ -100,7 +76,10 @@
         <section id="main-content-dynamic-container">
 
         </section>
-        <span class="loader d-none"></span>
+        <section id="loader" class="">
+            <!-- <span class="loader"></span> -->
+            <div class="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+        </section>
     </main>
     <footer class="master-play d-flex justify-content-between align-items-center" id="player">
         <div class="track-info d-flex gap-2 align-items-start flex-column flex-sm-row align-items-sm-center">

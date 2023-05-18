@@ -21,3 +21,5 @@
     $insert = $conexion->prepare("INSERT INTO contiene (lista, cancion, orden) values (?,?,?)");
     $insert->bind_param('iii', $lista, $cancion, $orden);
     $insert->execute();
+    $insert->close();
+    $conexion->close();
