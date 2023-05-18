@@ -29,7 +29,7 @@
     $datos["albumes"] = $coincidencias_albumes;
     $busqueda_albumes->close();
 
-    $busqueda_canciones = $conexion->prepare("SELECT c.id id, archivo, c.titulo titulo, a.foto foto, g.nombre grupo from cancion c, album a, incluye i, grupo g where c.id = i.cancion and a.id = i.album and g.id = a.grupo and a.activo = 1 and c.titulo like ?");
+    $busqueda_canciones = $conexion->prepare("SELECT c.id id, archivo, c.titulo titulo, a.foto caratula, g.nombre autor from cancion c, album a, incluye i, grupo g where c.id = i.cancion and a.id = i.album and g.id = a.grupo and a.activo = 1 and c.titulo like ?");
     $busqueda_canciones->bind_param('s', $patron_formateado);
     $busqueda_canciones->execute();
     $resultado_canciones = $busqueda_canciones->get_result();

@@ -34,7 +34,7 @@ const play_pause = document.getElementById("play-pause")
 const audio = new Audio()
 
 let cola_reproduccion = []
-let indice
+let indice=0
 
 
 search_bar.addEventListener("keyup", async ()=>{
@@ -95,13 +95,14 @@ search_bar.addEventListener("keyup", async ()=>{
     resultados_canciones.classList.add("d-flex", "flex-column", "songs-search-results")
     resultados_canciones.innerHTML+=`<h2 class="text-center">Canciones</h2>`
     if(canciones.length != 0){
-        canciones.forEach(cancion=>{
+        canciones.forEach((cancion, index)=>{
             const div_song = document.createElement("div")
+            div_song.setAttribute("data-song-id", cancion.archivo)
             div_song.classList.add("d-flex", "align-items-center", "gap-3", "song-search-individual-result")
-            div_song.innerHTML=`<img src='${cancion.foto}' class="w-25 rounded">
+            div_song.innerHTML=`<img src='${cancion.caratula}' class="w-25 rounded">
                                 <div>
                                     <h4>${cancion.titulo}</h4>
-                                    <h5>${cancion.grupo}</h5>
+                                    <h5>${cancion.autor}</h5>
                                     <button data-bs-auto-close="true" data-song-id=${cancion.id} class="btn-group dropup add-song-to-playlist d-flex align-items-center p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false"><ion-icon name="add-outline"></ion-icon></button>
                                             <ul class="dropdown-menu overflow-auto dropdown-menu-add-playlist">
                                             </ul>
@@ -114,8 +115,9 @@ search_bar.addEventListener("keyup", async ()=>{
                 getAllPlaylists(ul_container, "modal", id_cancion)
             })                          
 
-            div_song.addEventListener("click", ()=>{
-                console.log("jofiaj")
+            div_song.addEventListener("click", (evt)=>{
+                cola_reproduccion.push(cancion)
+                playSearchedSong(cancion)
             })
             resultados_canciones.appendChild(div_song)
         })
@@ -146,8 +148,16 @@ arrow_show_aside.addEventListener("click", ()=>{
     }
 })
 
-async function playSearchedSong(){
-
+async function playSearchedSong(cancion){
+    audio.src=`${cancion.archivo}`
+    audio.play()
+    play_pause.setAttribute("name", "pause-outline")
+    player_logo.classList.add("active")
+    track_info.innerHTML=`<img src='${cancion.caratula}' class='rounded'>
+                            <div class='d-flex flex-column'>
+                                <span class='track-info-title'>${cancion.titulo}</span>
+                                <span class='track-info-artist'>${cancion.autor}</span>
+                            </div>`
 }
 async function initialSong(){
     const respuesta = await fetch('../api_audio/canciones.php')
