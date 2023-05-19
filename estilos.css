@@ -914,7 +914,13 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
 }
 #reproductor .profile-menu .profile-menu-avatar{
     width: 40px;
+    border: 3px outset snow;
+    cursor: pointer;
 }
+#reproductor .profile-menu .profile-menu-avatar:hover{
+    border: 2px outset snow;
+}
+
 #reproductor .profile-menu #search-bar{
     border-radius: 15px;
     padding: .2rem .4rem;
@@ -922,6 +928,18 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
     background-color: #0f0f117a;
     color: white;
 }
+#reproductor main .favorite-album-img-container{
+    width: 10%;
+}
+#reproductor main .favorite-album-container{
+    cursor: pointer;
+}
+@media screen and (max-width:900px) {
+    #reproductor main .favorite-album-container h2, #reproductor main .favorite-album-container h4{
+        font-size: .8em;
+    }
+}
+
 #reproductor main .banner-recomended{
     width: 90%;
     border-radius: 15px;

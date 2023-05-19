@@ -15,6 +15,7 @@ const foto_nueva_lista = document.getElementById("foto-nueva-lista")
 const crear_lista = document.getElementById("crear-lista")
 const close_modal_new_list = document.getElementById("close-modal-new-list")
 const search_bar = document.getElementById("search-bar")
+const albums_esenciales = document.getElementById("albums-esenciales")
 
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
@@ -36,7 +37,46 @@ const audio = new Audio()
 let cola_reproduccion = []
 let indice=0
 
+profile_menu_avatar.addEventListener("click", async ()=>{
+    main_content.innerHTML=""
+    const respuesta = await fetch(`../api_audio/info_user.php`)
+    const datos = await respuesta.json()
+    const datos_usuario = datos["datos"]
+    main_content.classList.add("position-absolute", "w-100", "top-0")
+    const section_profile_head = document.createElement("section")
+    section_profile_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "lista-page-header", "gap-3", "align-items-center", "p-3")
+    section_profile_head.innerHTML=`<canvas></canvas>
+                                    <div class='d-flex flex-column gap-3 align-items-center align-items-md-start'>
+                                        <span>Miembro de Sonic Waves</span>
+                                        <h1 class='text-sm-center'>${datos_usuario[0].usuario}</h1>
+                                        <h3 class='m-0'>${datos_usuario[0].nombre} ${datos_usuario[0].apellidos}</h3>
+                                    </div>`
+    const canvas = section_profile_head.querySelector("canvas")
+    
+    
+    const img = document.createElement("img")
+    canvas.width='300'
+    canvas.height='300'
+    canvas.style.borderRadius="50%"
+    img.src=`${datos_usuario[0].foto_avatar}`
+    img.width='300px'
+    img.height='300px'
+    let ctxt = canvas.getContext("2d")
+    ctxt.drawImage(img, 0, 0, 300, 300)
+    const image_data = ctxt.getImageData(0,0,canvas.width, canvas.height)
+    let rgb_array = buildRGBArray(image_data.data)
+    const quantColors = quantization(rgb_array, 0)
+    quantColors.sort((a,b) => a-b)
+    let color1 = quantColors[quantColors.length-1]
+    let color2 = quantColors[quantColors.length-8]
+    let color3 = quantColors[quantColors.length-4]
+    let color4 = quantColors[quantColors.length-11]
+    let color5 = quantColors[quantColors.length-14]
 
+    section_profile_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+    main_content.appendChild(section_profile_head)
+    
+})
 search_bar.addEventListener("keyup", async ()=>{
     const busqueda = search_bar.value
     console.log(busqueda)
@@ -48,6 +88,7 @@ search_bar.addEventListener("keyup", async ()=>{
     // loader.classList.remove("d-flex")
     main_content.classList.remove("position-absolute")
     main_content.innerHTML=""
+    main_content.innerHTML="<div class='d-flex justify-content-center mb-3'><img src='../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png' class='w-25 mx-auto'></div>"
 
     const albumes = datos["albumes"]
     const grupos = datos["grupos"]
@@ -60,10 +101,12 @@ search_bar.addEventListener("keyup", async ()=>{
     resultados_grupo.innerHTML=`<h2 class="text-center">Grupos</h2>`
     if(grupos.length != 0){
         grupos.forEach(grupo=>{
+            let disco = grupo.discografica == 0 ? '' : 'Artista esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
             const div_grupo = document.createElement("div")
             div_grupo.classList.add("d-flex", "align-items-center", "gap-3", "group-search-individual-result")
             div_grupo.innerHTML+=`<img src='${grupo.foto_avatar}' class="rounded-circle w-25">
-                                            <h4>${grupo.nombre}</h4>`
+                                            <h4>${grupo.nombre}</h4>
+                                            <h5 class='ms-3 d-flex align-items-center gap-2 grupo-esencial-badge'>${disco}</h5>`
             div_grupo.addEventListener("click", ()=>{
                 console.log("jj")
             })
@@ -129,6 +172,11 @@ search_bar.addEventListener("keyup", async ()=>{
     resultados.appendChild(resultados_albumes)
     resultados.appendChild(resultados_canciones)
     main_content.appendChild(resultados)
+})
+
+albums_esenciales.addEventListener("click", (evt)=>{
+    evt.preventDefault()
+    showFavoriteAlbums()
 })
 
 // initialSong()
@@ -207,6 +255,54 @@ async function getAllPlaylists(dom_padre, ubicacion, cancion){
     })
 }
 
+async function showFavoriteAlbums(){
+    main_content.innerHTML=""
+    const respuesta = await fetch('../api_audio/albumes_esenciales.php')
+    const datos = await respuesta.json()
+    const albumes = datos["albumes"]
+    main_content.innerHTML="<h1 class='text-center'>Tus álbumes esenciales</h1>"
+    const section_favoritos = document.createElement("section")
+    section_favoritos.classList.add("container-fluid", "d-flex", "flex-column", "gap-3")
+    albumes.forEach(album=>{
+        const div_album = document.createElement("div")
+        div_album.setAttribute("data-album-id", album.id)
+        div_album.classList.add("d-flex", "gap-3", "align-items-center", "rounded", "favorite-album-container")
+        div_album.innerHTML=`<div class='favorite-album-img-container'>
+                                <img src='${album.foto}' class='img-fluid'>
+                                <canvas></canvas>
+                            </div>
+                            <div>
+                                <h2>${album.titulo}</h2>
+                                <h4>${album.autor}</h4>
+                            </div>`
+        const canvas = div_album.querySelector("canvas")
+        const img = document.createElement("img")
+        canvas.width='300'
+        canvas.height='300'
+        img.src=`${album.foto}`
+        img.width='300px'
+        img.height='300px'
+        let ctxt = canvas.getContext("2d")
+        ctxt.drawImage(img, 0, 0, 280, 280)
+        const image_data = ctxt.getImageData(0,0,canvas.width, canvas.height)
+        let rgb_array = buildRGBArray(image_data.data)
+        const quantColors = quantization(rgb_array, 0)
+        quantColors.sort((a,b) => a-b)
+        let color1 = quantColors[quantColors.length-1]
+        let color2 = quantColors[quantColors.length-8]
+        let color3 = quantColors[quantColors.length-4]
+        let color4 = quantColors[quantColors.length-11]
+        let color5 = quantColors[quantColors.length-14]
+        canvas.style.display="none"
+        div_album.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+        div_album.addEventListener("click", (evt)=>{
+            showAlbum(evt.currentTarget)
+        })
+        section_favoritos.appendChild(div_album)
+    })
+    main_content.appendChild(section_favoritos)
+}
+
 function createPlaylistsLinks(id, nombre, foto, usuario){
     const div = document.createElement("div")
     div.setAttribute("data-list-id", id)
@@ -243,18 +339,19 @@ async function printPlaylist(id){
     main_content.innerHTML=""
     const respuesta = await fetch(`../api_audio/imprimir_playlist.php?id=${id}`)
     const datos = await respuesta.json()
-    const datos_lista = datos["datos_lista"]
+    const datos_lista = datos["datos_lista"] 
     main_content.classList.add("position-absolute", "w-100", "top-0")
     const section_playlist_head = document.createElement("section")
     section_playlist_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "lista-page-header", "gap-3", "align-items-center", "p-3")
     section_playlist_head.innerHTML=`<canvas></canvas>
                                     <div class='d-flex flex-column gap-3 align-items-center align-items-md-start'>
+                                        <span>Playlist</span>
                                         <h1 class='text-sm-center'>${datos_lista[0].nombre}</h1>
                                         <div class='d-flex align-items-center gap-2'>
                                             <img src='${datos_lista[0].foto_avatar}' class='avatar-lista-page'>
-                                            <h3 class='m-0'>Creada por ${datos_lista[0].autor}</h3>
+                                            <h3 class='m-0'>Playlist de ${datos_lista[0].autor}</h3>
                                         </div>
-                                        <h4>Creada el ${datos_lista[0].fecha_creacion}</h4>
+                                        <h4>Creada el ${formatDate(datos_lista[0].fecha_creacion)}</h4>
                                         <ion-icon id="icon-borrar-playlist" name="trash-outline"></ion-icon>
                                     </div>`
     const canvas = section_playlist_head.querySelector("canvas")
@@ -672,7 +769,10 @@ async function showAlbum(target){
     loader.classList.add("d-none")
     loader.classList.remove("d-flex")
     
+    const favorito = datos["favorito"]
+   
     const datos_album = datos["datos_album"]
+    const corazon = favorito == 0 ? "fa-regular" : "fa-solid"
     main_content.classList.add("position-absolute", "w-100", "top-0")
     const section_album_head = document.createElement("section")
     section_album_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "album-page-header", "gap-3", "align-items-center", "p-3")
@@ -683,15 +783,30 @@ async function showAlbum(target){
                                             <img src='${datos_album[0].avatar}' class='avatar-album-page'>
                                             <h3 data-artist-id=${datos_album[0].id_grupo} class='m-0'>${datos_album[0].autor}</h3>
                                         </div>
-                                        <h4>Lanzado el ${datos_album[0].lanzamiento}</h4>
+                                        <h4>Lanzado el ${formatDate(datos_album[0].lanzamiento)}</h4>
                                         <div class='d-flex gap-4'>
-                                            <i class="fa-regular fa-heart add-favorite-album"></i>
+                                            <i data-favorite=${favorito} class="${corazon} fa-heart add-favorite-album"></i>
                                             <i class="fa-regular fa-comment add-album-review"></i>
                                             <ion-icon data-album-id="${id}" class="see-album-reviews" name="globe-outline"></ion-icon>
                                         </div>
                                     </div>`
     const canvas = section_album_head.querySelector("canvas")
+    const add_favorite = section_album_head.querySelector(".add-favorite-album")
     const see_reviews = section_album_head.querySelector(".see-album-reviews")
+    add_favorite.addEventListener("click", (evt)=>{
+        const es_favorito = evt.target.getAttribute("data-favorite")
+        if(es_favorito == 0){
+            addFavoriteAlbum(id)
+            add_favorite.classList.remove("fa-regular")
+            add_favorite.classList.add("fa-solid")
+            add_favorite.setAttribute("data-favorite", 1)
+        }else{
+            deleteFavoriteAlbum(id)
+            add_favorite.classList.remove("fa-solid")
+            add_favorite.classList.add("fa-regular")
+            add_favorite.setAttribute("data-favorite", 0)
+        }
+    })
     see_reviews.addEventListener("click", seeAlbumReviews)
     const enlace_grupo = section_album_head.querySelector("h3")
     enlace_grupo.addEventListener("click", showGroup)
@@ -757,6 +872,14 @@ async function showAlbum(target){
             }
         }
     }  
+}
+
+async function addFavoriteAlbum(id){
+    await fetch(`../api_audio/add_album_favorito.php?id=${id}`)
+}
+
+async function deleteFavoriteAlbum(id){
+    await fetch(`../api_audio/remove_album_favorito.php?id=${id}`)
 }
 
 async function seeAlbumReviews(evt){

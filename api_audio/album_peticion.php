@@ -1,5 +1,5 @@
 <?php
-    
+    session_start();
     header('Content-Type: application/json');
 	header("Access-Control-Allow-Origin: *");
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
@@ -12,6 +12,22 @@
         $datos_album[] = $fila;
     }
     $datos['datos_album'] = $datos_album;
+
+    $sentencia_usuario = $conexion->prepare("SELECT id from usuario where usuario = ?");
+    $sentencia_usuario->bind_param('s', $_SESSION["user"]);
+    $sentencia_usuario->bind_result($id_usuario);
+    $sentencia_usuario->execute();
+    $sentencia_usuario->fetch();
+    $sentencia_usuario->close();
+
+    $sentencia_favorito = $conexion->prepare("select count(*) from favorito where album = ? and usuario = ?");
+    $sentencia_favorito->bind_param('ii', $id, $id_usuario);
+    $sentencia_favorito->bind_result($favorito);
+    $sentencia_favorito->execute();
+    $sentencia_favorito->fetch();
+    $sentencia_favorito->close();
+
+    $datos["favorito"] = $favorito;
 
     $consulta_canciones = $conexion->query("select i.album album, titulo, duracion, archivo, e.nombre estilo, c.id id from cancion c, incluye i, estilo e where c.id = i.cancion and e.id = c.estilo and i.album = $id");
     $datos_canciones = [];

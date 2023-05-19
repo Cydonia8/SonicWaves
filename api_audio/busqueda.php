@@ -5,7 +5,7 @@
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
     $patron = $_GET["patron"];
     $patron_formateado = '%'.$patron.'%';
-    $busqueda_grupos = $conexion->prepare("SELECT id, nombre, foto_avatar from grupo where activo = 1 and nombre like ?");
+    $busqueda_grupos = $conexion->prepare("SELECT id, nombre, foto_avatar, discografica from grupo where activo = 1 and nombre like ?");
     $busqueda_grupos->bind_param('s', $patron_formateado);
     $busqueda_grupos->execute();
     $resultado_grupos = $busqueda_grupos->get_result();

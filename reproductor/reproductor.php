@@ -54,7 +54,7 @@
                 </a>
             </li>
             <li>
-                <a class="d-flex align-items-center gap-2" id="home-link" href="">
+                <a class="d-flex align-items-center gap-2" id="albums-esenciales" href="">
                     <ion-icon class="side-header-icons" name="disc-outline"></ion-icon>
                     <span>Mis discos esenciales</span>
                 </a>
