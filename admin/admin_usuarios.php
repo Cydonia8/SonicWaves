@@ -23,6 +23,9 @@
         menuAdminDropdown();
     ?>
     <h1 class="text-center mt-5">Usuarios de Sonic Waves</h1>
+    <?php
+        printFilterForm("por nombre de usuario");
+    ?>
     <section class="albumes-container container-fluid mx-auto row gap-3">
        <?php
             getAllUsers();

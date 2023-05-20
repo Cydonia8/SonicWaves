@@ -16,6 +16,7 @@ const crear_lista = document.getElementById("crear-lista")
 const close_modal_new_list = document.getElementById("close-modal-new-list")
 const search_bar = document.getElementById("search-bar")
 const albums_esenciales = document.getElementById("albums-esenciales")
+const MXMATCH_API_KEY = "230777d3bbd468016bc464b2a53b4c22"
 
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
@@ -28,6 +29,7 @@ const track_info = document.querySelector(".track-info")
 const player_logo = document.querySelector(".player-logo-color-changer")
 const next = document.getElementById("next")
 const previous = document.getElementById("previous")
+const letra = document.getElementById("letra")
 
 const current_time = document.getElementById("current-time")
 const end_time = document.getElementById("end-time")
@@ -36,6 +38,56 @@ const audio = new Audio()
 
 let cola_reproduccion = []
 let indice=0
+
+// track_info.children[1].children[0].addEventListener("click", ()=>{
+//     showAlbum()
+// })
+
+letra.addEventListener("click", async()=>{
+    const titulo = track_info.children[1].children[0].innerText.toLowerCase().trim()
+    const artista = track_info.children[1].children[1].innerText
+    const foto = track_info.children[0].src
+    console.log(foto)
+    const respuesta = await fetch(`http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?q_artist=${artista}&q_track=${titulo}&apikey=${MXMATCH_API_KEY}`)
+    const datos = await respuesta.json()
+    let letra = datos.message.body.lyrics.lyrics_body
+    const copyright = datos.message.body.lyrics.lyrics_copyright
+    if(letra == "" && copyright == ""){
+        letra = "Instrumental. Disfruta de la música"
+    }else if(letra == "" && copyright == "Unfortunately we're not authorized to show these lyrics."){
+        letra = "No nos dejan mostrar esta letra por copyright. Capitalismo."
+    }
+    letra = letra.replace("******* This Lyrics is NOT for Commercial use *******", "Pronto, letras completas en Sonic Waves")
+    console.log(letra)
+    console.log(datos)
+    main_content.classList.remove("position-absolute")
+    main_content.innerHTML=`<section class="container-fluid rounded h-100 mx-auto d-flex justify-content-center align-items-center lyrics-container">
+                            <canvas></canvas>
+                            <pre class="text-center" id="song-lyric">${letra}</pre>
+                        </section>`
+    const canvas = main_content.querySelector("canvas")
+    const lyrcs_container = main_content.querySelector(".lyrics-container")
+    const img = document.createElement("img")
+    canvas.width='300'
+    canvas.height='300'
+    img.src=`${foto}`
+    img.width='300px'
+    img.height='300px'
+    let ctxt = canvas.getContext("2d")
+    canvas.style.display="none"
+    ctxt.drawImage(img, 0, 0, 300, 3000)
+    const image_data = ctxt.getImageData(0,0,canvas.width, canvas.height)
+    let rgb_array = buildRGBArray(image_data.data)
+    const quantColors = quantization(rgb_array, 0)
+    quantColors.sort((a,b) => a-b)
+    let color1 = quantColors[quantColors.length-1]
+    let color2 = quantColors[quantColors.length-8]
+    let color3 = quantColors[quantColors.length-4]
+    let color4 = quantColors[quantColors.length-11]
+    let color5 = quantColors[quantColors.length-14]
+    lyrcs_container.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+
+})
 
 profile_menu_avatar.addEventListener("click", async ()=>{
     main_content.innerHTML=""
@@ -476,7 +528,10 @@ async function playerMainState(){
     banner_main.style.backgroundSize='cover'
     banner_main.style.backgroundPosition='center'
     banner_main.style.height='40vh'
-    
+    // banner_main.addEventListener("click", ()=>{
+    //     console.log("jiofjs")
+    // })
+    // console.log(banner_main)
     main_content.appendChild(banner_main)
     
     const main_albums_container = document.createElement("div")
@@ -509,14 +564,13 @@ async function playerMainState(){
     datos["artistas"].forEach(artista=>{
         const div_artist_container = document.createElement("div")
         div_artist_container.setAttribute("data-artist-id", artista.id)
-        div_artist_container.addEventListener("click", showGroup)
+        div_artist_container.addEventListener("click", ()=>{
+            showGroup(artista.id)
+        })
         div_artist_container.classList.add("d-flex", "flex-column", "justify-content-around", "artist-inner-container")   
         div_artist_container.innerHTML=`<img src='${artista.foto_avatar}' class='img-fluid rounded-circle'>
         <a>${artista.nombre}</a>`
         main_content_artists_container.appendChild(div_artist_container)
-    })
-    banner_main.addEventListener("click", ()=>{
-        console.log("jue")
     })
 }
 
@@ -544,13 +598,15 @@ document.addEventListener("click", (evt)=>{
     if(target){
       showAlbum(target)
     }
-  });
-// document.addEventListener("click", (evt)=>{
-// const target = evt.target.closest(".banner-recomended"); // Or any other selector.  
-// if(target){
-//     showGroup(evt.target)
-// }
-// });
+  })
+
+document.addEventListener("click", (evt)=>{
+    const target = evt.target.closest(".banner-recomended"); // Or any other selector.
+    if(target){
+        const id = target.getAttribute("data-artist-id")
+        showGroup(id)
+    }
+})
 
 //Actualizar duración total de la canción
 audio.addEventListener("loadedmetadata", ()=>{
@@ -809,7 +865,9 @@ async function showAlbum(target){
     })
     see_reviews.addEventListener("click", seeAlbumReviews)
     const enlace_grupo = section_album_head.querySelector("h3")
-    enlace_grupo.addEventListener("click", showGroup)
+    enlace_grupo.addEventListener("click", ()=>{
+        showGroup(datos_album[0].id_grupo)
+    })
     const img = document.createElement("img")
     canvas.width='300'
     canvas.height='300'
@@ -918,7 +976,9 @@ async function seeAlbumReviews(evt){
         showAlbum(evt.target)
     })
     const enlace_grupo = section_album_head.querySelector("h3")
-    enlace_grupo.addEventListener("click", showGroup)
+    enlace_grupo.addEventListener("click", ()=>{
+        showGroup(datos_album[0].id_grupo)
+    })
     const img = document.createElement("img")
     canvas.width='300'
     canvas.height='300'
@@ -1035,12 +1095,12 @@ async function loadPlayingList(evt, context){
     
 }
 
-async function showGroup(evt){
+async function showGroup(id){
     main_content.innerHTML=''
     main_content.classList.add("position-absolute", "w-100", "top-0")
     loader.classList.remove("d-none")
     loader.classList.add("d-flex")
-    const id = evt.currentTarget.getAttribute("data-artist-id")
+    // const id = evt.currentTarget.getAttribute("data-artist-id")
     const respuesta = await fetch(`../api_audio/artista_peticion.php?id=${id}`)
     const datos = await respuesta.json()
     loader.classList.add("d-none")

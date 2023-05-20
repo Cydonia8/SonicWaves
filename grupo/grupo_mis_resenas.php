@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once "../square_image_creator/create_square_image.php";
     require_once "../php_functions/general.php";
     require_once "../php_functions/group_functions.php";
     forbidAccess("group");
@@ -16,31 +17,21 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
-    <script src="../scripts/grupo_add_survey.js" defer></script>
     <script src="../scripts/jquery-3.2.1.min.js" defer></script>
+    <script src="../scripts/grupo_mis_resenas.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <title>Document</title>
 </head>
-<body id="grupo-añadir-encuesta">
+<body id="grupo-mis-reseñas">
     <?php
         menuGrupoDropdown("position-static");
     ?>
-    <form>
-        <div class="input-field  mb-3 gap-2">
-            <div class=" justify-content-between">
-                <label class="file">Título de la encuesta</label>
-                <ion-icon name="image-outline"></ion-icon>
-            </div>
-            <input type="text" name="titulo" required>
-        </div>
-        <div class="input-field  mb-3 gap-2">
-            <div class="justify-content-between">
-                <label class="file">Duración de la encuesta</label>
-                <ion-icon name="image-outline"></ion-icon>
-            </div>
-            <textarea name="contenido" id="" cols="30" rows="10" required></textarea>
-        </div>
-    </form>
-
+    <h1 class="text-center">Reseñas de mis álbumes</h1>
+    <section class="container-xl d-flex flex-column gap-5 mt-5">
+        <?php
+            getAlbumsWithReviews($_SESSION["user"]);
+        ?>
+    </section>
+    
 </body>
 </html>

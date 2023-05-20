@@ -1,9 +1,19 @@
 <?php
     session_start();
     require_once "../php_functions/general.php";
-    require_once "../php_functions/group_functions.php";
-    forbidAccess("group");
+    require_once "../php_functions/admin_functions.php";
+    forbidAccess("admin");
     closeSession($_POST);
+    if(isset($_GET["ver-mas"])){
+        $id = $_GET["id"];
+    }elseif(isset($_GET["id"])){
+        $id = $_GET["id"];
+    }else{
+        $error = true;
+    }
+    if(isset($_POST["eliminar"])){
+        deletePostPhoto($_POST["id-foto"]);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,31 +26,22 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
-    <script src="../scripts/grupo_add_survey.js" defer></script>
+    <script src="" defer></script>
     <script src="../scripts/jquery-3.2.1.min.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <title>Document</title>
 </head>
-<body id="grupo-añadir-encuesta">
+<body id="admin-body">
     <?php
-        menuGrupoDropdown("position-static");
+        menuAdminDropdown();
+        if(isset($error)){
+            echo "<div class=\"alert-post-missing-info text-center alert alert-warning position-absolute\" role=\"alert\">
+                    Falta información para mostrar esta sección. Vuelve al <a href=\"admin_main.php\" class=\"alert-link\">resumen general</a>.
+                </div>";
+        }else{
+            getReview($id);
+        }
+        
     ?>
-    <form>
-        <div class="input-field  mb-3 gap-2">
-            <div class=" justify-content-between">
-                <label class="file">Título de la encuesta</label>
-                <ion-icon name="image-outline"></ion-icon>
-            </div>
-            <input type="text" name="titulo" required>
-        </div>
-        <div class="input-field  mb-3 gap-2">
-            <div class="justify-content-between">
-                <label class="file">Duración de la encuesta</label>
-                <ion-icon name="image-outline"></ion-icon>
-            </div>
-            <textarea name="contenido" id="" cols="30" rows="10" required></textarea>
-        </div>
-    </form>
-
 </body>
 </html>

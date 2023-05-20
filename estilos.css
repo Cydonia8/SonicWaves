@@ -438,6 +438,23 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     color: white;
     border-radius: 10px;
 }
+#grupo-mis-reseñas .album-review-group-container{
+    cursor: pointer;
+    transition: all .5s;
+}
+#grupo-mis-reseñas .album-review-group-container:hover{
+    cursor: pointer;
+    -webkit-box-shadow: 2px 11px 33px 4px rgba(36, 34, 34, 0.75);
+    -moz-box-shadow: 2px 11px 33px 4px #42444699;
+    box-shadow: 2px 10px 30px 2.5px #40424299;
+    transition: all .5s;
+}
+#grupo-mis-reseñas .album-review-container-img{
+    width: 10%;
+}
+#grupo-mis-reseñas canvas{
+    display: none;
+}
 #admin-body{
     background-color: #111727;
 }
@@ -715,14 +732,19 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     padding: .4rem;
 }
 #grupo-main #edit-biografia-grupo:hover,#edit-datos-grupo:hover{ 
-    background-color: crimson;
-    filter: drop-shadow(0 0 0.75rem crimson);
     transition: all .8s;
 }
 #grupo-main .album-container-group-main{
     width: 30%;
-    filter: drop-shadow(0 0 0.75rem crimson);
     transition: background-color .8s;
+}
+#grupo-main .album-container-group-main img{
+    width: 50%;
+}
+@media screen and (max-width:991px) {
+    #grupo-main .album-container-group-main img{
+        width: 100%;
+    }
 }
 #grupo-main .album-container-group-main:hover{
     background-color: #242323;
@@ -928,6 +950,10 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
     background-color: #0f0f117a;
     color: white;
 }
+#reproductor #song-lyric{
+    font-size: 1.5rem;
+    font-family: inherit;
+}
 #reproductor main .favorite-album-img-container{
     width: 10%;
 }
@@ -938,6 +964,9 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
     #reproductor main .favorite-album-container h2, #reproductor main .favorite-album-container h4{
         font-size: .8em;
     }
+    #grupo-mis-reseñas .album-review-group-container h4{
+        font-size: .9rem;
+    }
 }
 
 #reproductor main .banner-recomended{
@@ -946,6 +975,15 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
     -webkit-box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
     -moz-box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
     box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
+    transition: all .4s;
+    cursor: pointer;
+}
+#reproductor main .banner-recomended:hover{
+    transform: scale(1.05);
+    transition: all .4s;
+    -webkit-box-shadow: 2px 11px 33px 4px rgba(36, 34, 34, 0.75);
+    -moz-box-shadow: 2px 11px 33px 4px #0A90DD99;
+    box-shadow: 2px 10px 30px 2.5px #0A90DD99;
 }
 #reproductor .add-favorite-album,#reproductor .add-album-review, #reproductor .see-album-reviews, #reproductor .album-song-list{
     font-size: 2rem;

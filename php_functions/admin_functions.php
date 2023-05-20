@@ -560,9 +560,7 @@
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             echo "<div class=\"rounded border disco-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
                         <div class=\"w-50\">
-                            <img class=\"img-fluid\" src=\"$fila[foto]\">
-                            <span>$fila[nombre]</span>
-                            <span>$fila[apellidos]</span>
+                            <img class=\"img-fluid rounded-circle\" src=\"$fila[foto]\">
                         </div>
                         <div class=\"d-flex flex-column justify-content-between\">
                             <p>Usuario: $fila[usuario]</p>
@@ -840,10 +838,83 @@
         $con->close();
     }
 
-    function getAllReviews(){
+    function getAllReviews($filter){
+        $con = createConnection();
+        $filtro = $filter."%";
+        $consulta = $con->prepare("SELECT r.id id, u.usuario autor, r.titulo titulo, contenido, r.fecha fecha, a.titulo album from reseña r, usuario u, album a where r.usuario = u.id and r.album = a.id and u.usuario like ?");
+        $consulta->bind_param('s', $filtro);
+        $consulta->bind_result($id, $autor, $titulo, $contenido, $fecha, $album);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows>0){
+            while($consulta->fetch()){
+                $fecha = formatDate($fecha);
+                echo "<div class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
+                        <div class='d-flex flex-column'>
+                            <p>Título: $titulo</p>
+                            <p>Fecha de publicación: $fecha</p>
+                            <p>Autor: $autor</p>
+                            <p>Álbum: $album</p>
+                            <div class='d-flex gap-2 flex-column flex-lg-row'>
+                            <form action='admin_resena_completa.php' method='get'>
+                                <input hidden value='$id' name='id'>
+                                <button style='--clr:#0ce8e8' class='btn-danger-own' name='ver-mas'><span>Ver más</span><i></i></button>
+                            </form>
+                            <form action='#' method='post'>
+                                <input hidden value='$id' name='id'>
+                                <button style='--clr:#e80c0c' class='btn-danger-own' name='borrar'><span>Eliminar</span><i></i></button>
+                            </form>
+                        </div>
+                        </div>
+                    </div>";
+            }
+        }else{
+            echo "<h2 class=\"text-center\">No hay coincidencias</h2>";
+        }
         
+        $consulta->close();
+        $con->close();
+    }
+    
+    function getReview($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT r.titulo titulo, contenido, u.usuario autor, fecha, a.titulo album from reseña r, usuario u, album a where r.album = a.id and r.usuario = u.id and r.id = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($titulo, $contenido, $autor, $fecha, $album);
+        $consulta->execute();
+        $consulta->store_result();
+        if($consulta->num_rows != 0){
+            $consulta->fetch();
+            $consulta->close();
+            $fecha = formatDate($fecha);
+                echo "<section class='container-fluid mt-4'>
+                            <div class='d-flex flex-column flex-xl-row gap-3'>
+                                <div class='d-flex flex-column gap-3'>
+                                    <h1>$titulo</h1>
+                                    <p>$contenido</p>
+                                    <i>$fecha</i>
+                                    <strong>Reseña escrita por por: $autor</strong>
+                                </div>
+                            </div>
+                    </section>";
+            
+        }else{
+            echo "<div class=\"alert-post-missing-info text-center alert alert-warning position-absolute\" role=\"alert\">
+            No se ha encontrado ningun publicación.
+          </div>";
+        }
+        
+        $con->close();
     }
 
+    function deleteReview($id){
+        $con = createConnection();
+        $delete = $con->prepare("DELETE FROM reseña where id = ?");
+        $delete->bind_param('i', $id);
+        $delete->execute();
+        $delete->close();
+        $con->close();
+    }
     
     
 ?>

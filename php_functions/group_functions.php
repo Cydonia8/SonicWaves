@@ -19,11 +19,35 @@
         return $completo;
     }
 
+    function getAlbumName($id, $mail){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT titulo from album a, grupo g where a.grupo = g.id and a.id = ? and g.correo = ?");
+        $consulta->bind_param('is', $id, $mail);
+        $consulta->bind_result($titulo);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $titulo;
+    }
+
+    function totalAlbumReviews($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT count(*) from reseña where album = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($total);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $total;
+    }
+
     function getGroupAlbums($mail){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT titulo, a.foto foto, lanzamiento from album a, grupo g where a.grupo = g.id and correo = ?");
+        $consulta = $con->prepare("SELECT titulo, a.foto foto, lanzamiento, a.id id from album a, grupo g where a.grupo = g.id and correo = ?");
         $consulta->bind_param('s', $mail);
-        $consulta->bind_result($titulo, $foto, $lanzamiento);
+        $consulta->bind_result($titulo, $foto, $lanzamiento, $id);
         $consulta->execute();
         $consulta->store_result();
         if($consulta->num_rows > 0){
@@ -32,12 +56,14 @@
                 // if($counter % 3 == 0){
                 //     echo "<div class='row gap-3'>";
                 // }
+                $total_reviews = totalAlbumReviews($id);
                 $fecha = formatDate($lanzamiento);
                 echo "<div class='border rounded p-2 album-container-group-main d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-center gap-3'>
-                        <img class='w-50 rounded' src='$foto'>
-                        <div class='w-50'>
-                            <h4>$titulo</h4>
-                            <h4>Lanzado el $fecha</h4>
+                        <img class='rounded' src='$foto'>
+                        <div class='w-50 d-flex flex-column gap-3 justify-content-around'>
+                            <h5>$titulo</h5>
+                            <h5>Lanzado el $fecha</h5>
+                            <h5>Reseñas recibidas: $total_reviews</h5>
                         </div></div>";
                 // if($counter+1 % 3 == 0){
                 //     echo "</div>";
@@ -199,7 +225,7 @@
                         <li><a class=\"dropdown-item\" href=\"grupo_nuevo_album.php\">Subir nuevo álbum</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_anadir_encuesta.php\">Añadir encuesta</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_anadir_publicacion.php\">Añadir publicación</a></li>
-                        <li><a class=\"dropdown-item\" href=\"#\">Reseñas de mis álbumes</a></li>
+                        <li><a class=\"dropdown-item\" href=\"grupo_mis_resenas.php\">Reseñas de mis álbumes</a></li>
                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
                 </div>
@@ -624,5 +650,56 @@
         $total = $consulta->num_rows;
         $con->close();
         return $total;
+    }
+
+    function getAlbumsWithReviews($mail){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT a.foto foto, titulo, a.id id from album a, grupo g where a.grupo = g.id and g.correo = ?");
+        $consulta->bind_param('s', $mail);
+        $consulta->bind_result($foto, $titulo, $id);
+        $consulta->execute();
+        while($consulta->fetch()){
+            $total_reviews = totalAlbumReviews($id);
+            echo "<div class='d-flex gap-3 align-items-center rounded album-review-group-container'>
+                    <div class='album-review-container-img'>
+                        <img src='$foto' class='img-fluid'>
+                        <canvas></canvas>
+                    </div>
+                    <div class='d-flex flex-column gap-1'>
+                        <h4 class='mt-0'>$titulo</h4>
+                        <h4>Reseñas totales: $total_reviews</h4>
+                    ";
+            if($total_reviews != 0){
+                echo "<form action='grupo_resenas_album.php' method='get'>
+                        <input hidden name='id' value='$id'>
+                        <button style='--clr:#e80c0c' class='btn-danger-own' name='ver-reseñas'><span>Ver reseñas</span><i></i></button></div></div>
+                    </form>";
+            }else{
+                echo "</div></div>";
+            }
+                
+        }
+        $consulta->close();
+        $con->close();
+    }
+
+    function getAllReviewsOfAlbum($id){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT titulo, contenido, fecha from reseña where album = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($titulo, $contenido, $fecha);
+        $consulta->execute();
+        $consulta->store_result();
+
+        if($consulta->num_rows > 0){
+            while($consulta->fetch()){
+                echo "$titulo $contenido";
+            }
+        }else{
+            echo "<h3>No hay reseñas escritas aún</h3>";
+        }
+        
+        $consulta->close();
+        $con->close();
     }
 ?>

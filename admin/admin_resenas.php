@@ -4,9 +4,9 @@
     require_once "../php_functions/general.php";
     forbidAccess("admin");
     closeSession($_POST);
-    // if(isset($_POST["borrar"])){
-    //     deletePost($_POST["id"]);
-    // }
+    if(isset($_POST["borrar"])){
+        deleteReview($_POST["id"]);
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,15 +30,13 @@
     ?>
     <h1 class="text-center mt-5">Reseñas de Sonic Waves</h1>
     <?php
-        printFilterForm("por autor de publicación");
+        printFilterForm("por autor de reseña");
     ?>
     <section class="d-flex flex-column flex-md-row container-fluid gap-5 flex-wrap justify-content-center">
         <?php
-            // if(!isset($_POST["filtro"])){
-            //     getAllPosts();
-            // }else{
-            //     getAllPostsFiltered($_POST["filtro"]);
-            // }
+            if(isset($_POST["filtro"])){
+                getAllReviews($_POST["filtro"]);
+            }
             
         ?>
     </section>

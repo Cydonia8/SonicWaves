@@ -130,10 +130,13 @@
         }else{
             menuGrupoDropdown();
             getGroupInfo($_SESSION["user"]);
-            echo "<h2 class='text-center text-decoration-underline mb-2 mt-5'>Fotos de grupo</h2>";
+            echo "<h2 class='text-center text-decoration-underline mb-4 mt-5'>Fotos de grupo</h2>";
             echo "<section class='container-fluid d-flex flex-column flex-lg-row mb-5'>
             <form class='form-fotos-extra-group' action='#' method='post' enctype='multipart/form-data'>
+            <div class='d-flex flex-column align-items-center mb-4'>
                 <legend class='text-center'>Añade hasta 8 fotos adicionales</legend>
+                <span class='text-center'>(Recuerda usar fotos de alta calidad y panorámicas para su correcta visualización)</span>
+            </div>
                 <div class='row place-content-center gap-2 form-extra-fotos-grupo'>
                     <input name='fotos[]' type=\"file\" class=\"col-12 col-lg-4 custom-file-input\" multiple>
                     
