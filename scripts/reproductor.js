@@ -44,7 +44,7 @@ let indice=0
 // })
 
 letra.addEventListener("click", async()=>{
-    const titulo = track_info.children[1].children[0].innerText.toLowerCase().trim()
+    const titulo = track_info.children[1].children[0].innerText
     const artista = track_info.children[1].children[1].innerText
     const foto = track_info.children[0].src
     console.log(foto)
@@ -60,8 +60,9 @@ letra.addEventListener("click", async()=>{
     letra = letra.replace("******* This Lyrics is NOT for Commercial use *******", "Pronto, letras completas en Sonic Waves")
     console.log(letra)
     console.log(datos)
-    main_content.classList.remove("position-absolute")
-    main_content.innerHTML=`<section class="container-fluid rounded h-100 mx-auto d-flex justify-content-center align-items-center lyrics-container">
+    main_content.innerHTML=`<section class="container-fluid rounded h-100 mx-auto d-flex flex-column justify-content-center align-items-center lyrics-container">
+                            <h1 class='text-center mt-3 mb-3'>${titulo}</h1>
+                            <h2 class='text-center mb-3'>${artista}</h2>
                             <canvas></canvas>
                             <pre class="text-center" id="song-lyric">${letra}</pre>
                         </section>`
@@ -160,7 +161,7 @@ search_bar.addEventListener("keyup", async ()=>{
                                             <h4>${grupo.nombre}</h4>
                                             <h5 class='ms-3 d-flex align-items-center gap-2 grupo-esencial-badge'>${disco}</h5>`
             div_grupo.addEventListener("click", ()=>{
-                console.log("jj")
+                showGroup(grupo.id)
             })
             resultados_grupo.appendChild(div_grupo)
         })
@@ -900,7 +901,10 @@ async function showAlbum(target){
         cancion_container.setAttribute("data-index", index)
         cancion_container.innerHTML=`<div class='d-flex gap-3 align-items-center'>
                                         <span>${indice}</span>
-                                        <h5 class='m-0 cancion-link'>${cancion.titulo}</h5> 
+                                        <div>
+                                            <h5 class='m-0 cancion-link'>${cancion.titulo}</h5> 
+                                            <span class='track-info-artist'>${datos_album[0].autor}</span>
+                                        </div>
                                         <button data-bs-auto-close="true" data-song-id=${cancion.id} class="btn-group dropup add-song-to-playlist d-flex align-items-center p-0 border-0 bg-transparent" type="button" data-bs-toggle="dropdown" aria-expanded="false"><ion-icon name="add-outline"></ion-icon></button>
                                             <ul class="dropdown-menu overflow-auto dropdown-menu-add-playlist">
                                             </ul>                                      
@@ -1106,9 +1110,12 @@ async function showGroup(id){
     loader.classList.add("d-none")
     loader.classList.remove("d-flex")
     const datos_grupo = datos["datos_grupo"]
+    const discos = datos["discos_grupo"]
     
     let disco = datos_grupo[0].discografica == 0 ? '' : 'Artista esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
+    let header_extra = datos_grupo[0].discografica == 0 ? 'Publicaciones' : 'Próximos eventos'
     const section_artist_head = document.createElement("section")
+    section_artist_head.classList.add("mb-5")
     const div_artist_avatar = document.createElement("div")
     section_artist_head.innerHTML=`<div class='d-flex flex-column align-items-start'><h1 class='ms-4 section-artist-title mb-0'>${datos_grupo[0].nombre}</h1>
     <h5 class='ms-4 d-flex align-items-center grupo-esencial-badge'>${disco}</h5></div>`
@@ -1127,14 +1134,82 @@ async function showGroup(id){
     // section_artist_head.style.top='0'
     main_content.appendChild(section_artist_head)
     const section_artist_content = document.createElement("section")
-    section_artist_content.innerHTML=`<div>
-                                        <h3>Biografía</h3>
-                                        <h3>Discos publicados</h3>
-                                        <h3>Publicaciones</h3>
+    section_artist_content.classList.add("container-lg", "pt-3")
+    section_artist_content.innerHTML=`<div class='d-flex justify-content-center gap-5 artist-section-picker mb-3'>
+                                        <h2 class="active" data-picker='bio'>Biografía</h2>
+                                        <h2 data-picker='discos'>Discos publicados</h2>
+                                        <h2 data-picker='pubs'>${header_extra}</h2>
                                     </div>`
+    const div_artist_content = document.createElement("div")
+    // div_artist_content.classList.add("d-flex", "flex-column")
+    const bio = document.createElement("p")
+    bio.classList.add("artist-section-bio", "options-artist")
+    bio.setAttribute("data-info-artist", "bio")
+    bio.innerText=`${datos_grupo[0].biografia}`
+    div_artist_content.appendChild(bio)
+    const div_albums_container = document.createElement("div")
+    div_albums_container.classList.add("d-flex", "gap-3", "d-none", "options-artist")
+    div_albums_container.setAttribute("data-info-artist", "discos")
+    discos.forEach(disco=>{
+        const album = document.createElement("div")
+        album.classList.add("d-flex", "w-25", "gap-3", "align-items-center", "album-individual-container")
+        album.setAttribute("data-album-id", disco.id)
+        album.innerHTML+=`<div class='w-50'>
+                            <img src='${disco.foto}' class='img-fluid object-fit-cover'>
+                        </div>
+                        <div class='d-flex w-50'>
+                            <h5>${disco.titulo}</h5>
+                        </div>`
+        album.addEventListener("click", (evt)=>{
+            showAlbum(evt.currentTarget)
+        })
+        div_albums_container.appendChild(album)
+    })
+    div_artist_content.appendChild(div_albums_container)
+    section_artist_content.appendChild(div_artist_content)
+    const headers = section_artist_content.querySelectorAll("h2")
+    const options = div_artist_content.querySelectorAll(".options-artist")
+    headers.forEach(header=>{
+        if(header.innerText==='Próximos eventos'){
+            header.addEventListener("click", ()=>{
+                seeUpcomingEvents(datos_grupo[0].nombre)
+            })
+        }
+        header.addEventListener("click", (evt)=>{
+            headers.forEach(h=>h.classList.remove("active"))
+            const data = evt.target.getAttribute("data-picker")
+            header.classList.add("active")
+            options.forEach(option=>{
+                if(option.getAttribute("data-info-artist") == data){
+                    option.classList.add("d-flex")
+                    option.classList.remove("d-none")
+                }else{
+                    option.classList.remove("d-flex")
+                    option.classList.add("d-none")
+                }
+            })
+        })
+    })
     main_content.appendChild(section_artist_content)
     
 }
+
+// async function seeUpcomingEvents(artist){
+//     const url = `https://concerts-artists-events-tracker.p.rapidapi.com/artist?name=${artist}&page=1`;
+//     const options = {
+//         method: 'GET',
+//         headers: {
+//             'X-RapidAPI-Key': 'f67c08b6a0mshee3b6b1bacda154p13ebabjsne09459e39cae',
+//             'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
+//         }
+        
+//     };
+//     console.log(artist)
+//     const concerts = await fetch(url, options)
+//     const datos_c = await concerts.json()
+//     const proximos_conciertos = datos_c["data"]
+//     console.log(proximos_conciertos)
+// }
 
 function playSong(index){
     audio.src=cola_reproduccion[index].archivo

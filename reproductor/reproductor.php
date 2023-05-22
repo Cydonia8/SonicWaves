@@ -98,7 +98,7 @@
             <div class="dot"></div>
             <span id="end-time">0:00</span>
         </div>
-        <span id="letra">letra</span>
+        <i id="letra" class="fa-solid fa-microphone-lines"></i>
         <div class="volume-control position-relative">
             <ion-icon class="volume-icon" name="volume-medium-outline"></ion-icon>
             <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5">

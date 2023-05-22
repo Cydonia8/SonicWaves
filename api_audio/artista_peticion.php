@@ -20,5 +20,14 @@
     // }
     // $datos["lista_canciones"] = $datos_canciones;
 
+    $sentencia_discos_grupo = $conexion->query("SELECT titulo, foto, id from album where grupo = $id");
+    $datos_discos = [];
+
+    while($fila = $sentencia_discos_grupo->fetch_array(MYSQLI_ASSOC)){
+        $datos_discos[] = $fila;
+    }
+    $datos["discos_grupo"] = $datos_discos;
+
+
     echo json_encode($datos);
     $conexion->close();

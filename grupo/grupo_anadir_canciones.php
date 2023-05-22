@@ -14,11 +14,11 @@
                 $minutos = getDuration($_FILES["archivo".$i]["tmp_name"]);
                 $estilo = $_POST["estilo".$i];
                 $ruta = moveUploadedSong("archivo".$i, $_SESSION["user"], $_SESSION["titulo_album"]);
-                addSong($titulo, $ruta, $minutos, $estilo);
+                $filas_afectadas = addSong($titulo, $ruta, $minutos, $estilo);
                 $id_cancion = getLastSongID();
                 linkSongToAlbum($_SESSION["id_album"], $id_cancion);
             }else{
-                linkSongToAlbum($_SESSION["id_album"], $_POST["cancion".$i]);
+                $filas_afectadas = linkSongToAlbum($_SESSION["id_album"], $_POST["cancion".$i]);
             }
             // echo $_FILES["archivo".$i]["name"];
             // echo "<br>";
@@ -81,7 +81,9 @@
                 }            
             }
         }elseif(isset($id_grupo)){
-            
+            if($filas_afectadas != 0){
+                echo "<h2>Álbum añadido correctamente</h2>";
+            }
         }else{
             echo "<h2>Faltan datos</h2>";
         }

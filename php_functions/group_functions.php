@@ -391,8 +391,10 @@
         $insertar = $con->prepare("INSERT INTO cancion (titulo,duracion,archivo,estilo) values (?,?,?,?)");
         $insertar->bind_param('sssi', $titulo, $duracion, $archivo, $estilo);
         $insertar->execute();
+        $filas_afectadas = $insertar->affected_rows;
         $insertar->close();
         $con->close();
+        return $filas_afectadas;
     }
 
     function linkSongToAlbum($album, $cancion){
@@ -400,8 +402,10 @@
         $insertar = $con->prepare("INSERT INTO incluye (album,cancion) values (?,?)");
         $insertar->bind_param('ii', $album, $cancion);
         $insertar->execute();
+        $filas_afectadas = $insertar->affected_rows;
         $insertar->close();
         $con->close();
+        return $filas_afectadas;
     }
 
     function moveUploadedSong($nombre, $grupo, $album){
