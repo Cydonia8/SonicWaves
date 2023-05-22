@@ -148,7 +148,7 @@ search_bar.addEventListener("keyup", async ()=>{
     const canciones = datos["canciones"]
 
     const resultados = document.createElement("section")
-    resultados.classList.add("d-flex", "container-fluid", "flex-column", "flex-md-row", "gap-3")
+    resultados.classList.add("d-flex", "container-fluid", "flex-column", "flex-xl-row", "gap-3")
     const resultados_grupo = document.createElement("section")
     resultados_grupo.classList.add("d-flex", "flex-column", "groups-search-results", "gap-3")
     resultados_grupo.innerHTML=`<h2 class="text-center">Grupos</h2>`
@@ -156,7 +156,7 @@ search_bar.addEventListener("keyup", async ()=>{
         grupos.forEach(grupo=>{
             let disco = grupo.discografica == 0 ? '' : 'Artista esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
             const div_grupo = document.createElement("div")
-            div_grupo.classList.add("d-flex", "align-items-center", "gap-3", "group-search-individual-result")
+            div_grupo.classList.add("d-flex", "align-items-center", "gap-1", "group-search-individual-result")
             div_grupo.innerHTML+=`<img src='${grupo.foto_avatar}' class="rounded-circle w-25">
                                             <h4>${grupo.nombre}</h4>
                                             <h5 class='ms-3 d-flex align-items-center gap-2 grupo-esencial-badge'>${disco}</h5>`
@@ -838,7 +838,7 @@ async function showAlbum(target){
                                         <h1 class='text-sm-center'>${datos_album[0].titulo}</h1>
                                         <div class='d-flex align-items-center gap-2'>
                                             <img src='${datos_album[0].avatar}' class='avatar-album-page'>
-                                            <h3 data-artist-id=${datos_album[0].id_grupo} class='m-0'>${datos_album[0].autor}</h3>
+                                            <h3 data-artist-id=${datos_album[0].id_grupo} class='m-0 album-page-artist-link'>${datos_album[0].autor}</h3>
                                         </div>
                                         <h4>Lanzado el ${formatDate(datos_album[0].lanzamiento)}</h4>
                                         <div class='d-flex gap-4'>
@@ -1111,7 +1111,13 @@ async function showGroup(id){
     loader.classList.remove("d-flex")
     const datos_grupo = datos["datos_grupo"]
     const discos = datos["discos_grupo"]
-    
+    const tiene_discografica = datos_grupo[0].discografica
+    let publicaciones = []
+    if(tiene_discografica == 0){
+        publicaciones = datos["publicaciones_grupo"]
+        console.log(publicaciones)
+    }
+    console.log(datos)
     let disco = datos_grupo[0].discografica == 0 ? '' : 'Artista esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
     let header_extra = datos_grupo[0].discografica == 0 ? 'Publicaciones' : 'Próximos eventos'
     const section_artist_head = document.createElement("section")
@@ -1135,7 +1141,7 @@ async function showGroup(id){
     main_content.appendChild(section_artist_head)
     const section_artist_content = document.createElement("section")
     section_artist_content.classList.add("container-lg", "pt-3")
-    section_artist_content.innerHTML=`<div class='d-flex justify-content-center gap-5 artist-section-picker mb-3'>
+    section_artist_content.innerHTML=`<div class='d-flex flex-column flex-md-row justify-content-center gap-5 artist-section-picker mb-5 align-items-center align-items-md-start'>
                                         <h2 class="active" data-picker='bio'>Biografía</h2>
                                         <h2 data-picker='discos'>Discos publicados</h2>
                                         <h2 data-picker='pubs'>${header_extra}</h2>
@@ -1148,11 +1154,11 @@ async function showGroup(id){
     bio.innerText=`${datos_grupo[0].biografia}`
     div_artist_content.appendChild(bio)
     const div_albums_container = document.createElement("div")
-    div_albums_container.classList.add("d-flex", "gap-3", "d-none", "options-artist")
+    div_albums_container.classList.add("d-flex", "gap-3", "d-none", "options-artist", "flex-column", "flex-lg-row")
     div_albums_container.setAttribute("data-info-artist", "discos")
     discos.forEach(disco=>{
         const album = document.createElement("div")
-        album.classList.add("d-flex", "w-25", "gap-3", "align-items-center", "album-individual-container")
+        album.classList.add("d-flex", "gap-3", "align-items-center", "album-individual-container")
         album.setAttribute("data-album-id", disco.id)
         album.innerHTML+=`<div class='w-50'>
                             <img src='${disco.foto}' class='img-fluid object-fit-cover'>
@@ -1166,6 +1172,37 @@ async function showGroup(id){
         div_albums_container.appendChild(album)
     })
     div_artist_content.appendChild(div_albums_container)
+
+    if(tiene_discografica == 0){
+        const div_publicaciones = document.createElement("div")
+        div_publicaciones.classList.add("d-flex", "d-none", "options-artist", "flex-column", "container-lg", "gap-4")
+        div_publicaciones.setAttribute("data-info-artist", "pubs")
+        if(publicaciones.length != 0){
+            console.log("entro")
+            publicaciones.forEach(publicacion=>{
+                const div_publicacion = document.createElement("div")
+                let preview_texto = publicacion.contenido.substring(0, 400)
+                div_publicacion.classList.add("post-individual-container", "d-flex","gap-3", "p-3", "flex-column", "flex-md-row")
+                div_publicacion.innerHTML=`<div>
+                                                <img src='${publicacion.foto}' class='img-fluid'>
+                                            </div>
+                                            <div class='gap-2 d-flex flex-column align-items-start'>
+                                                <h2>${publicacion.titulo}</h2>
+                                                <p>${preview_texto}...</p>
+                                                <i>${formatDate(publicacion.fecha)}</i>
+                                                <button type="button" style='--clr:#0ce8e8' class='btn-danger-own' id='completar-perfil'><span>Ver completa</span><i></i></button>
+                                            </div>`
+                div_publicaciones.appendChild(div_publicacion)
+            })
+        }else{
+            div_publicaciones.innerHTML="<h3 class='text-center'>No hay publicaciones</h3>"
+        }
+        div_artist_content.appendChild(div_publicaciones)
+
+    }else{
+        const div_eventos = document.createElement("div")
+    }
+
     section_artist_content.appendChild(div_artist_content)
     const headers = section_artist_content.querySelectorAll("h2")
     const options = div_artist_content.querySelectorAll(".options-artist")

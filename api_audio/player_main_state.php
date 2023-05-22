@@ -7,20 +7,22 @@
     $id_grupo_recomendado = $conexion->query("SELECT id from grupo where id <> 0 and foto is not null and activo = 1 order by rand() limit 1");
     $fila = $id_grupo_recomendado->fetch_array(MYSQLI_ASSOC);
     $id = $fila["id"];
-    // $sentencia_grupo_recomendado = $conexion->prepare("SELECT enlace, grupo from foto_grupo where grupo = ? order by rand() limit 1");
-    // $sentencia_grupo_recomendado->bind_param('i', $id);
-    // $sentencia_grupo_recomendado->bind_result($recomendado, $grupo);
-    // $sentencia_grupo_recomendado->execute();
-    // $sentencia_grupo_recomendado->store_result();
-    // $sentencia_grupo_recomendado->fetch();
+    $sentencia_grupo_recomendado = $conexion->prepare("SELECT enlace, grupo, nombre, discografica from foto_grupo f, grupo g where f.grupo = g.id and grupo = ? order by rand() limit 1");
+    $sentencia_grupo_recomendado->bind_param('i', $id);
+    $sentencia_grupo_recomendado->bind_result($recomendado, $grupo, $nombre, $disc);
+    $sentencia_grupo_recomendado->execute();
+    $sentencia_grupo_recomendado->store_result();
+    $sentencia_grupo_recomendado->fetch();
     
     
-    // if($sentencia_grupo_recomendado->num_rows != 0){
-    //     $sentencia_grupo_recomendado->close();
-    //     $datos["grupo_recomendado"] = $recomendado;
-    //     $datos["id_grupo_recomendado"] = $grupo;
-    // }else{
-        // $sentencia_grupo_recomendado->close();
+    if($sentencia_grupo_recomendado->num_rows != 0){
+        $sentencia_grupo_recomendado->close();
+        $datos["grupo_recomendado"] = $recomendado;
+        $datos["id_grupo_recomendado"] = $grupo;
+        $datos["nombre_grupo_recomendado"] = $nombre;
+        $datos["discografica"] = $disc;
+    }else{
+        $sentencia_grupo_recomendado->close();
         $sentencia_grupo_recomendado_v2 = $conexion->prepare("SELECT nombre, foto, id, discografica from grupo where id = ? and foto is not null");
         $sentencia_grupo_recomendado_v2->bind_param('i', $id);
         $sentencia_grupo_recomendado_v2->bind_result($nombre, $recomendado, $grupo, $disc);
@@ -31,7 +33,7 @@
         $datos["id_grupo_recomendado"] = $grupo;
         $datos["nombre_grupo_recomendado"] = $nombre;
         $datos["discografica"] = $disc;
-    // }
+    }
     
 
     // $recomendado=$sentencia_grupo_recomendado->get_result()->fetch_row()[0];

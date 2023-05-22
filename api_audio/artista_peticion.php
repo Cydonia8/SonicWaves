@@ -10,6 +10,7 @@
     
     while($fila = $sentencia_grupo->fetch_array(MYSQLI_ASSOC)){
         $datos_grupo[] = $fila;
+        $disc = $fila["discografica"];
     }
     $datos['datos_grupo'] = $datos_grupo;
 
@@ -27,6 +28,16 @@
         $datos_discos[] = $fila;
     }
     $datos["discos_grupo"] = $datos_discos;
+
+    if($disc == 0){
+        $sentencia_publicaciones = $conexion->query("SELECT id, contenido, titulo, foto, fecha from publicacion where grupo = $id");
+        $datos_publicaciones = [];
+
+        while($fila = $sentencia_publicaciones->fetch_array(MYSQLI_ASSOC)){
+            $datos_publicaciones[] = $fila;
+        }
+        $datos["publicaciones_grupo"] = $datos_publicaciones;
+    }
 
 
     echo json_encode($datos);

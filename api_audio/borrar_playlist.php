@@ -11,6 +11,15 @@
     $delete->execute();
     $delete->close();
 
+    $consulta_foto = $conexion->prepare("SELECT foto from lista where id = ?");
+    $consulta_foto->bind_param('i', $id);
+    $consulta_foto->bind_result($foto);
+    $consulta_foto->execute();
+    $consulta_foto->fetch();
+    $consulta_foto->close();
+
+    unlink($foto);
+
     $delete_lista = $conexion->prepare("DELETE FROM lista where id = ?");
     $delete_lista->bind_param('i', $id);
     $delete_lista->execute();

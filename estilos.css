@@ -461,6 +461,9 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #admin-body .post-container-admin{
     width: 25%;
 }
+#admin-body .post-container-admin img{
+    aspect-ratio: 4/4;
+}
 #admin-body .alert-post-missing-info{
     top: 50%;
     left: 50%;
@@ -882,9 +885,27 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
     padding: .3rem .5rem;
     border-radius: 6px;
 }
+
 #reproductor header#side-menu .playlist-side-menu-container:hover, #reproductor main .options-artist .album-individual-container:hover{
     background-color: #2d3d69;
-    transition: background-color .2s;
+    transition: all .2s;
+}
+#reproductor main .options-artist .album-individual-container{
+    background-color: #2d3d69;
+    transition: all .5s;
+    width: 25%;
+}
+@media screen and (max-width:991px) {
+    #reproductor main .options-artist .album-individual-container{
+        width: 100%;
+    }
+}
+#reproductor main .options-artist .album-individual-container:hover{
+    transform: scale(1.05);
+    transition: all .5s;
+}
+#reproductor main .options-artist .post-individual-container div:first-child{
+    width: 50%;
 }
 #reproductor main .options-artist .album-individual-container{
     padding: .4rem .6rem;
@@ -995,6 +1016,12 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
 #reproductor main .album-page-header h1,#reproductor main .lista-page-header h1{
     font-size: 4rem;
 }
+#reproductor main .album-page-header .album-page-artist-link{
+    cursor: pointer;
+}
+#reproductor main .album-page-header .album-page-artist-link:hover{
+    text-decoration: underline;
+}
 #reproductor main .album-page-header img.album-page-portada{
     width: 350px;
 }
@@ -1086,7 +1113,9 @@ ul.dropdown-menu-add-playlist{
     border-radius: 15px;
     padding: .2rem .4rem;
 }
-
+#reproductor main .options-artist .post-individual-container{
+    background-color: #2d3d69af;
+}
 #reproductor main .banner-recomended img::after{
     content: '';
     position: absolute;
@@ -1347,6 +1376,11 @@ ul.dropdown-menu-add-playlist{
 #reproductor main .songs-search-results .song-search-individual-result:hover{
     background-color: #2d3d69;
     transition: background-color .2s; 
+}
+@media screen and (max-width:1300px) {
+    #reproductor main .groups-search-results, #reproductor main .albums-search-results, #reproductor main .songs-search-results{
+        width: 100%;
+    } 
 }
 .lds-roller {
     display: inline-block;

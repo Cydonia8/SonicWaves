@@ -589,7 +589,7 @@
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $fecha = formatDate($fila["fecha"]);
             echo "<div class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
-                    <img src='$fila[foto]' class='w-50 rounded'>
+                    <img src='$fila[foto]' class='w-50 rounded object-fit-cover'>
                     <div class='d-flex flex-column gap-2'>
                         <p>Título: $fila[titulo]</p>
                         <p>Fecha de publicación: $fecha</p>
@@ -818,7 +818,8 @@
             $fecha = formatDate($fecha);
                 echo "<section class='container-fluid mt-4'>
                             <div class='d-flex flex-column flex-xl-row gap-3'>
-                                <img src='$foto' class='img-fluid rounded object-fit-cover ratio ratio-1x1'>
+                                
+                                <img src='$foto' class='w-50 rounded object-fit-cover ratio ratio-1x1'>
                                 <div class='d-flex flex-column gap-3'>
                                     <h1>$titulo</h1>
                                     <p>$contenido</p>
