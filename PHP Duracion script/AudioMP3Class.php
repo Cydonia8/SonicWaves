@@ -128,14 +128,17 @@ class MP3File
  
         $layer_bits = ($b1 & 0x06) >> 1;
         $layer = $layers[$layer_bits];
+        if($layer == 'x'){
+            $layer = 3;
+        }
  
         $protection_bit = ($b1 & 0x01);
         $bitrate_key = sprintf('V%dL%d', $simple_version , $layer);
         $bitrate_idx = ($b2 & 0xf0) >> 4;
-        $bitrate = isset($bitrates[$bitrate_key][$bitrate_idx]) ? $bitrates[$bitrate_key][$bitrate_idx] : 1;
+        $bitrate = isset($bitrates[$bitrate_key][$bitrate_idx]) ? $bitrates[$bitrate_key][$bitrate_idx] : 0;
  
         $sample_rate_idx = ($b2 & 0x0c) >> 2;//0xc => b1100
-        $sample_rate = isset($sample_rates[$version][$sample_rate_idx]) ? $sample_rates[$version][$sample_rate_idx] : 1;
+        $sample_rate = isset($sample_rates[$version][$sample_rate_idx]) ? $sample_rates[$version][$sample_rate_idx] : 44100;
         $padding_bit = ($b2 & 0x02) >> 1;
         $private_bit = ($b2 & 0x01);
         $channel_mode_bits = ($b3 & 0xc0) >> 6;

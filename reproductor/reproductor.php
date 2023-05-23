@@ -84,9 +84,11 @@
     <footer class="master-play d-flex justify-content-between align-items-center" id="player">
         <div class="track-info d-flex gap-2 align-items-start flex-column flex-sm-row align-items-sm-center">
             <img src="../media/assets/no_cover.jpg" class="rounded">
-        </div>   
+        </div>  
+         
         <div class="time-bar position-relative">
             <div class="bar-control-icons d-flex gap-3 align-items-center">
+                <ion-icon id="shuffle" name="shuffle-outline"></ion-icon>
                 <ion-icon class="control-icons" name="play-skip-back-outline" id="previous"></ion-icon>
                 <ion-icon class="control-icons" id="play-pause" name="play-outline"></ion-icon>
                 <ion-icon class="control-icons" name="play-skip-forward-outline" id="next"></ion-icon>

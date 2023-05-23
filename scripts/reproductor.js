@@ -29,6 +29,7 @@ const track_info = document.querySelector(".track-info")
 const player_logo = document.querySelector(".player-logo-color-changer")
 const next = document.getElementById("next")
 const previous = document.getElementById("previous")
+const shuffle = document.getElementById("shuffle")
 const letra = document.getElementById("letra")
 
 const current_time = document.getElementById("current-time")
@@ -42,6 +43,8 @@ let indice=0
 // track_info.children[1].children[0].addEventListener("click", ()=>{
 //     showAlbum()
 // })
+
+shuffle.addEventListener("click", loadShufflePlayingList)
 
 letra.addEventListener("click", async()=>{
     const titulo = track_info.children[1].children[0].innerText
@@ -929,7 +932,8 @@ async function showAlbum(target){
     main_content.appendChild(section_lista_canciones)
     if(!audio.paused){
         for(const child of section_lista_canciones.children){
-            if(child.children[0].children[1].innerText == cola_reproduccion[indice].titulo){
+            // console.log(child.children[0].children[1])
+            if(child.children[0].children[1].children[0].innerText == cola_reproduccion[indice].titulo){
                 child.children[0].children[1].classList.add("current-song-playing")
             }
         }
@@ -1059,8 +1063,27 @@ async function insertReview(formulario_reseña){
     
 }
 
+async function loadShufflePlayingList(evt){
+    const pulsado = evt.target
+    cola_reproduccion.length = 0
+    if(!pulsado.classList.contains("shuffle-active")){
+        pulsado.classList.add("shuffle-active")
+    }
+    const respuesta = await fetch('../api_audio/shuffle.php')
+    const datos = await respuesta.json()
+    const lista_aleatorio = datos["lista_aleatorio"]
+    lista_aleatorio.forEach(cancion=>{
+        cola_reproduccion.push(cancion)
+    })
+    playSong(indice)
+}
+
 async function loadPlayingList(evt, context){
+    if(shuffle.classList.contains("shuffle-active")){
+        shuffle.classList.remove("shuffle-active")
+    }
     let padre = evt.currentTarget.parentElement
+    console.log(padre)
     for(const child of padre.children){
         let titulo = child.children[0].children[1]
         if(titulo.classList.contains("current-song-playing")){

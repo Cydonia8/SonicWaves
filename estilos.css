@@ -1271,7 +1271,7 @@ ul.dropdown-menu-add-playlist{
     font-size: 1.3rem;
     cursor: pointer;
 }
-#reproductor .master-play .bar-control-icons .control-icons:nth-of-type(2){
+#reproductor .master-play .bar-control-icons .control-icons:nth-of-type(3){
     font-size: 2rem;
 }
 #reproductor .master-play .time-bar .dot{
@@ -1371,6 +1371,13 @@ ul.dropdown-menu-add-playlist{
     border-radius: 15px;
     padding: .7rem 1rem;
     cursor: pointer;
+}
+#reproductor #shuffle{
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+#reproductor #shuffle.shuffle-active{
+    color: #0A90DD;
 }
 #reproductor main .groups-search-results .group-search-individual-result:hover, #reproductor main .albums-search-results .album-search-individual-result:hover,
 #reproductor main .songs-search-results .song-search-individual-result:hover{

@@ -381,7 +381,7 @@
 
     function getDuration($cancion){
         $mp3file = new MP3File($cancion);
-        $duration_seconds = $mp3file->getDuration();
+        $duration_seconds = $mp3file->getDurationEstimate();
         $minutos = MP3File::formatTime($duration_seconds);
         return $minutos;
     }
