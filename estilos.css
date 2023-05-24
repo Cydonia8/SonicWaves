@@ -1048,12 +1048,18 @@ background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 
 #reproductor .full-post-container div:first-child{
     width: 50%;
 }
+#reproductor main .full-post-container{
+    height: 100vh;
+}
 @media screen and (max-width:1199px) {
     #reproductor .full-post-container img.main-photo{
         width: 100%;
     }
     #reproductor .full-post-container div:first-child{
         width: 100%;
+    }
+    #reproductor main .full-post-container{
+        height: auto;
     }
 }
 #reproductor main .full-post-content{
