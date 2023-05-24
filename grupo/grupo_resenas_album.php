@@ -24,6 +24,7 @@
 <body id="grupo-reseñas-album">
     <?php
         menuGrupoDropdown("position-static");
+        echo "<section class='container-xxl d-flex flex-column gap-4'>";
         if(isset($_GET["ver-reseñas"])){
             $titulo_album = getAlbumName($_GET["id"], $_SESSION["user"]);
             echo "<h1 class=\"text-center\">Reseñas de $titulo_album</h1>";
@@ -41,6 +42,7 @@
             Falta información para mostrar esta sección. Vuelve al <a href=\"grupo_main.php\" class=\"alert-link\">resumen general</a>.
         </div>";
         }
+        echo "</section>";
     ?>
     
 </body>

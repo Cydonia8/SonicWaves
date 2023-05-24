@@ -24,7 +24,7 @@
     <?php
         menuDiscograficaDropdown();
     ?>
-    <h1><?php echo $nombre;?></h1>
+    <h1 class="mt-3 text-center"><?php echo $nombre;?></h1>
     <section>
         
     </section>

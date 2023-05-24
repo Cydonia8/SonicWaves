@@ -61,55 +61,51 @@
     <?php
         menuGrupoDropdown("position-static");
     ?>
-    <form action="#" method="post" enctype="multipart/form-data">
-        <div class="input-field  mb-3 gap-2">
-            <div class=" justify-content-between">
-                <label class="file">Título de la publicación</label>
-                <ion-icon name="image-outline"></ion-icon>
+    <section class="container-xl mb-4">
+        <h1 class="text-center mb-4">Añadir nueva publicación</h1>
+        <form class="w-50 mx-auto d-flex flex-column gap-3" action="#" method="post" enctype="multipart/form-data">
+            <div class="input-field d-flex flex-column mb-3 gap-2">
+                <div class="d-flex input-visuals justify-content-between">
+                    <label class="file">Título de la publicación</label>
+                    <ion-icon name="image-outline"></ion-icon>
+                </div>
+                <input type="text" name="titulo" required placeholder="Título...">
+                
             </div>
-            <input type="text" name="titulo" required>
-            
-        </div>
-        <div class="input-field  mb-3 gap-2">
-            <div class="justify-content-between">
-                <label class="file">Contenido de la publicación</label>
-                <ion-icon name="image-outline"></ion-icon>
+            <div class="input-field  d-flex flex-column mb-3 gap-2">
+                <div class="d-flex input-visuals justify-content-between">
+                    <label class="file">Contenido de la publicación</label>
+                    <ion-icon name="image-outline"></ion-icon>
+                </div>
+                <textarea placeholder="Contenido..." name="contenido" id="contenido-publicacion-insertar" cols="30" rows="10" required></textarea>
             </div>
-            <textarea name="contenido" id="" cols="30" rows="10" required></textarea>
-        </div>
-        <div class="input-field d-flex flex-column mb-3 gap-2">
-            <div class="d-flex justify-content-between"><label class="file">Foto principal de la publicación</label><ion-icon name="image-outline"></ion-icon></div>
-                <input type="file" class="custom-file-input" name="foto" required accept=".jpeg,.webp,.png,.gif,.jpg">             
-        </div>
-        <button type="button" id="btn-add-photos">Añadir fotos extra (máximo ocho)</button>
-        <div class="modal-añadir-fotos-publi d-none">
-            <ion-icon class='close-modal-photos-post position-absolute' name="close-outline"></ion-icon>
-            <div class="modal-añadir-fotos-container">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg" multiple>
-                <!-- <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg">
-                <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg"> -->
+            <div class="input-field d-flex flex-column mb-3 gap-2">
+                <div class="d-flex justify-content-between"><label class="file">Foto principal de la publicación</label><ion-icon name="image-outline"></ion-icon></div>
+                    <input type="file" class="custom-file-input" name="foto" required accept=".jpeg,.webp,.png,.gif,.jpg">             
             </div>
-        </div>
-        <div class="input-field  mb-3 gap-2">
-            <div class="justify-content-between">
-                <label class="file">Fecha de la publicación</label>
-                <ion-icon name="image-outline"></ion-icon>
+            <button type="button" id="btn-add-photos">Añadir fotos extra (máximo ocho)</button>
+            <div class="modal-añadir-fotos-publi d-none">
+                <div class="modal-añadir-fotos-container position-relative d-flex align-items-center">
+                    <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg" multiple>
+                    <ion-icon class='close-modal-photos-post position-absolute end-0' name="close-outline"></ion-icon>
+                </div>
             </div>
-            <input type="date" name="fecha" required>
-        </div>
-        <input type="submit" name="subir" value="Crear publicación">
-    </form>
+            <div class="input-field d-flex flex-column mb-3 gap-2">
+                <div class="justify-content-between">
+                    <label class="file">Fecha de la publicación</label>
+                    <ion-icon name="image-outline"></ion-icon>
+                </div>
+                <input type="date" name="fecha" required>
+            </div>
+            <input type="submit" name="subir" value="Crear publicación">
+        </form>
+    </section>
     <?php
         if(isset($foto_correcta)){
             if(!$foto_correcta){
                 echo "<div class=\"text-center alert alert-danger\" role=\"alert\">Publicación no creada. Fallo con la foto principal.</div>";
             }else{
-                echo "<div class=\"text-center alert alert-danger\" role=\"alert\">Publicación creada.</div>";
+                echo "<div class=\"text-center alert alert-success\" role=\"alert\">Publicación creada.</div>";
                 echo "<div class=\"text-center alert alert-info\" role=\"alert\">Subidas $cont de $total fotos extra.</div>";
             }
             

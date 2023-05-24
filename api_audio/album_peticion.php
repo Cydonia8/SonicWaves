@@ -5,7 +5,7 @@
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
     sleep(1.5);
     $id = $_GET["id"];
-    $sentencia = $conexion->query("select titulo, a.foto foto, nombre autor, lanzamiento, g.foto_avatar avatar, g.id id_grupo from album a, grupo g where a.grupo = g.id and a.id = $id");
+    $sentencia = $conexion->query("select titulo, a.foto foto, g.nombre autor, lanzamiento, g.foto_avatar avatar, g.id id_grupo, d.nombre discografica, d.foto_avatar foto_discografica from album a, grupo g, discografica d where g.discografica = d.id and a.grupo = g.id and a.id = $id");
     $datos_album = [];
     
     while($fila = $sentencia->fetch_array(MYSQLI_ASSOC)){

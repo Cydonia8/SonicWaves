@@ -56,7 +56,13 @@
             <li>
                 <a class="d-flex align-items-center gap-2" id="albums-esenciales" href="">
                     <ion-icon class="side-header-icons" name="disc-outline"></ion-icon>
-                    <span>Mis discos esenciales</span>
+                    <span>Álbumes favoritos</span>
+                </a>
+            </li>
+            <li>
+                <a class ="d-flex align-items-center gap-2" id="lista-recomendada" href="">
+                    <ion-icon class="side-header-icons" name="color-filter-outline"></ion-icon>
+                    <span>Lista recomendada</span>
                 </a>
             </li>
         </ul>

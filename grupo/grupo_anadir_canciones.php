@@ -61,21 +61,22 @@
         menuGrupoDropdown("position-static");
     ?>
 
-    <section class="container-añadir-canciones">
+    <section class="container-añadir-canciones container-xl">
+        <h1 class='text-center mb-4'>Añade las canciones del nuevo álbum</h1>
     <?php
         if(isset($_SESSION["foto_album"])){
             if($_SESSION["recopilatorio"]  == NULL){
-                echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
+                echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
                 generateInputs($_SESSION["num_canciones"]);
             }else{
                 if($_SESSION["recopilatorio"] == "no"){
-                    echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
+                    echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
                     generateInputs($_SESSION["num_canciones"]);
                 }else{
                     $id_grupo = getGroupID($_SESSION["user"]);
                     echo "<script src=\"../scripts/anadir_canciones_recopilatorios.js\" defer></script>";
                     echo "<button class=\"reset-form-recopilatorio\">reiniciar</button>";
-                    echo "<form action=\"#\" method=\"post\">";
+                    echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\">";
                     generateSelects($_SESSION["num_canciones"]);
                     echo "</form>";
                 }            

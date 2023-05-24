@@ -345,12 +345,12 @@
 
     function generateInputs($num){
         $contador = 1;
-        echo "<ul>";
+        echo "<ul class='song-adder-list d-flex flex-column gap-5'>";
         while($contador <= $num){
             $name = "titulo".$contador;
             $name2 = "archivo".$contador;
             $name3 = "estilo".$contador;
-            echo "<li><div>
+            echo "<li><div class='input-field'>
                     <label for=\"\">Título</label>
                     <input required type=\"text\" name=\"$name\">
                     <label for=\"\">Archivo</label>
@@ -689,15 +689,23 @@
 
     function getAllReviewsOfAlbum($id){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT titulo, contenido, fecha from reseña where album = ?");
+        $consulta = $con->prepare("SELECT titulo, contenido, fecha, foto_avatar from reseña r, usuario u where r.usuario = u.id and album = ?");
         $consulta->bind_param('i', $id);
-        $consulta->bind_result($titulo, $contenido, $fecha);
+        $consulta->bind_result($titulo, $contenido, $fecha, $foto);
         $consulta->execute();
         $consulta->store_result();
 
         if($consulta->num_rows > 0){
             while($consulta->fetch()){
-                echo "$titulo $contenido";
+                $fecha = formatDate($fecha);
+                echo "<div class='d-flex flex-column gap-3 review-individual-container-group-section'>
+                        <div class='d-flex align-items-center gap-2'>
+                            <img src='$foto' class='rounded-circle'>
+                            <h2 class='m-0'>$titulo</h2>
+                        </div>
+                        <p>$contenido</p>
+                        <i>Reseña escrita el $fecha</i>
+                    </div>";
             }
         }else{
             echo "<h3>No hay reseñas escritas aún</h3>";
