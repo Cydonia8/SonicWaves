@@ -836,10 +836,11 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     top: 3.5rem;
     /* background: #0A90DD; */
     background: rgb(194,189,189);
-background: linear-gradient(356deg, rgba(194,189,189,1) 35%, rgba(10,144,221,1) 57%);
+background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9) 57%);
     visibility: hidden;
     opacity: 0;
     transition: all .7s;
+    backdrop-filter: blur(3.5px);
 }
 #reproductor header#side-menu .modal-new-playlist #close-modal-new-list{
     font-size: 1.5rem;
