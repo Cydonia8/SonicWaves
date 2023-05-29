@@ -39,9 +39,7 @@
     </section>
     <section class="albumes-container container-fluid mx-auto row gap-3">
        <?php
-            if(!isset($_POST["filtro"])){
-                getAllAlbums();
-            }else{
+            if(isset($_POST["filtro"])){
                 getAlbumsFiltered($_POST["filtro"]);
             }
             

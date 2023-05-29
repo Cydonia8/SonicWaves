@@ -4,6 +4,7 @@
     require_once "../php_functions/general.php";
     forbidAccess("group");
     closeSession($_POST);
+    $nombre_grupo = getGroupNameByMail($_SESSION["user"]);
     
     if(isset($_POST["cargar"])){
         $id_grupo = getGroupID($_SESSION["user"]);
@@ -54,14 +55,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
-    <title>Document</title>
+    <title><?php echo $nombre_grupo; ?> | Añadir canciones</title>
 </head>
 <body id="grupo-nuevo-album">
     <?php
         menuGrupoDropdown("position-static");
     ?>
 
-    <section class="container-añadir-canciones container-xl">
+    <section class="container-añadir-canciones container-xl mt-4">
         <h1 class='text-center mb-4'>Añade las canciones del nuevo álbum</h1>
     <?php
         if(isset($_SESSION["foto_album"])){
@@ -75,15 +76,15 @@
                 }else{
                     $id_grupo = getGroupID($_SESSION["user"]);
                     echo "<script src=\"../scripts/anadir_canciones_recopilatorios.js\" defer></script>";
-                    echo "<button class=\"reset-form-recopilatorio\">reiniciar</button>";
+                    echo "<button class=\"reset-form-recopilatorio\">Reiniciar selección</button>";
                     echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\">";
-                    generateSelects($_SESSION["num_canciones"]);
+                    generateSelects($_SESSION["num_canciones"], $id_grupo);
                     echo "</form>";
                 }            
             }
         }elseif(isset($id_grupo)){
             if($filas_afectadas != 0){
-                echo "<h2>Álbum añadido correctamente</h2>";
+                echo "<h2 class='text-center'>Álbum añadido correctamente</h2>";
             }
         }else{
             echo "<h2>Faltan datos</h2>";

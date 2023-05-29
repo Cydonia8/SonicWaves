@@ -3,7 +3,9 @@ const main_content = document.getElementById("main-content-dynamic-container")
 const loader = document.querySelector("#loader")
 const link_inicio = document.getElementById("home-link")
 const profile_top_menu = document.querySelector(".profile-menu")
-const profile_menu_avatar = document.querySelector(".profile-menu .profile-menu-avatar")
+const profile_menu_avatar = document.querySelector(".profile-menu #link-profile")
+const eq_link = document.querySelector(".profile-menu #link-eq")
+const close_session = document.querySelector(".profile-menu #link-close-session")
 const arrow_show_aside = document.getElementById("arrow-show-aside")
 const header_aside = document.getElementById("side-menu")
 const add_new_playlist = document.getElementById("add-new-playlist")
@@ -19,6 +21,8 @@ const albums_esenciales = document.getElementById("albums-esenciales")
 const lista_recomendada = document.getElementById("lista-recomendada")
 const MXMATCH_API_KEY = "230777d3bbd468016bc464b2a53b4c22"
 
+
+
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
 const dot = document.querySelector(".master-play .time-bar .dot")
@@ -33,13 +37,63 @@ const previous = document.getElementById("previous")
 const shuffle = document.getElementById("shuffle")
 const letra = document.getElementById("letra")
 
+// const audio = new Audio()
 const current_time = document.getElementById("current-time")
 const end_time = document.getElementById("end-time")
 const play_pause = document.getElementById("play-pause")
-const audio = new Audio()
+const audio = document.querySelector("audio")
+const context = new AudioContext()
+
+// let src = context.createMediaElementSource(audio)
+const lowFilter = new BiquadFilterNode(context,{type:'lowshelf',frequency:100})
+const midLowFilter = new BiquadFilterNode(context,{type:'peaking',frequency:200,Q:3})
+const midFilter = new BiquadFilterNode(context,{type:'peaking',frequency:200,Q:3})
+const midHighFilter = new BiquadFilterNode(context,{type:'peaking',frequency:800,Q:3})
+const highFilter = new BiquadFilterNode(context,{type:'highshelf',frequency:1600})
+const finalGain = new GainNode(context)
+// const lows = document.getElementById("lows")
+
+
+// src.connect(context.destination)
+
+// lows.addEventListener("input", ()=>{
+//     highFilter.gain.value=lows.value
+//     console.log(lowFilter.Q)
+//     console.log(lowFilter.gain)
+// })
+// src.connect(lowFilter)
+// src.connect(context.destination)
+// lowFilter.connect(midLowFilter)
+// lowFilter.connect(context.destination)
+// midLowFilter.connect(midFilter)
+// midLowFilter.connect(context.destination)
+// midFilter.connect(midHighFilter)
+// midFilter.connect(context.destination)
+// midHighFilter.connect(highFilter)
+// midHighFilter.connect(context.destination)
+// highFilter.connect(finalGain)
+// highFilter.connect(context.destination)
+
+
+
+
+// console.log(lowfilter)
+
+// source.connect(highShelf)
+// highShelf.connect(context.destination)
+// source.connect(lowShelf)
+// lowShelf.connect(context.destination)
+// source.connect(highPass)
+// highPass.connect(context.destination)
+// source.connect(lowPass)
+// lowPass.connect(context.destination)
+
+
+
 
 let cola_reproduccion = []
 let indice=0
+let ultimo_indice
 let shuffle_state = false
 
 // track_info.children[1].children[0].addEventListener("click", ()=>{
@@ -53,6 +107,12 @@ lista_recomendada.addEventListener("click", (evt)=>{
     loadShufflePlayingList()
 })
 
+close_session.addEventListener("click", async (evt)=>{
+    evt.preventDefault()
+    await fetch('../api_audio/close_session.php')
+    location.reload()
+})
+
 function activateShuffle(){
     if(shuffle.classList.contains("shuffle-active")){
         shuffle.classList.remove("shuffle-active")
@@ -63,6 +123,33 @@ function activateShuffle(){
     }
     console.log(shuffle_state)
 }
+
+eq_link.addEventListener("click", (evt)=>{
+    evt.preventDefault()
+    main_content.innerHTML='<h1 class="text-center">Ecualizador</h1>'
+    main_content.innerHTML+=`<button>Activar ecualización</button>`
+    const btn_eq = main_content.querySelector("button")
+    btn_eq.addEventListener("click", activateAudioFilters)
+    // let src = context.createMediaElementSource(audio)
+    const div_ecualizador = document.createElement("div")
+    div_ecualizador.classList.add("d-flex", "flex-column", "w-50", "gap-4", "mx-auto")
+    div_ecualizador.innerHTML=`<div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Low filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='lows'>20db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>LowMid Filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='mid-lows'>20db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Mid filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='mids'>20db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>MidHigh filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='mid-high'>20db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>High filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='highs'>20db</div></div>`
+    const lows = div_ecualizador.querySelector("#lows")
+    const midlows = div_ecualizador.querySelector("#mid-lows")
+
+    lows.addEventListener("input", ()=>{
+        lowFilter.gain.value=lows.value
+    })
+    midlows.addEventListener("input", ()=>{
+        midLowFilter.gain.value=midlows.value
+    })
+    main_content.appendChild(div_ecualizador)
+        
+})
 
 letra.addEventListener("click", async()=>{
     const titulo = track_info.children[1].children[0].innerText
@@ -111,7 +198,8 @@ letra.addEventListener("click", async()=>{
 
 })
 
-profile_menu_avatar.addEventListener("click", async ()=>{
+profile_menu_avatar.addEventListener("click", async (evt)=>{
+    evt.preventDefault()
     main_content.innerHTML=""
     const respuesta = await fetch(`../api_audio/info_user.php`)
     const datos = await respuesta.json()
@@ -119,14 +207,13 @@ profile_menu_avatar.addEventListener("click", async ()=>{
     main_content.classList.add("position-absolute", "w-100", "top-0")
     const section_profile_head = document.createElement("section")
     section_profile_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "lista-page-header", "gap-3", "align-items-center", "p-3")
-    section_profile_head.innerHTML=`<canvas></canvas>
+    section_profile_head.innerHTML=`<canvas id="profile-avatar-picture"></canvas>
                                     <div class='d-flex flex-column gap-3 align-items-center align-items-md-start'>
                                         <span>Miembro de Sonic Waves</span>
                                         <h1 class='text-sm-center'>${datos_usuario[0].usuario}</h1>
                                         <h3 class='m-0'>${datos_usuario[0].nombre} ${datos_usuario[0].apellidos}</h3>
                                     </div>`
     const canvas = section_profile_head.querySelector("canvas")
-    
     
     const img = document.createElement("img")
     canvas.width='300'
@@ -149,6 +236,79 @@ profile_menu_avatar.addEventListener("click", async ()=>{
 
     section_profile_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_profile_head)
+    console.log(datos_usuario)
+    const respuesa_estilos = await fetch(`../api_audio/estilos.php`)
+    const datos_estilos = await respuesa_estilos.json()
+    const estilos = datos_estilos["estilos"]
+    console.log(estilos)
+    const datos_user = document.createElement("section")
+    datos_user.innerHTML="<h2 class='text-center'>Tus datos de usuario</h2>"
+    datos_user.classList.add("container-xl", "mt-4")
+    const form = document.createElement("form")
+    form.classList.add("w-50", "mx-auto", "d-flex", "flex-column", "gap-3")
+    form.innerHTML=`<div class="input-field d-flex flex-column mb-3">
+                        <div class="input-visuals d-flex justify-content-between">
+                            <label for="usuario">Nombre de usuario</label>
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </div>
+                        <input type="text" value="${datos_usuario[0].usuario}" name="usuario" disabled readonly>                      
+                    </div>
+                    <div class="input-field d-flex flex-column mb-3">
+                        <div class="input-visuals d-flex justify-content-between">
+                            <label for="usuario">Nombre</label>
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </div>
+                        <input class='input-name' type="text" value="${datos_usuario[0].nombre}" name="nombre" required>                      
+                    </div>
+                    <div class="input-field d-flex flex-column mb-3">
+                        <div class="input-visuals d-flex justify-content-between">
+                            <label for="usuario">Apellidos</label>
+                            <ion-icon name="person-circle-outline"></ion-icon>
+                        </div>
+                        <input type="text" value="${datos_usuario[0].apellidos}" name="apellidos" required>                      
+                    </div>
+                    <div class="input-field d-flex flex-column mb-3">
+                        <div class="input-visuals d-flex justify-content-between">
+                            <label for="usuario">Correo electrónico</label>
+                            <ion-icon name="mail-outline"></ion-icon>
+                        </div>
+                        <input type="text" value="${datos_usuario[0].correo}" name="correo" required>                      
+                    </div>
+                    <div class="input-field d-flex flex-column mb-3">
+                        <div class="input-visuals d-flex justify-content-between">
+                            <label for="usuario">Contraseña</label>
+                            <ion-icon name="keypad-outline"></ion-icon>
+                        </div>
+                        <input type="password" value="${datos_usuario[0].contraseña}" name="pass" required>                      
+                    </div>`
+    const select_estilos = document.createElement("select")
+    const nombre_input= form.querySelector(".input-name")
+    select_estilos.required=true
+    select_estilos.setAttribute("name", "estilo")
+    select_estilos.classList.add("p-1", "input-field")
+    estilos.forEach(estilo=>{
+        if(estilo.nombre == datos_usuario[0].estilo){
+            select_estilos.innerHTML+=`<option selected value='${estilo.id}'>${estilo.nombre}</option>`
+        }else{
+            select_estilos.innerHTML+=`<option value='${estilo.id}'>${estilo.nombre}</option>`
+        }
+        
+    })
+    form.appendChild(select_estilos)
+    form.innerHTML+=`<button type="button" style='--clr:#0ce8e8' class='btn-danger-own' id='completar-perfil'><span>Actualizar datos</span><i></i></button>`
+    const btn_modificar = form.querySelector("button")
+    btn_modificar.addEventListener("click", async()=>{
+        const data_form = new URLSearchParams(new FormData(form))
+        
+        console.log(data_form.toString())
+        await fetch('../api_audio/modificar_datos_usuario.php',{
+            method: 'POST',
+            body: data_form
+        })
+        form.reset()
+    })
+    datos_user.appendChild(form)
+    main_content.appendChild(datos_user)
     
 })
 search_bar.addEventListener("keyup", async ()=>{
@@ -286,6 +446,7 @@ async function initialSong(){
     const datos = await respuesta.json()
     let cancion = datos['datos']
     audio.src=cancion[0].archivo
+    console.log(audio)
     track_info.innerHTML=`<img src='${cancion[0].caratula}' class='rounded'>
                             <div class='d-flex flex-column'>
                                 <span class='track-info-title'>${cancion[0].titulo}</span>
@@ -334,7 +495,7 @@ async function showFavoriteAlbums(){
     const respuesta = await fetch('../api_audio/albumes_esenciales.php')
     const datos = await respuesta.json()
     const albumes = datos["albumes"]
-    main_content.innerHTML="<h1 class='text-center'>Tus álbumes esenciales</h1>"
+    main_content.innerHTML="<h1 class='text-center mt-5'>Tus álbumes favoritos</h1>"
     const section_favoritos = document.createElement("section")
     section_favoritos.classList.add("container-fluid", "d-flex", "flex-column", "gap-3")
     albumes.forEach(album=>{
@@ -594,7 +755,7 @@ async function playerMainState(){
         })
         div_artist_container.classList.add("d-flex", "flex-column", "justify-content-around", "artist-inner-container")   
         div_artist_container.innerHTML=`<img src='${artista.foto_avatar}' class='img-fluid rounded-circle'>
-        <a>${artista.nombre}</a>`
+        <a class='text-center text-white'>${artista.nombre}</a>`
         main_content_artists_container.appendChild(div_artist_container)
     })
 }
@@ -678,6 +839,7 @@ next.addEventListener("click", ()=>{
     if(!shuffle_state){
         indice++
     }else{
+        ultimo_indice = indice
         indice = Math.floor(Math.random()*cola_reproduccion.length)
     }
     
@@ -714,8 +876,9 @@ previous.addEventListener("click", ()=>{
     if(!shuffle_state){
         indice--
     }else{
-        indice = Math.floor(Math.random()*cola_reproduccion.length)
+        indice = ultimo_indice
     }
+    
     const row_album = document.querySelectorAll(".cancion-row")
     let arr = Array.from(row_album)
     const filtro = arr.filter(cont=>cont.children[0].children[0].innerText == indice+1)
@@ -830,7 +993,7 @@ async function initializeUser(){
         })
         
     }
-    profile_menu_avatar.src=usuario_datos[0].foto_avatar
+    profile_menu_avatar.parentElement.parentElement.previousElementSibling.src=usuario_datos[0].foto_avatar
 }
 
 
@@ -910,7 +1073,9 @@ async function showAlbum(target){
             add_favorite.setAttribute("data-favorite", 0)
         }
     })
-    see_reviews.addEventListener("click", seeAlbumReviews)
+    see_reviews.addEventListener("click", ()=>{
+        seeAlbumReviews(id)
+    })
     const enlace_grupo = section_album_head.querySelector("h3")
     enlace_grupo.addEventListener("click", ()=>{
         showGroup(datos_album[0].id_grupo)
@@ -1000,11 +1165,11 @@ async function deleteFavoriteAlbum(id){
     await fetch(`../api_audio/remove_album_favorito.php?id=${id}`)
 }
 
-async function seeAlbumReviews(evt){
+async function seeAlbumReviews(id){
     main_content.innerHTML=''
     loader.classList.remove("d-none")
     loader.classList.add("d-flex")
-    const id = evt.target.getAttribute("data-album-id")
+    console.log(id)
     const respuesta = await fetch(`../api_audio/album_reviews.php?id=${id}`)
     const datos = await respuesta.json()
     loader.classList.remove("d-flex")
@@ -1062,13 +1227,13 @@ async function seeAlbumReviews(evt){
     if(reseña_escrita[0].comprobante == 0){
         const formulario_reseña = document.createElement("form")
         formulario_reseña.setAttribute("id", "formulario-insertar-reseña")
-        formulario_reseña.classList.add("d-flex", "flex-column", "align-items-center")
-        formulario_reseña.innerHTML=`<input name="titulo" type="text" id="titulo-reseña" required>
-                                    <textarea id="contenido-reseña" name="contenido" rows="10" cols="30" required></textarea>
+        formulario_reseña.classList.add("d-flex", "flex-column", "gap-5", "align-items-center", "p-3")
+        formulario_reseña.innerHTML=`<div class='input-field w-100'><input class="w-100" placeholder="Título de la reseña" name="titulo" type="text" id="titulo-reseña" required></div>
+                                    <div class='input-field w-100'><input class="w-100" placeholder="Contenido de la reseña" type="text" id="contenido-reseña" name="contenido" required></div>
                                     <input hidden value="${id}" name="id-album">
-                                    <button data-album-id="${id}" id="enviar-reseña" type="button">Comentar</button>`
+                                    <button data-album-id="${id}" id="enviar-reseña" type="button" style='--clr:#0ce8e8' class='btn-danger-own'><span>Comentar</span><i></i></button>`
         const section_nueva_reseña = document.createElement("section")
-        section_nueva_reseña.innerHTML=`<h2>Añade tu reseña para ${datos_album[0].titulo}</h2>`
+        section_nueva_reseña.innerHTML=`<h2 class='text-center mt-4'>Añade tu reseña para ${datos_album[0].titulo}</h2>`
         const boton_insertar_reseña = formulario_reseña.querySelector("#enviar-reseña")
         const titulo_reseña = formulario_reseña.querySelector("#titulo-reseña")
         const contenido_reseña = formulario_reseña.querySelector("#contenido-reseña")
@@ -1076,7 +1241,7 @@ async function seeAlbumReviews(evt){
         boton_insertar_reseña.addEventListener("click", (evt)=>{
             if(titulo_reseña.value.trim() !== "" && contenido_reseña.value.trim() !== ""){
                 insertReview(formulario_reseña)
-                seeAlbumReviews(evt)
+                seeAlbumReviews(id)
             }else{
                 window.alert("faltan datos")
             }
@@ -1170,6 +1335,7 @@ async function loadPlayingList(evt, context){
     
 }
 
+//Función que muestra todo el perfil de un grupo junto con su información
 async function showGroup(id){
     main_content.innerHTML=''
     main_content.classList.add("position-absolute", "w-100", "top-0")
@@ -1244,15 +1410,14 @@ async function showGroup(id){
     })
     div_artist_content.appendChild(div_albums_container)
 
-    if(tiene_discografica == 0){
-        const div_publicaciones = document.createElement("div")
-        div_publicaciones.classList.add("d-flex", "d-none", "options-artist", "flex-column", "container-lg", "gap-4")
-        div_publicaciones.setAttribute("data-info-artist", "pubs")
+    const div_publicaciones = document.createElement("div")
+    div_publicaciones.classList.add("d-flex", "d-none", "options-artist", "flex-column", "container-lg", "gap-4")
+    div_publicaciones.setAttribute("data-info-artist", "pubs")
+    if(tiene_discografica == 0){    
         if(publicaciones.length != 0){
-            console.log("entro")
             publicaciones.forEach(publicacion=>{
                 const div_publicacion = document.createElement("div")
-                let preview_texto = publicacion.contenido.substring(0, 400)
+                let preview_texto = publicacion.contenido.substring(0, 200)
                 div_publicacion.classList.add("post-individual-container", "d-flex","gap-3", "p-3", "flex-column", "flex-md-row")
                 div_publicacion.innerHTML=`<div>
                                                 <img src='${publicacion.foto}' class='img-fluid'>
@@ -1272,29 +1437,34 @@ async function showGroup(id){
         }else{
             div_publicaciones.innerHTML="<h3 class='text-center'>No hay publicaciones</h3>"
         }
-        div_artist_content.appendChild(div_publicaciones)
-
+        
     }else{
-        const div_eventos = document.createElement("div")
+        await seeUpcomingEvents(datos_grupo[0].nombre, div_publicaciones)
     }
+    div_artist_content.appendChild(div_publicaciones)
 
     section_artist_content.appendChild(div_artist_content)
     const headers = section_artist_content.querySelectorAll("h2")
     const options = div_artist_content.querySelectorAll(".options-artist")
+    console.log(options)
     headers.forEach(header=>{
-        if(header.innerText==='Próximos eventos'){
-            header.addEventListener("click", ()=>{
-                seeUpcomingEvents(datos_grupo[0].nombre)
-            })
-        }
+        // if(header.innerText==='Próximos eventos'){
+        //     header.addEventListener("click", ()=>{
+                
+        //         // div_artist_content.appendChild(div_eventos)
+        //     })
+        // }
         header.addEventListener("click", (evt)=>{
             headers.forEach(h=>h.classList.remove("active"))
             const data = evt.target.getAttribute("data-picker")
             header.classList.add("active")
+            console.log(data)
             options.forEach(option=>{
+                console.log(option.getAttribute("data-info-artist"))
                 if(option.getAttribute("data-info-artist") == data){
                     option.classList.add("d-flex")
                     option.classList.remove("d-none")
+                    console.log("igual")
                 }else{
                     option.classList.remove("d-flex")
                     option.classList.add("d-none")
@@ -1306,6 +1476,7 @@ async function showGroup(id){
     
 }
 
+    //Función que imprime una publicación completa
 async function watchFullPost(id){
     main_content.innerHTML=""
     // main_content.classList.remove("position-absolute")
@@ -1350,22 +1521,49 @@ async function watchFullPost(id){
     main_content.appendChild(publicacion_container)
 }
 
-// async function seeUpcomingEvents(artist){
-//     const url = `https://concerts-artists-events-tracker.p.rapidapi.com/artist?name=${artist}&page=1`;
-//     const options = {
-//         method: 'GET',
-//         headers: {
-//             'X-RapidAPI-Key': 'f67c08b6a0mshee3b6b1bacda154p13ebabjsne09459e39cae',
-//             'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
-//         }
+async function seeUpcomingEvents(artist, dom){
+    loader.classList.add("d-flex")
+    loader.classList.remove("d-none")
+    const url = `https://concerts-artists-events-tracker.p.rapidapi.com/artist?name=${artist}&page=1`
+    const options = {
+        method: 'GET',
+        headers: {
+            'X-RapidAPI-Key': 'f67c08b6a0mshee3b6b1bacda154p13ebabjsne09459e39cae',
+            'X-RapidAPI-Host': 'concerts-artists-events-tracker.p.rapidapi.com'
+        }
         
-//     };
-//     console.log(artist)
-//     const concerts = await fetch(url, options)
-//     const datos_c = await concerts.json()
-//     const proximos_conciertos = datos_c["data"]
-//     console.log(proximos_conciertos)
-// }
+    }
+    const concerts = await fetch(url, options)
+    const datos_c = await concerts.json()
+    loader.classList.add("d-none")
+    loader.classList.remove("d-flex")
+    const proximos_conciertos = datos_c["data"]
+    console.log(proximos_conciertos)
+
+    const div_eventos = document.createElement("div")
+    div_eventos.setAttribute("data-info-artist", "pubs")
+    div_eventos.classList.add("d-flex", "d-none", "options-artist", "flex-column", "container-lg", "gap-4")
+
+    if('error' in datos_c || proximos_conciertos.length == 0){
+        div_eventos.innerHTML="<h2 class='text-center'>No tenemos resultados para este artista, lo sentimos.</h2>"
+    }else{
+        proximos_conciertos.forEach(concierto=>{
+            const div_evento = document.createElement("div")
+            div_evento.classList.add("post-individual-container", "d-flex","gap-3", "p-3", "flex-column", "flex-md-row")
+            div_evento.innerHTML=`
+                                    <img src='${concierto.image}' class='img-fluid rounded'>
+                                
+                                <div class='gap-2 d-flex flex-column align-items-start'>
+                                    <h2>${concierto.description}</h2>
+                                    <i>${concierto.location.name}, ${concierto.location.address.addressCountry}, ${concierto.location.address.addressLocality}</i>
+                                    <i>Este evento dura hasta el ${formatDate(concierto.endDate)}</i>
+                                </div>`
+            div_eventos.appendChild(div_evento)
+        })
+    }
+    
+    dom.appendChild(div_eventos)
+}
 
 function playSong(index){
     audio.src=cola_reproduccion[index].archivo
@@ -1478,11 +1676,29 @@ function findBiggestColorRange(rgb_array){
     ]
   }
 
+  //Función que recibe una fecha y la devuelve en formato español
   function formatDate(fecha){
     let date_object = new Date(fecha)
     return `${addZeroToDate(date_object.getDate())}-${addZeroToDate(date_object.getMonth()+1)}-${date_object.getFullYear()}`
   }
 
+  //Función que añade ceros a la izquierda a una fecha si fuera necesario (ej. 2 => 02)
   function addZeroToDate(fecha){
     return fecha < 10 ? `0${fecha}` : fecha
+  }
+
+  function activateAudioFilters(){
+    let src = context.createMediaElementSource(audio)
+    src.connect(lowFilter)
+    src.connect(context.destination)
+    lowFilter.connect(midLowFilter)
+    lowFilter.connect(context.destination)
+    midLowFilter.connect(midFilter)
+    midLowFilter.connect(context.destination)
+    midFilter.connect(midHighFilter)
+    midFilter.connect(context.destination)
+    midHighFilter.connect(highFilter)
+    midHighFilter.connect(context.destination)
+    highFilter.connect(finalGain)
+    highFilter.connect(context.destination)
   }

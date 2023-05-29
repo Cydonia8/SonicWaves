@@ -26,6 +26,7 @@
     <title>Sonic Waves | Reproductor Web</title>
 </head>
 <body id="reproductor">
+    <audio src=""></audio>
     <ion-icon id="arrow-show-aside" name="chevron-forward-outline"></ion-icon>
     <header id="side-menu" class="p-3 gap-3">
         <div class="p-2 modal-new-playlist d-flex flex-column">
@@ -77,7 +78,15 @@
     <main id="main-content">
         <header class="profile-menu d-flex justify-content-between align-items-center">
             <input type="text" placeholder="Búsqueda..." id="search-bar">
-            <img class="profile-menu-avatar rounded-circle" src="" alt="">
+            <div class="dropdown">
+                <img data-bs-toggle="dropdown" aria-expanded="false" class=" profile-menu-avatar rounded-circle dropdown-toggle" src="">
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="link-profile" href="">Perfil</a></li>
+                    <li><a class="dropdown-item" id="link-eq" href="">Ecualizador</a></li>
+                    <li><a class="dropdown-item" id="link-close-session" href="">Cerrar sesión</a></li>
+                </ul>
+            </div>
+            <!-- <img class="profile-menu-avatar rounded-circle" src="" alt=""> -->
         </header>
         <section id="main-content-dynamic-container">
 

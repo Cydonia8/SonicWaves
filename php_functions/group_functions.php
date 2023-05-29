@@ -2,6 +2,18 @@
     require_once "general.php";
     require "../PHP Duracion script/AudioMP3Class.php";
 
+    function getGroupNameByMail($mail){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT nombre from grupo where correo = ?");
+        $consulta->bind_param('s', $mail);
+        $consulta->bind_result($nombre);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $nombre;
+    }
+
     function checkInformationCompleted($mail){
         $completo = false;
 
@@ -223,9 +235,9 @@
                     <ul class=\"dropdown-menu\">
                         <li><a class=\"dropdown-item\" href=\"grupo_main.php\">Portada</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_nuevo_album.php\">Subir nuevo álbum</a></li>
-                        <li><a class=\"dropdown-item\" href=\"grupo_anadir_encuesta.php\">Añadir encuesta</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_anadir_publicacion.php\">Añadir publicación</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_mis_resenas.php\">Reseñas de mis álbumes</a></li>
+                        <li><a class=\"dropdown-item\" href=\"grupo_miembros.php\">Miembros de grupo</a></li>
                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
                 </div>
@@ -284,7 +296,7 @@
     }
     function newPhotoPathAlbum($nombre, $album){
         $nuevo_nombre;
-        $quitar = ["/", ".", "*","'"];
+        $quitar = ["/", ".", "*","'",":"];
         $album = strtolower(str_replace($quitar, "", $album));
 
         switch($_FILES[$nombre]["type"]){
@@ -330,10 +342,10 @@
         return $id;
     }
     
-    function getAllGroupSongs($mail){
+    function getAllGroupSongs($id){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT distinct c.id cancion_id, c.titulo titulo_cancion from grupo g, album a, cancion c, incluye i where a.grupo = g.id and i.cancion = c.id and i.album = a.id and g.correo = ?");
-        $consulta->bind_param('s', $mail);
+        $consulta = $con->prepare("SELECT distinct c.id cancion_id, c.titulo titulo_cancion from grupo g, album a, cancion c, incluye i where a.grupo = g.id and i.cancion = c.id and i.album = a.id and g.id = ?");
+        $consulta->bind_param('i', $id);
         $consulta->bind_result($id, $cancion);
         $consulta->execute();
         while($consulta->fetch()){
@@ -366,13 +378,13 @@
                 <input type=\"submit\" name=\"cargar\" value=\"Cargar álbum\">";
     }
 
-    function generateSelects($num){
+    function generateSelects($num, $id){
         $contador = 1;
         echo "<ul class='selects-container'>";
         while($contador <= $num){
             $name = "cancion".$contador;
             echo "<li><select required name=\"$name\"><option value='' hidden>Elige una canción</option>";
-                getAllGroupSongs($_SESSION["user"]);
+                getAllGroupSongs($id);
                  echo "</select></li>";
             $contador++;
         }
@@ -711,6 +723,71 @@
             echo "<h3>No hay reseñas escritas aún</h3>";
         }
         
+        $consulta->close();
+        $con->close();
+    }
+
+    function groupHasMembers($mail){
+        $id = getGroupID($mail);
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT count(*) from usuario where grupo = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($miembros);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $miembros;
+    }
+
+    function userExists($usuario){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT count(*) from usuario where usuario = ?");
+        $consulta->bind_param('s', $usuario);
+        $consulta->bind_result($existe);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $existe;
+    }
+    
+    function addNewMember($usuario, $mail){
+        $id_grupo = getGroupID($mail);
+        $con = createConnection();
+        $insert = $con->prepare("UPDATE usuario set grupo = ? where usuario = ?");
+        $insert->bind_param('is', $id_grupo, $usuario);
+        $insert->execute();
+        $insert->close();
+        $con->close();
+    }
+    
+    function removeMember($usuario){
+        $con = createConnection();
+        $update = $con->prepare("UPDATE usuario set grupo = 0 where id = ?");
+        $update->bind_param('i', $usuario);
+        $update->execute();
+        $update->close();
+        $con->close();
+    }
+    
+    function getGroupMembers($mail){
+        $id = getGroupID($mail);
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT usuario, foto_avatar, id from usuario where grupo = ?");
+        $consulta->bind_param('i', $id);
+        $consulta->bind_result($usuario, $foto, $id_usuario);
+        $consulta->execute();
+        while($consulta->fetch()){
+            echo "<div class='d-flex align-items-center gap-3'>
+                    <img src='$foto' class='group-member-avatar img-fluid rounded-circle'>
+                    <h3 class='m-0'>$usuario</h3>
+                    <form action='#' method='post'>
+                        <input hidden value='$id_usuario' name='usuario'>
+                        <button style='--clr:#dc143c' class='btn-danger-own' name='eliminar-miembro'><span>Eliminar</span><i></i></button>
+                    </form>
+                  </div>";
+        }
         $consulta->close();
         $con->close();
     }

@@ -5,6 +5,7 @@
     require_once "../php_functions/group_functions.php";
     forbidAccess("group");
     closeSession($_POST);
+    $nombre_grupo = getGroupNameByMail($_SESSION["user"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,7 +21,7 @@
     <script src="../scripts/jquery-3.2.1.min.js" defer></script>
     <script src="../scripts/grupo_mis_resenas.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title>Document</title>
+    <title><?php echo $nombre_grupo; ?> | Mis reseñas</title>
 </head>
 <body id="grupo-mis-reseñas">
     <?php

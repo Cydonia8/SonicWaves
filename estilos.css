@@ -172,7 +172,7 @@ header.header-index ul.dropdown-menu a{
 header.header-index ul.dropdown-menu a:hover{
     background-color: #7276a5;
 }
-header.header-index ul.dropdown-menu form:hover{
+header.header-index ul.dropdown-menu form:hover, #reproductor .profile-menu .dropdown-menu a:hover{
     background-color: #7276a5;
 }
 header.header-index ul.dropdown-menu input{
@@ -342,11 +342,35 @@ main{
     backdrop-filter: blur(5px);
     border-radius: 10px;
 }
-#login .input-field input, #grupo-nuevo-album .input-field input, #grupo-añadir-publi .input-field input{
+#grupo-nuevo-album header, #grupo-añadir-publi header, #grupo-reseñas-album header, #grupo-mis-reseñas header, #grupo-miembros header{
+    border-bottom: 1.5px solid snow;
+    margin-bottom: 1.5rem;
+}
+#login .input-field input, #grupo-nuevo-album .input-field input, #grupo-añadir-publi .input-field input, #reproductor .input-field input, #discografica-nuevo-grupo .input-field input, #reproductor main select.input-field,
+#grupo-miembros .input-field input{
     background: none;
     border: 0;
     border-bottom: 1.5px solid white;
     color: white;
+}
+#grupo-miembros .group-member-avatar{
+    width: 70px;
+}
+#grupo-miembros .remove-group-member{
+    font-size: 1.5rem;
+    color: #dc143c;
+    cursor: pointer;
+}
+@media screen and (max-width:767px) {
+    #grupo-miembros .group-members-container > div{
+        width: 100%!important;
+    }
+    #grupo-miembros .group-members-container{
+        gap: 1.5rem;
+    }
+}
+#reproductor select.input-field option{
+    background-color: #090f1f;
 }
 #login .input-field input:focus, #grupo-nuevo-album .input-field input:focus, #grupo-añadir-publi .input-field input:focus{
     outline: none;
@@ -472,6 +496,11 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #admin-body .post-container-admin{
     width: 25%;
 }
+#admin-body .pre-admin-full-post{
+    font-family: inherit;
+    white-space: pre-wrap;
+    font-size: 1.2rem;
+}
 #admin-body .post-container-admin img{
     aspect-ratio: 4/4;
 }
@@ -536,6 +565,18 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #grupo-nuevo-album .container-añadir-canciones ul{
     list-style: decimal;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+#grupo-nuevo-album .container-añadir-canciones ul li select{
+    padding: .5rem;
+    border-radius: 10px;
+}
+.reset-form-recopilatorio{
+    padding: .5rem;
+    border: none;
+    border-radius: 10px;
 }
 .style-dot-admin{
     height: 75px;
@@ -663,6 +704,19 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     height: 100%;
     width: 100%;
 }
+#admin-body .admin-album-song-list li{
+    list-style-type: decimal;
+    font-size: 1.2rem;
+}
+#discografica-main .form-editar-datos-discografica{
+    width: 25%;
+}
+@media screen and (max-width:767px) {
+    #discografica-main .form-editar-datos-discografica{
+        width: 100%;
+        padding: 0 1rem;
+    } 
+}
 #grupo-main .banner-group-main .banner-group-main-avatar{
     position: absolute;
     width: 200px;
@@ -672,7 +726,11 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     transition: all .8s;
     border: 1px solid snow;
 }
-#grupo-main .banner-group-main .banner-group-main-avatar:hover{
+#discografica-main .avatar-discografica-editable img{
+    transition: all .8s;
+    border: 1px solid snow;
+}
+#grupo-main .banner-group-main .banner-group-main-avatar:hover, #discografica-main .avatar-discografica-editable:hover{
     filter: contrast(50%);
     transition: all .8s;
     cursor: pointer;
@@ -693,8 +751,15 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
         height: 40vh;
     }
 }
-
-.icon-edit-avatar-group {
+.icon-edit-avatar-discografica{
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform: translate(-50%, 30%);
+    color: white;
+    font-size: 2rem;
+}
+.icon-edit-avatar-group{
     position: absolute;
     bottom: 5%;
     left: 50%;
@@ -703,7 +768,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     font-size: 2rem;
 }
 
-#grupo-main .update-avatar-photo{
+#grupo-main .update-avatar-photo, #discografica-main .update-avatar-photo{
     width: 100vw;
     height: 100dvh;
     backdrop-filter: blur(3px);
@@ -724,7 +789,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     background-color: white;
     display: block;
 }
-#grupo-main .update-avatar-photo .close-modal-update-avatar{
+#grupo-main .update-avatar-photo .close-modal-update-avatar, #discografica-main .update-avatar-photo .close-modal-update-avatar{
     position: absolute;
     top: 2rem;
     right: 2rem;
@@ -909,6 +974,36 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
     padding: .3rem .5rem;
     border-radius: 6px;
 }
+#reproductor .slider-eq {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+  }
+  
+   #reproductor .slider-eq:hover {
+    opacity: 1;
+  }
+  
+  #reproductor .slider-eq::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+  
+ #reproductor .slider-eq::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #04AA6D;
+    cursor: pointer;
+  }
 
 #reproductor header#side-menu .playlist-side-menu-container:hover, #reproductor main .options-artist .album-individual-container:hover{
     background-color: #2d3d69;
@@ -1314,6 +1409,14 @@ ul.dropdown-menu-add-playlist{
     animation: colorChanger 1.5s linear infinite;
     animation-fill-mode:backwards;
 }
+#reproductor #profile-avatar-picture{
+    cursor: pointer;
+    transition: all .5s;
+}
+#reproductor #profile-avatar-picture:hover{
+    filter: contrast(50%);
+    transition: all .5s;
+}
 
 #reproductor .master-play .time-bar input{
     top: -7px;
@@ -1650,4 +1753,137 @@ button.btn-danger-own {
     animation: move 3s infinite;
   }
   
+
+
+/*Footer*/
+#footer{
+	background: #f7f7f7;
+    /* padding: 2rem; */
+	/* padding-top: 5rem; */
+	padding-top: 5rem;
+    padding-bottom: .5rem;
+	background-image: url(https://arena.km.ua/wp-content/uploads/3538533.jpg);
+    filter: invert();
+    color: black;
+}
+#footer2{
+	background: #f7f7f7;
+    padding: 3rem;
+    margin-top: 0px;
+	/* padding-top: 5rem; */
+	padding-top: 7rem;
+    padding-bottom: 80px;
+	background-image: url(../images/cards/v748-toon-111.png);
+}
+.logo-footer{
+	/* max-width: 300px; */
+    filter: invert();
+}
+.social-links{
+	/* display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; */
+
+}
+.social-links h2{
+	padding-bottom: 15px;
+	font-size: 20px;
+    font-weight: 600;
+}
+.social-links img{
+	padding-bottom: 25px;
+}
+.social-icons{
+	/* display: flex;
+    gap: 3rem; */
+	display: flex;
+    flex-direction: column;
+    gap: 1rem;
+	color: #777777;
+}
+.social-icons a{
+	/* font-size: 18px; */
+    /* background: #ffffff; */
+    /* box-shadow: rgb(0 0 0 / 8%) 0px 4px 12px;
+    padding: 0.4rem 1rem 0.4rem 1rem;
+    border-radius: 3px;
+	color: #82074a; */
+	/* margin-right: 18px; */
+	color: #777777;
+}
+.social-icons a:hover{
+	color: #000;
+}
+.social-icons a i{
+	box-shadow: rgb(0 0 0 / 8%) 0px 4px 12px;
+    padding: 0.4rem 1rem 0.4rem 1rem;
+    border-radius: 3px;
+    color: black;
+	font-size: 16px;
+	margin-right: 12px;
+}
+footer li{
+	list-style: none;
+
+}
+.useful-link h2{
+	padding-bottom: 15px;
+	font-size: 20px;
+    font-weight: 600;
+}
+.useful-link img{
+	padding-bottom: 15px;
+}
+.use-links{
+	line-height: 32px;
+}
+.use-links li i{
+	font-size: 14px;
+    padding-right: 8px;
+    color: black;
+}
+.use-links li a{
+	color: black;
+    font-size: 15px;
+    font-weight: 500;
+}
+.use-links li a:hover{
+	color: #000;
+}
+.address h2{
+	padding-bottom: 15px;
+	font-size: 20px;
+    font-weight: 600;
+}
+.address img{
+	padding-bottom: 15px;
+}
+.address-links li a{
+	color: #303030;
+    font-size: 15px;
+    font-weight: 500;
+
+}
+.address-links li i{
+	font-size: 16px;
+    padding-right: 8px;
+	color: #82074a;
+
+}
+.address-links li i:nth-child(1){
+	padding-top: 9px;
+}
+.address-links .address1{
+	font-weight: 500;
+    font-size: 15px;
+	display: flex;
+}
+.address-links{
+	    line-height: 32px;
+		color: #777777;
+}
+a{
+  text-decoration:none;
+}
 

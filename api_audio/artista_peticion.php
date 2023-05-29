@@ -3,7 +3,7 @@
     header('Content-Type: application/json');
 	header("Access-Control-Allow-Origin: *");
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
-    sleep(1);
+    // sleep(1);
     $id = $_GET["id"];
     $sentencia_grupo = $conexion->query("select nombre, foto, foto_avatar, biografia, discografica from grupo where id = $id");
     $datos_grupo = [];

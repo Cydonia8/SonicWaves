@@ -4,6 +4,7 @@
     require_once "../php_functions/group_functions.php";
     forbidAccess("group");
     closeSession($_POST);
+    $nombre_grupo = getGroupNameByMail($_SESSION["user"]);
     if(isset($_POST["subir"])){
       $titulo = strip_tags($_POST["titulo"]);  
       $contenido = strip_tags($_POST["contenido"]);
@@ -55,7 +56,7 @@
     <script src="../scripts/grupo_add_post.js" defer></script>
     <script src="../scripts/jquery-3.2.1.min.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title>Document</title>
+    <title><?php echo $nombre_grupo; ?> | Añadir publicación</title>
 </head>
 <body id="grupo-añadir-publi">
     <?php

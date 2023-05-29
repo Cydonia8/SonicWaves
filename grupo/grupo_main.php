@@ -4,6 +4,7 @@
     require_once "../php_functions/general.php";
     require_once "../php_functions/group_functions.php";
     forbidAccess("group");
+    $nombre_grupo = getGroupNameByMail($_SESSION["user"]);
     if(isset($_POST["completar"])){
         $foto_correcta = checkPhoto("foto");
         $foto_avatar_correcta = checkPhoto("foto-avatar");
@@ -104,7 +105,7 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title>Document</title>
+    <title><?php echo $nombre_grupo; ?>| Perfil de grupo</title>
 </head>
 <body id="grupo-main">
     <?php

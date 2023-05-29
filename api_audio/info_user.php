@@ -13,7 +13,7 @@
 
     $datos["perfil_completado"] = $comprobante_perfil;
 
-    $sentencia = $conexion->prepare("select u.foto_avatar foto_avatar, u.nombre nombre, apellidos, usuario, u.pass pass, u.correo correo, e.nombre estilo, g.nombre grupo from usuario u, estilo e, grupo g where u.estilo = e.id and u.grupo = g.id and u.usuario = ?");
+    $sentencia = $conexion->prepare("select u.pass contraseña, u.foto_avatar foto_avatar, u.nombre nombre, apellidos, usuario, u.correo correo, e.nombre estilo, g.nombre grupo from usuario u, estilo e, grupo g where u.estilo = e.id and u.grupo = g.id and u.usuario = ?");
     $datos_user = [];
     $sentencia->bind_param('s', $usuario);
     $sentencia->execute();

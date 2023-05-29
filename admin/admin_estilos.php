@@ -5,7 +5,7 @@
     require_once "../php_functions/general.php";
     forbidAccess("admin");
     if(isset($_POST["nuevo-estilo"])){
-        newStyle($_POST["nombre"], $_POST["color"]);
+        newStyle($_POST["nombre"]);
     }
     closeSession($_POST);
 ?>
@@ -31,10 +31,6 @@
             <div class="">
                 <label for="">Nombre</label>
                 <input type="text" required name="nombre">
-            </div>
-            <div class="row">
-                <label for="">Color característico</label>
-                <input type="color" required name="color">
             </div>
             <input type="submit" name="nuevo-estilo" value="Añadir estilo">
         </form>

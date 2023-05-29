@@ -31,6 +31,63 @@ function getDiscographicName($correo){
     return $nombre;
 }
 
+function getDiscographicInformation($correo){
+    $con = createConnection();
+    $consulta = $con->prepare("SELECT nombre, correo, pass, foto_avatar from discografica where correo = ?");
+    $consulta->bind_param('s', $correo);
+    $consulta->bind_result($nombre, $correo, $pass, $foto);
+    $consulta->execute();
+    $consulta->fetch();
+    echo "<div class='d-flex flex-column flex-md-row justify-content-evenly gap-5'>
+            <a class='avatar-discografica-editable position-relative w-25' href=''>
+                <img src='$foto' class='rounded-circle img-fluid avatar-discografica-editable'>
+                <ion-icon class='icon-edit-avatar-discografica d-none' name=\"pencil-outline\"></ion-icon>
+            </a>
+            <form class='d-flex flex-column gap-3 form-editar-datos-discografica' action='#' method='post'>
+                <legend class='text-center'>Datos</legend>
+                <div class=\"input-field d-flex flex-column gap-3 mb-3\">
+                    <div class=\"input-visuals d-flex justify-content-between\">
+                        <label for=\"usuario\">Nombre (no editable)</label>
+                        <ion-icon name=\"person-outline\"></ion-icon>
+                    </div>
+                    <input readonly disabled value='$nombre' name=\"nombre\" type=\"text\">                        
+                </div>
+                <div class=\"input-field d-flex flex-column gap-3 mb-3\">
+                    <div class=\"input-visuals d-flex justify-content-between\">
+                        <label for=\"usuario\">Correo</label>
+                        <ion-icon name=\"person-outline\"></ion-icon>
+                    </div>
+                    <input value='$correo' name=\"mail\" type=\"email\">                        
+                </div>
+                <div class=\"input-field d-flex flex-column gap-3 mb-3\">
+                    <div class=\"input-visuals d-flex justify-content-between\">
+                        <label for=\"usuario\">Contraseña</label>
+                        <ion-icon name=\"person-outline\"></ion-icon>
+                    </div>
+                    <input name=\"pass\" type=\"password\">
+                    <input class='pass-original' hidden value='$pass' name='pass-original'>                        
+                </div>
+                <input type='submit' name='modificar-datos' value='Modificar'>
+            </form>
+          </div>
+          <section class=\"update-avatar-photo d-none flex-column justify-content-center align-items-center\">
+                <ion-icon class='close-modal-update-avatar position-absolute' name=\"close-outline\"></ion-icon>
+                <img class='rounded-circle w-25' src=\"$foto\" alt=\"\">
+                <form class='text-center' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">
+                    <div class=\"input-field  mb-3 gap-2\">
+                        <div class=\" justify-content-between\">
+                            <label class=\"file\">Foto de avatar</label>
+                            <ion-icon name=\"image-outline\"></ion-icon>
+                            <input type=\"file\" class=\"custom-file-input\" name=\"foto-avatar-nueva\">
+                        </div>
+                    </div>
+                    <input type=\"submit\" value=\"Actualizar foto de avatar\" name=\"actualizar-avatar\">
+                </form>
+            </section>";
+    $consulta->close();
+    $con->close();
+}
+
 function getDiscographicID($mail){
     $con = createConnection();
     $consulta = $con->prepare("SELECT id FROM discografica where correo = ?");
@@ -144,6 +201,30 @@ function addGroup($nombre, $biografia, $foto, $foto_avatar, $activo, $id_disco){
     $con->close();
 }
 
+function newPhotoPathAvatarDiscographic($nombre, $tipo, $discografica){
+    $nuevo_nombre;
+    switch($_FILES[$nombre]["type"]){
+        case "image/jpeg":
+            $nuevo_nombre = $discografica.'_'.$tipo.'.jpg';
+            break;
+        case "image/png":
+            $nuevo_nombre = $discografica.'_'.$tipo.'.png';
+            break;
+        case "image/gif":
+            $nuevo_nombre = $discografica.'_'.$tipo.'.gif';
+            break;
+        case "image/webp":
+            $nuevo_nombre = $discografica.'_'.$tipo.'.webp';
+            break;
+    }
+    if(!file_exists("../media/img_discografica/".$discografica)){
+        mkdir("../media/img_discografica/".$discografica, 0777, true);
+    }
+    $nueva_ruta = "../media/img_discografica/".$discografica.'/'.$nuevo_nombre;
+    move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
+    return $nueva_ruta;
+}
+
 function newPhotoPathDisc($nombre, $tipo, $grupo, $id){
     $nuevo_nombre;
     switch($_FILES[$nombre]["type"]){
@@ -226,6 +307,36 @@ function checkEnoughSongs($id_grupo){
     $total = $consulta->num_rows;
     $con->close();
     return $total;
+}
+
+function updateDiscographicAvatarPhoto($mail, $foto_avatar){
+    $con = createConnection();
+    $update = $con->prepare("UPDATE discografica set foto_avatar = ? where correo = ?");
+    $update->bind_param('ss', $foto_avatar, $mail);
+    $update->execute();
+    $update->close();
+    $con->close();
+}
+
+function discographicEmailRepeatedAtUpdate($mail, $mail_act){
+    $con = createConnection();
+    $consulta = $con->prepare("SELECT count(*) from discografica where correo = ? and ?<>?");
+    $consulta->bind_param('sss', $mail, $mail_act, $mail);
+    $consulta->bind_result($count);
+    $consulta->execute();
+    $consulta->fetch();
+    $consulta->close();
+    $con->close();
+    return $count;
+}
+
+function updateDiscographicData($user, $mail, $pass){
+    $con = createConnection();
+    $update = $con->prepare("UPDATE discografica set correo = ?, pass = ? where correo = ?");
+    $update->bind_param('sss', $mail, $pass, $user);
+    $update->execute();
+    $update->close();
+    $con->close();
 }
 
 ?>

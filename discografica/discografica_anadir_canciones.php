@@ -5,7 +5,10 @@
     require_once "../php_functions/general.php";
     forbidAccess("disc");
     closeSession($_POST);
-    $id_grupo = $_SESSION["id"];
+    if(isset($_SESSION["id"])){
+        $id_grupo = $_SESSION["id"];
+    }
+   
     if(isset($_POST["cargar"])){
         
         $nombre_grupo = getGroupName($id_grupo);
@@ -25,7 +28,7 @@
             }
             
         }
-        unsetSessionVariable(array('titulo_album', 'lanzamiento', 'num_canciones', 'recopilatorio', 'foto_album'));
+        unsetSessionVariable(array('titulo_album', 'lanzamiento', 'num_canciones', 'recopilatorio', 'foto_album', "id", "id_album"));
     }
 ?>
 <!DOCTYPE html>
@@ -37,6 +40,8 @@
     <script src="../scripts/anadir_cancion.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
     <title>Document</title>
@@ -45,28 +50,33 @@
     <?php
         menuDiscograficaDropdown();
     ?>
-    <section class="container-añadir-canciones">
+    <section class="container-añadir-canciones container-xl mt-4">
+        <h1 class='text-center mb-4'>Añade las canciones del nuevo álbum</h1>
     <?php
         if(isset($_SESSION["foto_album"])){
             if($_SESSION["recopilatorio"] == NULL){
-                echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
+                echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
                 generateInputs($_SESSION["num_canciones"]);
             }else{
                 if($_SESSION["recopilatorio"] == "no"){
-                    echo "<form action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
+                    echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\" enctype=\"multipart/form-data\">";
                     generateInputs($_SESSION["num_canciones"]);
                 }else{
-                        echo "<form action=\"#\" method=\"post\">";
-                        generateSelects($_SESSION["num_canciones"]);
+                        echo "<script src=\"../scripts/anadir_canciones_recopilatorios.js\" defer></script>";
+                        echo "<button class=\"reset-form-recopilatorio\">Reiniciar selección</button>";
+                        echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\">";
+                        generateSelects($_SESSION["num_canciones"], $id_grupo);
                         echo "</form>";                   
                 }
             }
         }elseif(isset($id_grupo)){
+            echo $id_grupo;
             if($filas_afectadas != 0){
-                echo "<h2>Álbum añadido correctamente</h2>";
+                echo "<h2 class='text-center'>Álbum añadido correctamente, volviendo al resumen general...</h2>";
+                echo "<meta http-equiv='refresh' content='2;url=./discografica_main.php'>";
             }
         }else{
-            echo "<h2>Faltan datos</h2>";
+            echo "<h2 class='text-center'>Faltan datos para acceder a esta sección. Por favor, vuelva al <a href='discografica_main.php'>resumen general</a></h2>";
         }
     ?>
     </section>

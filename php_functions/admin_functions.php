@@ -32,7 +32,6 @@
                         <li><a class=\"dropdown-item\" href=\"admin_resenas.php\">Reseñas</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Estilos</a></li>
                         <li><a class=\"dropdown-item\" href=\"admin_publicaciones.php\">Publicaciones</a></li>
-                        <li><a class=\"dropdown-item\" href=\"admin_estilos.php\">Encuestas</a></li>
                         <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
                 </div>
@@ -77,9 +76,6 @@
                             echo "<p>Canciones totales con este estilo: $canciones_estilo</p>";
                         }
                     echo "</div>
-                    <div class=\"d-flex flex-column align-items-center\">
-                        <p>Color característico</p>
-                        <span style=\"background-color:$fila[color_caracteristico];\" class=\"style-dot-admin\"></span>
                     </div>";
                     
                 echo "</div>";
@@ -87,11 +83,11 @@
         $con->close();
     }
 
-    function newStyle($nombre, $color){
+    function newStyle($nombre){
         $exito = false;
         $con = createConnection();
-        $insertar = $con->prepare("INSERT INTO estilo (nombre, color_caracteristico) VALUES (?,?)");
-        $insertar->bind_param("ss", $nombre, $color);
+        $insertar = $con->prepare("INSERT INTO estilo (nombre) VALUES (?)");
+        $insertar->bind_param("s", $nombre);
         $insertar->execute();
         $insertar->close();
         $con->close();
@@ -178,7 +174,7 @@
                     if($aprob == 1){
                         echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id_grupo\">
-                                <input type=\"submit\" name=\"aprobar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
+                                <button style='--clr:#09eb3a' class='btn-danger-own' name='aprobar'><span>Aprobar</span><i></i></button>
                                 </form>
                                 <form method=\"post\" action=\"#\">
                                     <input hidden name=\"id\" value=\"$id_grupo\">
@@ -520,9 +516,9 @@
         $consulta1->bind_result($album, $foto, $grupo);
         $consulta1->execute();
         $consulta1->fetch();
-        echo "<div class=\"w-50\">
-                <h2>$album</h2>
-                <h3>$grupo</h3>
+        echo "<h2 class='text-center'>$grupo</h2>
+        <div class=\"d-flex gap-5 mt-4\">
+                <div class='w-50'>
                 <img class=\"img-fluid rounded\" src=\"$foto\">
                 </div>";
         $consulta1->close();
@@ -531,11 +527,11 @@
         $consulta2->bind_param('i', $id);
         $consulta2->bind_result($cancion, $duracion);
         $consulta2->execute();
-        echo "<ul class=\"w-50\">";
+        echo "<ul class=\"w-50 admin-album-song-list d-flex flex-column gap-4\">";
         while($consulta2->fetch()) {
-            echo "<li>$cancion $duracion</li>";
+            echo "<li>$cancion ($duracion)</li>";
         }
-        echo "</ul>";
+        echo "</ul></div>";
         $consulta2->close();
         $con->close();
     }
@@ -728,10 +724,10 @@
         <form action=\"#\" method=\"post\">
             <ul class=\"filter-alphabetic d-flex list-style-none justify-content-center gap-3 flex-wrap mb-3 pe-2 ps-2\">
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"a\"></li>
-                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"d\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"b\"></li>
-                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"e\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"c\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"d\"></li>
+                <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"e\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"f\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"g\"></li>
                 <li><input class=\"btn btn-outline-light\" name=\"filtro\" type=\"submit\" value=\"h\"></li>
@@ -822,7 +818,7 @@
                                 <img src='$foto' class='w-50 rounded object-fit-cover ratio ratio-1x1'>
                                 <div class='d-flex flex-column gap-3'>
                                     <h1>$titulo</h1>
-                                    <p>$contenido</p>
+                                    <pre class='pre-admin-full-post'>$contenido</pre>
                                     <i>$fecha</i>
                                     <strong>Publicado por: $grupo</strong>"; 
                                 getPostPhotos($id);  

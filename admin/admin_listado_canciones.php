@@ -27,8 +27,8 @@
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5">Canciones de <?php echo $album; ?></h1>
     <section class="canciones-container container-xl mx-auto row">
+        <h1 class="text-center mt-5"><?php echo $album; ?></h1>
        <?php
             getAlbumSongs($id);
        ?>

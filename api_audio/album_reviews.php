@@ -4,7 +4,7 @@
     header("Content-Type: application/json");
     header("Access-Control-Allow-Origin: *");
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
-    sleep(1.5);
+    // sleep(1.5);
     $id = $_GET["id"];
     $sentencia_datos_album = $conexion->query("select titulo, a.foto foto, nombre autor, lanzamiento, g.foto_avatar avatar, g.id id_grupo from album a, grupo g where a.grupo = g.id and a.id = $id");
     $datos_album = [];

@@ -4,7 +4,7 @@
     require_once "../php_functions/general.php";
     forbidAccess("group");
     closeSession($_POST);
-
+    $nombre_grupo = getGroupNameByMail($_SESSION["user"]);
     $nuevo_id = getAutoID("album");
     $_SESSION["id_album"] = $nuevo_id;
     $id_grupo = getGroupID($_SESSION["user"]);
@@ -41,7 +41,7 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title>Document</title>
+    <title><?php echo $nombre_grupo; ?> | Nuevo álbum</title>
 </head>
 <body id="grupo-nuevo-album">
     <?php

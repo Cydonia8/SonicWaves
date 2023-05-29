@@ -47,6 +47,8 @@
     <script src="" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <title>Document</title>
@@ -55,30 +57,48 @@
     <?php
         menuDiscograficaDropdown();
     ?>
-    <form action="#" method="post" enctype="multipart/form-data">
-        <input type="text" placeholder="Nombre del album" name="nombre" required>
-        <br>
-        <label for="foto">Carátula de álbum</label><input required type="file" name="foto">
-        <br>
-        <label for="fecha">Fecha de publicación</label><input required type="date" name="fecha">
-        <br>
-        <label for="">Numero de canciones</label><input type="number" required value="1" name="num-canciones" min="1" id="">
-        <br>
-        <?php
-            if($total >= 10){
-                echo "<fieldset>
-                        <legend>¿Es un álbum recopilatorio?</legend>
-                        <input type=\"radio\" id=\"si\" name=\"recopilatorio\" value=\"si\" required>
-                        <label for=\"si\">Sí</label>
-                        <input type=\"radio\" id=\"no\" name=\"recopilatorio\" value=\"no\" required>
-                        <label for=\"si\">No</label>
-                    </fieldset>";
-            }
-        ?>
-        <?php
-            echo "<input hidden value=\"$id\" name=\"id\">";
-        ?>
-        <input type="submit" value="Pasar a añadir canciones" name="crear">
-    </form>
+    <section class="container-xl mt-3">
+        <h1 class='text-center mb-4'>Nuevo álbum</h1>
+        <form class="d-flex flex-column gap-3 w-50 mx-auto" action="#" method="post" enctype="multipart/form-data">
+            <div class="input-field d-flex flex-column mb-3">
+                <div class="input-visuals d-flex justify-content-between">
+                    <label for="usuario">Título del álbum</label>
+                    <ion-icon name="radio-outline"></ion-icon>
+                </div>
+                <input type="text" placeholder="Título..." name="nombre" required>                      
+            </div>
+            <div class="input-field d-flex flex-column mb-3">
+                <div class="input-visuals d-flex justify-content-between">
+                    <label for="usuario">Carátula del álbum</label>
+                    <ion-icon name="image-outline"></ion-icon>
+                </div>
+                <input required type="file" name="foto">                   
+            </div>
+            <div class="input-field d-flex flex-column mb-3">
+                <div class="input-visuals d-flex justify-content-between">
+                    <label for="usuario">Fecha de publicación</label>
+                    <ion-icon name="calendar-outline"></ion-icon>
+                </div>
+                <input class='d-block' required type="date" name="fecha">                    
+            </div>
+            <label for="">Numero de canciones</label><input type="number" required value="1" name="num-canciones" min="1" id="">
+            <br>
+            <?php
+                if($total >= 10){
+                    echo "<fieldset>
+                            <legend>¿Es un álbum recopilatorio?</legend>
+                            <input type=\"radio\" id=\"si\" name=\"recopilatorio\" value=\"si\" required>
+                            <label for=\"si\">Sí</label>
+                            <input type=\"radio\" id=\"no\" name=\"recopilatorio\" value=\"no\" required>
+                            <label for=\"si\">No</label>
+                        </fieldset>";
+                }
+            ?>
+            <?php
+                echo "<input hidden value=\"$id\" name=\"id\">";
+            ?>
+            <input type="submit" value="Pasar a añadir canciones" name="crear">
+        </form>
+    </section>
 </body>
 </html>
