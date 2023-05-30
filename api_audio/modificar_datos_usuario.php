@@ -29,6 +29,8 @@
             $update->bind_param('ssssis', $nombre, $apellidos, $correo, $pass, $estilo, $_SESSION["user"]);
             $update->execute();
             $update->close();
+        }else{
+            http_response_code(409);
         }
         $con->close();
         

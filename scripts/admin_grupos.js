@@ -4,22 +4,29 @@
  const busqueda = document.querySelector(".busqueda-dinamica-admin")
 //  const h2s = document.querySelectorAll(".admin-grupos-selector h2");
 let array = Array.from(containers_grupos)
-busqueda.addEventListener("keyup", ()=>{
-    let valor = busqueda.value.toLowerCase()
-    
-    // let result = array.filter(div=>div.dataset.name.includes(valor))
-    // console.log(result)
-    containers_grupos.forEach(grupo=>{
-        let atributo = grupo.getAttribute("data-name").toLowerCase()
-        if(!atributo.includes(valor)){
-            // grupo.style.visibility="hidden"
-            grupo.style.display="none"
-        }else{
-            // grupo.style.visibility="visible"
-            grupo.style.display="flex"
-        }
+console.log(array)
+console.log(busqueda)
+if(busqueda !== null){
+    busqueda.addEventListener("keyup", ()=>{
+        let valor = busqueda.value.toLowerCase()
+        // let result = array.filter(div=>div.dataset.name.includes(valor))
+        // console.log(result)
+        containers_grupos.forEach(grupo=>{
+            let atributo = grupo.getAttribute("data-name").toLowerCase()
+            console.log(atributo)
+            if(!atributo.includes(valor)){
+                // grupo.style.visibility="hidden"
+                grupo.classList.remove("d-flex")
+                grupo.classList.add("d-none")
+            }else{
+                // grupo.style.visibility="visible"
+                grupo.classList.add("d-flex")
+                grupo.classList.remove("d-none")
+            }
+        })
     })
-})
+}
+
 
 
 //  h2s.forEach(titulo=>{

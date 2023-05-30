@@ -67,19 +67,24 @@
     function getAllStyles(){
         $con = createConnection();
         $consulta = $con->query("SELECT * FROM estilo where id <> 0");
+        echo "<table id='tabla-estilos-admin' class='w-50 mx-auto'>
+                <thead>
+                    <th>Nombre</th>
+                    <th>Canciones con este estilo</th>
+                </thead>
+                <tbody>";
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $canciones_estilo = songsPerStyle($fila["id"]);
-            echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
-                    <div class=\"d-flex flex-column\">
-                        <p>Nombre: $fila[nombre]</p>";
-                        if($canciones_estilo != ""){
-                            echo "<p>Canciones totales con este estilo: $canciones_estilo</p>";
-                        }
-                    echo "</div>
-                    </div>";
-                    
-                echo "</div>";
+            echo "<tr>
+                    <td>$fila[nombre]</td>";
+                    if($canciones_estilo != ""){
+                        echo "<td>$canciones_estilo</td>";
+                    }else{
+                        echo "<td></td>";
+                    }
+                echo "</tr>";
         }
+        echo "</tbody></table>";
         $con->close();
     }
 
@@ -549,26 +554,30 @@
     }
 
 
-    function getAllUsers(){
+    function getAllUsers($filter){
         $con = createConnection();
-        $consulta = $con->query("SELECT u.nombre nombre, apellidos, usuario, u.foto_avatar foto, u.correo correo, e.nombre estilo, g.nombre grupo FROM usuario u, grupo g, estilo e where u.estilo = e.id and u.grupo = g.id and u.id <> 0");
+        $filtro = $filter."%";
+        $consulta = $con->prepare("SELECT u.nombre nombre, apellidos, usuario, u.foto_avatar foto, u.correo correo, e.nombre estilo, g.nombre grupo FROM usuario u, grupo g, estilo e where u.estilo = e.id and u.grupo = g.id and u.id <> 0 and u.usuario like ?");
+        $consulta->bind_param('s', $filtro);
+        $consulta->bind_result($nombre, $apellidos, $usuario, $foto, $correo, $estilo, $grupo);
+        $consulta->execute();
 
-        while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
-            echo "<div class=\"rounded border disco-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+        while($consulta->fetch()){
+            echo "<div data-name=\"$usuario\" class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
                         <div class=\"w-50\">
-                            <img class=\"img-fluid rounded-circle\" src=\"$fila[foto]\">
+                            <img class=\"img-fluid rounded-circle\" src=\"$foto\">
                         </div>
                         <div class=\"d-flex flex-column justify-content-between\">
-                            <p>Usuario: $fila[usuario]</p>
-                            <p>Nombre: $fila[nombre]</p>
-                            <p>Correo: $fila[correo]</p>";
-                        if($fila["estilo"] != null){
-                            echo "<p>Estilo favorito: $fila[estilo]</p>";
+                            <p>Usuario: <span class='admin-emphasis-span'>$usuario</span></p>
+                            
+                            <p>Correo: <span class='admin-emphasis-span'>$correo</span></p>";
+                        if($estilo != null){
+                            echo "<p>Estilo favorito: <span class='admin-emphasis-span'>$estilo</span></p>";
                         }else{
                             echo "<p>Sin estilo favorito</p>";
                         }
-                        if($fila["grupo"] != null){
-                            echo "<p>Miembro de $fila[grupo]</p>";
+                        if($grupo != "sin grupo"){
+                            echo "<p>Miembro de <span class='admin-emphasis-span'>$grupo</span></p>";
                         }else{
                             echo "<p>No es miembro de ningún grupo</p>";
                         }
@@ -576,6 +585,7 @@
                         echo "</div>
                 </div>";
         }
+        $consulta->close();
         $con->close();
     }
 
@@ -617,7 +627,7 @@
         if($consulta->num_rows>0){
             while($consulta->fetch()){
                 $fecha = formatDate($fecha);
-                echo "<div class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
+                echo "<div data-name='$grupo' class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
                         <img src='$foto' class='w-50 rounded'>
                         <div class='d-flex flex-column'>
                             <p>Título: $titulo</p>

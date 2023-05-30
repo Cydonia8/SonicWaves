@@ -20,6 +20,11 @@ const search_bar = document.getElementById("search-bar")
 const albums_esenciales = document.getElementById("albums-esenciales")
 const lista_recomendada = document.getElementById("lista-recomendada")
 const MXMATCH_API_KEY = "230777d3bbd468016bc464b2a53b4c22"
+const actualizar_avatar_usuario = document.querySelector(".actualizar-avatar-usuario")
+const close_actualizar_avatar = document.getElementById("close-update-avatar-user")
+const form_avatar = document.getElementById("form-new-user-avatar")
+const btn_actualizar_avatar = document.getElementById("actualizar-avatar")
+const input_new_avatar = document.getElementById("input-new-avatar")
 
 
 
@@ -99,6 +104,10 @@ let shuffle_state = false
 // track_info.children[1].children[0].addEventListener("click", ()=>{
 //     showAlbum()
 // })
+
+close_actualizar_avatar.addEventListener("click", ()=>{
+    actualizar_avatar_usuario.classList.add("d-none")
+})
 
 shuffle.addEventListener("click", activateShuffle)
 
@@ -260,7 +269,7 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
     main_content.classList.add("position-absolute", "w-100", "top-0")
     const section_profile_head = document.createElement("section")
     section_profile_head.classList.add("container-fluid", "d-flex","flex-column", "flex-lg-row", "lista-page-header", "gap-3", "align-items-center", "p-3")
-    section_profile_head.innerHTML=`<canvas id="profile-avatar-picture"></canvas>
+    section_profile_head.innerHTML=`<div class='position-relative'><canvas id="profile-avatar-picture"></canvas><ion-icon id="edit-profile-picture-user-canvas" class='position-absolute top-50 start-50 translate-middle' name="pencil-outline"></ion-icon></div>
                                     <div class='d-flex flex-column gap-3 align-items-center align-items-md-start'>
                                         <span>Miembro de Sonic Waves</span>
                                         <h1 class='text-sm-center'>${datos_usuario[0].usuario}</h1>
@@ -286,6 +295,19 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
     let color3 = quantColors[quantColors.length-4]
     let color4 = quantColors[quantColors.length-11]
     let color5 = quantColors[quantColors.length-14]
+    canvas.addEventListener("click", ()=>{
+        actualizar_avatar_usuario.classList.remove("d-none")
+        btn_actualizar_avatar.addEventListener("click", async ()=>{
+            const data_form = new FormData(form_avatar)
+            data_form.append("foto", input_new_avatar.files[0])
+            data_form.forEach(data=>{console.log(data)})
+            await fetch('../api_audio/actualizar_avatar_usuario.php',{
+                method: "post",
+                body: data_form
+            })
+            form_avatar.reset()
+        })
+    })
 
     section_profile_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_profile_head)
@@ -311,31 +333,34 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
                             <label for="usuario">Nombre</label>
                             <ion-icon name="person-circle-outline"></ion-icon>
                         </div>
-                        <input class='input-name' type="text" value="${datos_usuario[0].nombre}" name="nombre" required>                      
+                        <input class='input-name' type="text" value="${datos_usuario[0].nombre}" name="nombre">                      
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
                             <label for="usuario">Apellidos</label>
                             <ion-icon name="person-circle-outline"></ion-icon>
                         </div>
-                        <input type="text" value="${datos_usuario[0].apellidos}" name="apellidos" required>                      
+                        <input class='input-apellidos' type="text" value="${datos_usuario[0].apellidos}" name="apellidos" required>                      
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
                             <label for="usuario">Correo electrónico</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input type="text" value="${datos_usuario[0].correo}" name="correo" required>                      
+                        <input class='input-correo' type="text" value="${datos_usuario[0].correo}" name="correo" required>                      
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
                             <label for="usuario">Contraseña</label>
                             <ion-icon name="keypad-outline"></ion-icon>
                         </div>
-                        <input type="password" value="${datos_usuario[0].contraseña}" name="pass" required>                      
+                        <input class='input-pass' type="password" value="${datos_usuario[0].contraseña}" name="pass" required>                      
                     </div>`
     const select_estilos = document.createElement("select")
-    const nombre_input= form.querySelector(".input-name")
+    const nombre_input = form.querySelector(".input-name")
+    const apellidos_input = form.querySelector(".input-apellidos")
+    const correo_input = form.querySelector(".input-correo")
+    const pass_input = form.querySelector(".input-pass")
     select_estilos.required=true
     select_estilos.setAttribute("name", "estilo")
     select_estilos.classList.add("p-1", "input-field")
@@ -350,15 +375,26 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
     form.appendChild(select_estilos)
     form.innerHTML+=`<button type="button" style='--clr:#0ce8e8' class='btn-danger-own' id='completar-perfil'><span>Actualizar datos</span><i></i></button>`
     const btn_modificar = form.querySelector("button")
+
     btn_modificar.addEventListener("click", async()=>{
-        const data_form = new URLSearchParams(new FormData(form))
-        
-        console.log(data_form.toString())
-        await fetch('../api_audio/modificar_datos_usuario.php',{
-            method: 'POST',
-            body: data_form
-        })
-        form.reset()
+        // if(correo_input.value.trim() !== "" && pass_input.value.trim() !== ""){
+            const data_form = new URLSearchParams(new FormData(form))    
+            console.log(data_form.toString())
+            const response = await fetch('../api_audio/modificar_datos_usuario.php',{
+                method: 'POST',
+                body: data_form
+            })
+            if(!response.ok){
+                if(response.status=="409"){
+                    form.innerHTML+=`<div class="alert alert-warning" role="alert">
+                    Este correo ya existe en Sonic Waves
+                  </div>`
+                }
+            }else{
+                form.innerHTML+=`<div class="alert alert-success" role="alert">
+                Datos actualizados correctamente
+              </div>`
+            }
     })
     datos_user.appendChild(form)
     main_content.appendChild(datos_user)
@@ -1291,12 +1327,12 @@ async function seeAlbumReviews(id){
         const titulo_reseña = formulario_reseña.querySelector("#titulo-reseña")
         const contenido_reseña = formulario_reseña.querySelector("#contenido-reseña")
         section_nueva_reseña.appendChild(formulario_reseña)
-        boton_insertar_reseña.addEventListener("click", (evt)=>{
+        boton_insertar_reseña.addEventListener("click", async (evt)=>{
             if(titulo_reseña.value.trim() !== "" && contenido_reseña.value.trim() !== ""){
-                insertReview(formulario_reseña)
-                seeAlbumReviews(id)
+                await insertReview(formulario_reseña)
+                await seeAlbumReviews(id)
             }else{
-                window.alert("faltan datos")
+                formulario_reseña.innerHTML+=`<div class="alert alert-warning" role="alert">Faltan datos para comentar</div>`
             }
             
         })
@@ -1756,3 +1792,9 @@ function findBiggestColorRange(rgb_array){
     highFilter.connect(context.destination)
     btn_guardar.classList.remove("d-none")
   }
+
+setTimeout(()=> {
+    $(".alert").fadeTo(500, 0).slideUp(500, ()=>{
+        $(this).remove(); 
+    });
+}, 3000);

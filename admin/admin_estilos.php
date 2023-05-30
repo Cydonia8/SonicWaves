@@ -40,9 +40,12 @@
     ?>
     
     <h1 class="text-center mt-5 mb-5">Estilos de Sonic Waves</h1>
-    <button id="abrir-form-estilo">Añadir estilo</button>
+    <!-- <button id="abrir-form-estilo">Añadir estilo</button> -->
+    <div class="d-flex justify-content-center">
+        <button id="abrir-form-estilo" style='--clr:#09eb3a' class='btn-danger-own' name='aprobar'><span>Añadir estilo</span><i></i></button>
+    </div>
     
-    <section class="estilos-container container-fluid mx-auto row gap-3">
+    <section class="estilos-container container-xl mx-auto mt-4">
         
         <?php
             getAllStyles();

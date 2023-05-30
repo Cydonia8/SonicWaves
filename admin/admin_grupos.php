@@ -39,36 +39,24 @@
         menuAdminDropdown();
     ?>
     <h1 class="text-center mt-5">Grupos de Sonic Waves</h1>
-    <!-- <div class="admin-grupos-selector d-flex justify-content-around mt-3 mb-4">
-            <h2 class="tipo-activo" data-type="disco">Grupos de discográfica</h2>
-            <h2 data-type="auto">Grupos autogestionados</h2>
-       </div> -->
-       <input type="text" class="busqueda-dinamica-admin">
-    <section class="filter-abc-admin">
+       
+    <section class="filter-abc-admin mb-3">
         <?php
-            printFilterForm();
+            printFilterForm("por nombre de grupo");
         ?>
     </section>
     <section class="grupos-container container-activo container-fluid mx-auto row gap-3">
        
        <?php
-            // if(!isset($_POST["filtro"])){
-            //     getAllGroups();
-            // }else{
-            //     getGroupsFiltered($_POST["filtro"]);
-            // }
             if(isset($_POST["filtro"])){
+                echo "<div class=\"d-flex justify-content-center align-items-center gap-3 mb-4\">
+                        <label>Búsqueda dinámica</label>
+                        <input type=\"text\" class=\"busqueda-dinamica-admin\">
+                    </div>";
                 getGroupsFiltered($_POST["filtro"]);
             }
             
        ?>
     </section>
-    <!-- <section data-section="auto" class="grupos-container container-fluid mx-auto row gap-3">
-       
-       <?php
-            // getAllGroupsNoDisc();
-    //    ?>
-    </section> -->
-
 </body>
 </html>

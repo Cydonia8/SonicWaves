@@ -20,6 +20,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="../scripts/jquery-3.2.1.min.js" defer></script>
     <script src="../scripts/reproductor.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
@@ -43,6 +44,7 @@
                 
                 <input id="foto-nueva-lista" type="file" class="custom-file-input" accept=".png,.webp,.jpg,.jpeg">
                 <button type="button" style='--clr:#0ce8e8' class='btn-danger-own' id='crear-lista'><span>Añadir lista</span><i></i></button>
+            </form>
         </div>
         <a class="w-75" href="../index.php">
             <img class="img-fluid" src="../media/assets/sonic-waves-logo-simple.png" alt="">
@@ -76,6 +78,13 @@
         </div>
     </header>
     <main id="main-content">
+        <div class="d-none actualizar-avatar-usuario">
+            <ion-icon class="position-absolute top-0 end-0 p-5" id="close-update-avatar-user" name="close-outline"></ion-icon>
+            <form method="post" enctype="multipart/form-data" class="d-flex flex-column gap-5" id="form-new-user-avatar">
+                <input type="file" accept=".png,.webp,.jpg,.jpeg" id="input-new-avatar">
+                <button style='--clr:#0ce8e8' class='btn-danger-own' id='actualizar-avatar'><span>Actualizar avatar</span><i></i></button>
+            </form>
+        </div>
         <header class="profile-menu d-flex justify-content-between align-items-center">
             <input type="text" placeholder="Búsqueda..." id="search-bar">
             <div class="dropdown">

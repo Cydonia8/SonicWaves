@@ -503,6 +503,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #admin-body .post-container-admin img{
     aspect-ratio: 4/4;
+    object-fit: cover;
 }
 #admin-body .alert-post-missing-info{
     top: 50%;
@@ -529,6 +530,9 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 }
 #admin-body img.post-admin-extra-photos{
     aspect-ratio: 4/3;
+}
+#admin-body .admin-emphasis-span{
+    font-weight: bold;
 }
 /* #admin-body .menu-admin ul{
     display: flex;
@@ -587,6 +591,13 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 .estilos-container{
     place-content: center;
 }
+#tabla-estilos-admin td, #tabla-estilos-admin th{
+    padding: .6rem;
+    text-align: center;
+}
+#tabla-estilos-admin tr{
+    border-bottom: 1.5px solid snow;
+}
 .modal-form-estilo{
     height: 100vh;
     width: 100vw;
@@ -610,6 +621,13 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     position: relative;
     gap: 1.5rem;
     padding: 1rem;
+    border: 1px solid snow;
+}
+.busqueda-dinamica-admin{
+    border: none;
+    border-bottom: 1px solid snow;
+    background: transparent;
+    color: white;
 }
 #close-form-add-style{
     position: absolute;
@@ -1291,17 +1309,36 @@ ul.dropdown-menu-add-playlist{
 #reproductor main .artist-section-picker h2{
     margin: 0;
     cursor: pointer;
-    transition: all .6s;
+    transition: width .6s;
 }
-#reproductor main .artist-section-picker h2.active::after{
+#reproductor main .artist-section-picker h2::after{
     content: '';
     width: 0;
     height: 3px;
     background-color: white;
     display: block;
-    transition: all .6s;
+    transition: width .6s;
 }
 #reproductor main .options-artist .album-individual-container{
+    cursor: pointer;
+}
+#reproductor #edit-profile-picture-user-canvas{
+    font-size: 1.5rem;
+}
+#reproductor .actualizar-avatar-usuario{
+    position: fixed;
+    top: 0;
+    height: 100dvh;
+    width: 100vw;
+    left: 0;
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000000;
+}
+#reproductor #close-update-avatar-user{
+    font-size: 1.5rem;
     cursor: pointer;
 }
 #reproductor main .artist-section-picker h2.active::after{
@@ -1310,7 +1347,7 @@ ul.dropdown-menu-add-playlist{
     height: 3px;
     background-color: white;
     display: block;
-    transition: all .6s;
+    transition: width .6s;
 }
 #reproductor main .artist-section-bio{
     text-align: justify;
@@ -1760,7 +1797,7 @@ button.btn-danger-own {
 	background: #f7f7f7;
     /* padding: 2rem; */
 	/* padding-top: 5rem; */
-	padding-top: 5rem;
+	padding-top: 3.5rem;
     padding-bottom: .5rem;
 	background-image: url(https://arena.km.ua/wp-content/uploads/3538533.jpg);
     filter: invert();

@@ -38,17 +38,18 @@
         menuAdminDropdown();
     ?>
     <h1 class="text-center mt-5 mb-4">Discográficas de Sonic Waves</h1>
-    <input type="text" class="busqueda-dinamica-admin">
     <section class="filter-abc-admin">
         <?php
-            printFilterForm();
+            printFilterForm("por nombre de discográfica");
         ?>
     </section>
     <section class="admin-resumen-disc container-fluid mx-auto row gap-3">
         <?php
-            if(!isset($_POST["filtro"])){
-                getAllRecordLabels();
-            }else{
+            if(isset($_POST["filtro"])){
+                echo "<div class=\"d-flex justify-content-center align-items-center gap-3 mb-4\">
+                        <label>Búsqueda dinámica</label>
+                        <input type=\"text\" class=\"busqueda-dinamica-admin\">
+                    </div>";
                 getRecordLabelsFiltered($_POST["filtro"]);
             }
         ?>

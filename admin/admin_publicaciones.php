@@ -19,7 +19,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
-    <script src="" defer></script>
+    <script src="../scripts/admin_grupos.js" defer></script>
     <script src="../scripts/jquery-3.2.1.min.js" defer></script>
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <title>Document</title>
@@ -32,14 +32,15 @@
     <?php
         printFilterForm("por autor de publicación");
     ?>
-    <section class="d-flex flex-column flex-md-row container-fluid gap-5 flex-wrap justify-content-center">
+    <section class="container-fluid gap-3 row mx-auto albumes-container">
         <?php
-            if(!isset($_POST["filtro"])){
-                getAllPosts();
-            }else{
+            if(isset($_POST["filtro"])){
+                echo "<div class=\"d-flex justify-content-center align-items-center gap-3 mb-4\">
+                        <label>Búsqueda dinámica</label>
+                        <input type=\"text\" class=\"busqueda-dinamica-admin\">
+                    </div>";
                 getAllPostsFiltered($_POST["filtro"]);
             }
-            
         ?>
     </section>
 </body>

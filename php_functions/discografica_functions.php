@@ -12,7 +12,6 @@ function menuDiscograficaDropdown(){
                     <li><a class=\"dropdown-item\" href=\"discografica_main.php\">Resumen de discográfica</a></li>
                     <li><a class=\"dropdown-item\" href=\"discografica_grupos.php\">Grupos gestionados</a></li>
                     <li><a class=\"dropdown-item\" href=\"discografica_anadir_grupo.php\">Añadir nuevo grupo</a></li>
-                    <li><a class=\"dropdown-item\" href=\"admin_albumes.php\">Álbumes</a></li>
                     <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                 </ul>
             </div>
