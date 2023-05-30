@@ -46,8 +46,8 @@ const context = new AudioContext()
 
 // let src = context.createMediaElementSource(audio)
 const lowFilter = new BiquadFilterNode(context,{type:'lowshelf',frequency:100})
-const midLowFilter = new BiquadFilterNode(context,{type:'peaking',frequency:200,Q:3})
-const midFilter = new BiquadFilterNode(context,{type:'peaking',frequency:200,Q:3})
+const midLowFilter = new BiquadFilterNode(context,{type:'peaking',frequency:400,Q:3})
+const midFilter = new BiquadFilterNode(context,{type:'peaking',frequency:400,Q:3})
 const midHighFilter = new BiquadFilterNode(context,{type:'peaking',frequency:800,Q:3})
 const highFilter = new BiquadFilterNode(context,{type:'highshelf',frequency:1600})
 const finalGain = new GainNode(context)
@@ -124,28 +124,81 @@ function activateShuffle(){
     console.log(shuffle_state)
 }
 
-eq_link.addEventListener("click", (evt)=>{
+eq_link.addEventListener("click", async (evt)=>{
     evt.preventDefault()
+    const respuesta = await fetch('../api_audio/valores_eq.php')
+    const datos = await respuesta.json()
+    const datos_eq = datos["valores_eq"]
+    console.log(datos_eq)
+    let val = Object.values(datos_eq[0])
+
     main_content.innerHTML='<h1 class="text-center">Ecualizador</h1>'
-    main_content.innerHTML+=`<button>Activar ecualización</button>`
+    main_content.innerHTML+=`<div class='d-flex justify-content-between pe-5 ps-5'>
+                                <button style='--clr:#04AA6D' class='btn-danger-own'><span>Activar ecualización</span><i></i></button>
+                                <button style='--clr:#04AA6D' class='btn-danger-own d-none save'><span>Guardar parámetros</span><i></i></button>
+                            </div>`
     const btn_eq = main_content.querySelector("button")
-    btn_eq.addEventListener("click", activateAudioFilters)
+    const btn_guardar = main_content.querySelector(".save")
+    btn_eq.addEventListener("click", ()=>{
+        activateAudioFilters(btn_guardar)
+    })
     // let src = context.createMediaElementSource(audio)
     const div_ecualizador = document.createElement("div")
     div_ecualizador.classList.add("d-flex", "flex-column", "w-50", "gap-4", "mx-auto")
-    div_ecualizador.innerHTML=`<div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Low filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='lows'>20db</div></div>
-                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>LowMid Filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='mid-lows'>20db</div></div>
-                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Mid filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='mids'>20db</div></div>
-                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>MidHigh filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='mid-high'>20db</div></div>
-                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>High filter</h4><div class='d-flex gap-2'>-20db<input class='w-100 slider-eq' type='range' min='-20' max='20' step='0.01' id='highs'>20db</div></div>`
-    const lows = div_ecualizador.querySelector("#lows")
-    const midlows = div_ecualizador.querySelector("#mid-lows")
+    div_ecualizador.innerHTML=`<div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Low filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='lows'>40db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>LowMid Filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='mid-lows'>40db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Mid filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='mids'>40db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>MidHigh filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='mid-high'>40db</div></div>
+                                <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>High filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='highs'>40db</div></div>`
+    const lows_i = div_ecualizador.querySelector("#lows")
+    const midlows_i  = div_ecualizador.querySelector("#mid-lows")
+    const mids_i  = div_ecualizador.querySelector("#mids")
+    const midhighs_i = div_ecualizador.querySelector("#mid-high")
+    const highs_i = div_ecualizador.querySelector("#highs")
 
-    lows.addEventListener("input", ()=>{
-        lowFilter.gain.value=lows.value
+    if(!val.includes(null)){
+        lowFilter.gain.value=datos_eq[0].low_eq
+        midLowFilter.gain.value=datos_eq[0].midlows_eq
+        midFilter.gain.value=datos_eq[0].mids_eq
+        midHighFilter.gain.value=datos_eq[0].midhighs_eq
+        highFilter.gain.value=datos_eq[0].high_eq
+
+        lows_i.value=datos_eq[0].low_eq
+        midlows_i.value=datos_eq[0].midlows_eq
+        mids_i.value=datos_eq[0].mids_eq
+        midhighs_i.value=datos_eq[0].midhighs_eq
+        highs_i.value=datos_eq[0].highs_eq
+    }
+
+    lows_i.addEventListener("input", ()=>{
+        lowFilter.gain.value=lows_i.value
     })
-    midlows.addEventListener("input", ()=>{
-        midLowFilter.gain.value=midlows.value
+    midlows_i.addEventListener("input", ()=>{
+        midLowFilter.gain.value=midlows_i.value
+    })
+    mids_i.addEventListener("input", ()=>{
+        midFilter.gain.value=mids_i.value
+    })
+    midhighs_i.addEventListener("input", ()=>{
+        midHighFilter.gain.value=midhighs_i.value
+    })
+    highs_i.addEventListener("input", ()=>{
+        highFilter.gain.value=highs_i.value
+    })
+    btn_guardar.addEventListener("click", async ()=>{
+        let lows = lows_i.value
+        let midlows = midlows_i.value
+        let mids = mids_i.value
+        let midhighs = midhighs_i.value
+        let highs = highs_i.value
+
+        await fetch(`../api_audio/guardar_eq.php?lows=${lows}&midlows=${midlows}&mids=${mids}&midhighs=${midhighs}&highs=${highs}`)
+
+        lows_i.value=lows
+        midlows_i.value=midlows
+        mids_i.value=mids
+        midhighs_i.value=midhighs
+        highs_i.value=highs
     })
     main_content.appendChild(div_ecualizador)
         
@@ -194,7 +247,7 @@ letra.addEventListener("click", async()=>{
     let color3 = quantColors[quantColors.length-4]
     let color4 = quantColors[quantColors.length-11]
     let color5 = quantColors[quantColors.length-14]
-    lyrcs_container.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+    lyrcs_container.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
 
 })
 
@@ -234,7 +287,7 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
     let color4 = quantColors[quantColors.length-11]
     let color5 = quantColors[quantColors.length-14]
 
-    section_profile_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+    section_profile_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_profile_head)
     console.log(datos_usuario)
     const respuesa_estilos = await fetch(`../api_audio/estilos.php`)
@@ -529,7 +582,7 @@ async function showFavoriteAlbums(){
         let color4 = quantColors[quantColors.length-11]
         let color5 = quantColors[quantColors.length-14]
         canvas.style.display="none"
-        div_album.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+        div_album.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
         div_album.addEventListener("click", (evt)=>{
             showAlbum(evt.currentTarget)
         })
@@ -614,7 +667,7 @@ async function printPlaylist(id){
     let color4 = quantColors[quantColors.length-11]
     let color5 = quantColors[quantColors.length-14]
 
-    section_playlist_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+    section_playlist_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_playlist_head)
 
     const lista_canciones = datos["datos_canciones"]
@@ -1098,7 +1151,7 @@ async function showAlbum(target){
     let color4 = quantColors[quantColors.length-11]
     let color5 = quantColors[quantColors.length-14]
 
-    section_album_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+    section_album_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_album_head)
     const lista_canciones = datos["lista_canciones"]
     const section_lista_canciones = document.createElement("section")
@@ -1219,7 +1272,7 @@ async function seeAlbumReviews(id){
     let color4 = quantColors[quantColors.length-11]
     let color5 = quantColors[quantColors.length-13]
 
-    section_album_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+    section_album_head.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(section_album_head)
     // main_content.innerHTML+="<h2 class='text-center'>Reseñas de los usuarios de Sonic Waves</h2>"
 
@@ -1265,7 +1318,7 @@ async function seeAlbumReviews(id){
                                     <i>Escrita por ${review.autor} el ${fecha}</i>
                                 </div>`
                                 
-        // review_cont.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color2.r}, ${color2.g}, ${color2.b}, .5), rgba(${color5.r},${color5.g},${color5.b},.5) 70%)`
+        // review_cont.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color2.r}, ${color2.g}, ${color2.b}, .5), rgba(${color5.r},${color5.g},${color5.b},.5) 70%)`
         reviews_container.appendChild(review_cont)
     })
     section_reviews.appendChild(reviews_container)
@@ -1417,7 +1470,7 @@ async function showGroup(id){
         if(publicaciones.length != 0){
             publicaciones.forEach(publicacion=>{
                 const div_publicacion = document.createElement("div")
-                let preview_texto = publicacion.contenido.substring(0, 200)
+                let preview_texto = publicacion.contenido.substring(0, 400)
                 div_publicacion.classList.add("post-individual-container", "d-flex","gap-3", "p-3", "flex-column", "flex-md-row")
                 div_publicacion.innerHTML=`<div>
                                                 <img src='${publicacion.foto}' class='img-fluid'>
@@ -1517,7 +1570,7 @@ async function watchFullPost(id){
     let color4 = quantColors[quantColors.length-11]
     let color5 = quantColors[quantColors.length-13]
 
-    publicacion_container.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 20%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
+    publicacion_container.style.background=`linear-gradient(250deg, rgba(${color1.r},${color1.g},${color1.b},.5) 40%, rgba(${color3.r},${color3.g},${color3.b},0.6500175070028011) 50% , rgba(${color2.r}, ${color2.g}, ${color2.b}, .85), rgba(${color5.r},${color5.g},${color5.b},1) 100%)`
     main_content.appendChild(publicacion_container)
 }
 
@@ -1687,7 +1740,7 @@ function findBiggestColorRange(rgb_array){
     return fecha < 10 ? `0${fecha}` : fecha
   }
 
-  function activateAudioFilters(){
+  function activateAudioFilters(btn_guardar){
     let src = context.createMediaElementSource(audio)
     src.connect(lowFilter)
     src.connect(context.destination)
@@ -1701,4 +1754,5 @@ function findBiggestColorRange(rgb_array){
     midHighFilter.connect(context.destination)
     highFilter.connect(finalGain)
     highFilter.connect(context.destination)
+    btn_guardar.classList.remove("d-none")
   }
