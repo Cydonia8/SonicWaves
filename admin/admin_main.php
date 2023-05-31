@@ -22,7 +22,11 @@
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5">Sonic Waves: resumen general</h1>
-    <section class="admin-resumen container-xl"></section>
+    <h1 class="text-center mt-5 mb-5">Sonic Waves: resumen general</h1>
+    <section class="admin-resumen container-xl d-flex flex-column flex-md-row gap-3">
+        <?php
+            adminOverview();
+        ?>
+    </section>
 </body>
 </html>

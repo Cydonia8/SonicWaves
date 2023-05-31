@@ -208,6 +208,9 @@ header.header-index ul.dropdown-menu input{
     .img-menu-responsive{
         display: block;
     }
+    .dropdown-header{
+        gap: .7rem;
+    }
     .dropdown-header .dropdown-link-responsive{
         display: block;
         width: 700px;
@@ -216,8 +219,14 @@ header.header-index ul.dropdown-menu input{
     .dropdown-header .dropdown-link-responsive img{
         width: 100px;
     }
+    .banner-group-main{
+        background-position: center;
+    }
     .dropdown-header a:nth-child(2){
         display: none;
+    }
+    .dropdown-admin-disc-group *{
+        font-size: .9rem;
     }
 }
 
@@ -623,7 +632,7 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     padding: 1rem;
     border: 1px solid snow;
 }
-.busqueda-dinamica-admin{
+.busqueda-dinamica-admin, .busqueda-dinamica-disc{
     border: none;
     border-bottom: 1px solid snow;
     background: transparent;
@@ -1118,6 +1127,11 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
     font-size: 1.5rem;
     font-family: inherit;
 }
+@media screen and (max-width:840px) {
+    #reproductor #song-lyric{
+        font-size: .9rem;
+    }
+}
 #reproductor main .favorite-album-img-container{
     width: 10%;
 }
@@ -1162,11 +1176,11 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
 #reproductor .full-post-container div:first-child{
     width: 50%;
 }
-#reproductor main .full-post-container{
+/* #reproductor main .full-post-container{
     height: 100vh;
-}
+} */
 @media screen and (max-width:1199px) {
-    #reproductor .full-post-container img.main-photo{
+    /* #reproductor .full-post-container img.main-photo{
         width: 100%;
     }
     #reproductor .full-post-container div:first-child{
@@ -1174,6 +1188,28 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
     }
     #reproductor main .full-post-container{
         height: auto;
+    } */
+}
+#reproductor .extra-photo-post{
+    width: 15%;
+}
+@media screen and (max-width:800px) {
+    #reproductor .extra-photo-post{
+        width: 100%;
+    }
+}
+@media screen and (max-width:1000px) {
+    #reproductor .master-play{
+        flex-direction: column;
+    }
+    #reproductor .track-info{
+        margin-bottom: 3rem;
+    }
+    #reproductor .master-play .time-bar{
+        margin-bottom: 3rem!important;
+    }
+    #reproductor .master-play .volume-control{
+        width: 15%!important;
     }
 }
 #reproductor main .full-post-content{

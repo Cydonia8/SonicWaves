@@ -106,7 +106,7 @@
         </section>
     </main>
     <footer class="master-play d-flex justify-content-between align-items-center" id="player">
-        <div class="track-info d-flex gap-2 align-items-start flex-column flex-sm-row align-items-sm-center">
+        <div class="track-info d-flex gap-2 align-items-start align-items-sm-center">
             <img src="../media/assets/no_cover.jpg" class="rounded">
         </div>  
          
@@ -116,6 +116,7 @@
                 <ion-icon class="control-icons" name="play-skip-back-outline" id="previous"></ion-icon>
                 <ion-icon class="control-icons" id="play-pause" name="play-outline"></ion-icon>
                 <ion-icon class="control-icons" name="play-skip-forward-outline" id="next"></ion-icon>
+                <i id="letra" class="fa-solid fa-microphone-lines"></i>
             </div>
             <img src="../media/assets/sonic-waves-logo-simple.png" class="position-absolute player-logo-color-changer" alt="">
             <span class="me-2" id="current-time">0:00</span>
@@ -124,7 +125,7 @@
             <div class="dot"></div>
             <span id="end-time">0:00</span>
         </div>
-        <i id="letra" class="fa-solid fa-microphone-lines"></i>
+        
         <div class="volume-control position-relative">
             <ion-icon class="volume-icon" name="volume-medium-outline"></ion-icon>
             <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="0.5">

@@ -49,51 +49,13 @@ const play_pause = document.getElementById("play-pause")
 const audio = document.querySelector("audio")
 const context = new AudioContext()
 
-// let src = context.createMediaElementSource(audio)
+
 const lowFilter = new BiquadFilterNode(context,{type:'lowshelf',frequency:100})
 const midLowFilter = new BiquadFilterNode(context,{type:'peaking',frequency:400,Q:3})
 const midFilter = new BiquadFilterNode(context,{type:'peaking',frequency:400,Q:3})
 const midHighFilter = new BiquadFilterNode(context,{type:'peaking',frequency:800,Q:3})
 const highFilter = new BiquadFilterNode(context,{type:'highshelf',frequency:1600})
 const finalGain = new GainNode(context)
-// const lows = document.getElementById("lows")
-
-
-// src.connect(context.destination)
-
-// lows.addEventListener("input", ()=>{
-//     highFilter.gain.value=lows.value
-//     console.log(lowFilter.Q)
-//     console.log(lowFilter.gain)
-// })
-// src.connect(lowFilter)
-// src.connect(context.destination)
-// lowFilter.connect(midLowFilter)
-// lowFilter.connect(context.destination)
-// midLowFilter.connect(midFilter)
-// midLowFilter.connect(context.destination)
-// midFilter.connect(midHighFilter)
-// midFilter.connect(context.destination)
-// midHighFilter.connect(highFilter)
-// midHighFilter.connect(context.destination)
-// highFilter.connect(finalGain)
-// highFilter.connect(context.destination)
-
-
-
-
-// console.log(lowfilter)
-
-// source.connect(highShelf)
-// highShelf.connect(context.destination)
-// source.connect(lowShelf)
-// lowShelf.connect(context.destination)
-// source.connect(highPass)
-// highPass.connect(context.destination)
-// source.connect(lowPass)
-// lowPass.connect(context.destination)
-
-
 
 
 let cola_reproduccion = []
@@ -101,9 +63,6 @@ let indice=0
 let ultimo_indice
 let shuffle_state = false
 
-// track_info.children[1].children[0].addEventListener("click", ()=>{
-//     showAlbum()
-// })
 
 close_actualizar_avatar.addEventListener("click", ()=>{
     actualizar_avatar_usuario.classList.add("d-none")
@@ -220,16 +179,23 @@ letra.addEventListener("click", async()=>{
     console.log(foto)
     const respuesta = await fetch(`http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?q_artist=${artista}&q_track=${titulo}&apikey=${MXMATCH_API_KEY}`)
     const datos = await respuesta.json()
-    let letra = datos.message.body.lyrics.lyrics_body
-    const copyright = datos.message.body.lyrics.lyrics_copyright
+
+    let letra
+    let copyright
+    if("lyrics" in datos.message.body){
+        letra = datos.message.body.lyrics.lyrics_body
+        copyright = datos.message.body.lyrics.lyrics_copyright
+        letra = letra.replace("******* This Lyrics is NOT for Commercial use *******", "Pronto, letras completas en Sonic Waves")
+    }
+    
     if(letra == "" && copyright == ""){
         letra = "Instrumental. Disfruta de la música"
     }else if(letra == "" && copyright == "Unfortunately we're not authorized to show these lyrics."){
         letra = "No nos dejan mostrar esta letra por copyright. Capitalismo."
+    }else if(datos.message.header.status_code == "404"){
+        letra = "Actualmente no disponemos de esta letra, lo sentimos."
     }
-    letra = letra.replace("******* This Lyrics is NOT for Commercial use *******", "Pronto, letras completas en Sonic Waves")
-    console.log(letra)
-    console.log(datos)
+
     main_content.innerHTML=`<section class="container-fluid rounded h-100 mx-auto d-flex flex-column justify-content-center align-items-center lyrics-container">
                             <h1 class='text-center mt-3 mb-3'>${titulo}</h1>
                             <h2 class='text-center mb-3'>${artista}</h2>
@@ -421,12 +387,12 @@ search_bar.addEventListener("keyup", async ()=>{
     resultados.classList.add("d-flex", "container-fluid", "flex-column", "flex-xl-row", "gap-3")
     const resultados_grupo = document.createElement("section")
     resultados_grupo.classList.add("d-flex", "flex-column", "groups-search-results", "gap-3")
-    resultados_grupo.innerHTML=`<h2 class="text-center">Grupos</h2>`
+    resultados_grupo.innerHTML=`<h2 class="text-center">Artistas</h2>`
     if(grupos.length != 0){
         grupos.forEach(grupo=>{
             let disco = grupo.discografica == 0 ? '' : 'Artista esencial <ion-icon name="checkmark-circle-outline"></ion-icon>'
             const div_grupo = document.createElement("div")
-            div_grupo.classList.add("d-flex", "align-items-center", "gap-1", "group-search-individual-result")
+            div_grupo.classList.add("d-flex", "align-items-center", "gap-3", "group-search-individual-result")
             div_grupo.innerHTML+=`<img src='${grupo.foto_avatar}' class="rounded-circle w-25">
                                             <h4>${grupo.nombre}</h4>
                                             <h5 class='ms-3 d-flex align-items-center gap-2 grupo-esencial-badge'>${disco}</h5>`
@@ -656,7 +622,10 @@ function createPlaylistsLinksModal(id, nombre, usuario, cancion){
 }
 
 async function deletePlaylist(id){
-    await fetch(`../api_audio/borrar_playlist.php?id=${id}`)   
+    playlists_container.innerHTML=""
+    await fetch(`../api_audio/borrar_playlist.php?id=${id}`) 
+    await getAllPlaylists(playlists_container, "header")
+
 }
 
 async function printPlaylist(id){
@@ -683,7 +652,6 @@ async function printPlaylist(id){
     borrar_lista.addEventListener("click", ()=>{
         deletePlaylist(id)
         playerMainState()
-        getAllPlaylists(playlists_container, "header")
     })
     const img = document.createElement("img")
     canvas.width='300'
@@ -1482,21 +1450,26 @@ async function showGroup(id){
     const div_albums_container = document.createElement("div")
     div_albums_container.classList.add("d-flex", "gap-3", "d-none", "options-artist", "flex-column", "flex-lg-row")
     div_albums_container.setAttribute("data-info-artist", "discos")
-    discos.forEach(disco=>{
-        const album = document.createElement("div")
-        album.classList.add("d-flex", "gap-3", "align-items-center", "album-individual-container")
-        album.setAttribute("data-album-id", disco.id)
-        album.innerHTML+=`<div class='w-50'>
-                            <img src='${disco.foto}' class='img-fluid object-fit-cover'>
-                        </div>
-                        <div class='d-flex w-50'>
-                            <h5>${disco.titulo}</h5>
-                        </div>`
-        album.addEventListener("click", (evt)=>{
-            showAlbum(evt.currentTarget)
+    if(discos.length != 0){
+        discos.forEach(disco=>{
+            const album = document.createElement("div")
+            album.classList.add("d-flex", "gap-3", "align-items-center", "album-individual-container")
+            album.setAttribute("data-album-id", disco.id)
+            album.innerHTML+=`<div class='w-50'>
+                                <img src='${disco.foto}' class='img-fluid object-fit-cover'>
+                            </div>
+                            <div class='d-flex w-50'>
+                                <h5>${disco.titulo}</h5>
+                            </div>`
+            album.addEventListener("click", (evt)=>{
+                showAlbum(evt.currentTarget)
+            })
+            div_albums_container.appendChild(album)
         })
-        div_albums_container.appendChild(album)
-    })
+    }else{
+        div_albums_container.innerHTML=`<h2 class='text-center'>Este artista no tiene álbumes por el momento</h2>`
+    }
+    
     div_artist_content.appendChild(div_albums_container)
 
     const div_publicaciones = document.createElement("div")
@@ -1572,11 +1545,14 @@ async function watchFullPost(id){
     const respuesta = await fetch(`../api_audio/publicacion_completa.php?id=${id}`)
     const datos = await respuesta.json()
     const datos_publicacion = datos["datos_publicacion"]
+    const fotos_extra = datos["fotos_extra"]
+    console.log(fotos_extra)
+    
     // main_content.innerHTML=`<button type="button" style='--clr:#0ce8e8' class='ms-3 btn-danger-own'><span>Volver al grupo</span><i></i></button>`
    
     const publicacion_container = document.createElement("section")
-    publicacion_container.classList.add("container-fluid", "d-flex", "flex-column","flex-xl-row", "gap-3", "p-3", "full-post-container")
-    publicacion_container.innerHTML=`   <canvas></canvas>
+    publicacion_container.classList.add("container-fluid", "d-flex", "flex-column", "gap-3", "p-3", "full-post-container")
+    publicacion_container.innerHTML=`   <div class='d-flex w-100 gap-3 flex-column flex-lg-row align-items-center align-items-md-start'><canvas></canvas>
                                         <img src='${datos_publicacion[0].foto}' class='rounded object-fit-cover main-photo'>
                                 
                                     <div class='d-flex flex-column gap-3 align-items-start'>
@@ -1584,7 +1560,19 @@ async function watchFullPost(id){
                                         <pre class='full-post-content'>${datos_publicacion[0].contenido}</pre>
                                         <i>Publicado el ${formatDate(datos_publicacion[0].fecha)}</i>
                                         <button type="button" style='--clr:#0ce8e8' class='btn-danger-own'><span>Volver al grupo</span><i></i></button>
-                                    </div>`
+                                    </div></div>`
+    if(fotos_extra != undefined){
+        const div_fotos_extra = document.createElement("div")
+        div_fotos_extra.classList.add("d-flex", "flex-column", "flex-md-row", "gap-3")
+        
+        fotos_extra.forEach(foto=>{
+            const img = document.createElement("img")
+            img.classList.add("rounded", "extra-photo-post", "object-fit-cover")
+            img.src=`${foto.enlace}`
+            div_fotos_extra.appendChild(img)
+        })
+        publicacion_container.appendChild(div_fotos_extra)
+    }
     const btn = publicacion_container.querySelector("button")
     btn.addEventListener("click", ()=>{
         showGroup(datos_publicacion[0].grupo)

@@ -11,7 +11,7 @@
     $usuario_consulta->fetch();
     $usuario_consulta->close();
 
-    $consulta_albumes = $conexion->query("SELECT a.id id, a.foto foto, titulo, g.nombre autor from album a, grupo g, favorito f where f.album = a.id and a.grupo = g.id and f.usuario = $usuario");
+    $consulta_albumes = $conexion->query("SELECT a.id id, a.foto foto, titulo, g.nombre autor from album a, grupo g, favorito f where a.activo = 1 and f.album = a.id and a.grupo = g.id and f.usuario = $usuario");
     $datos_albumes = [];
 
     while($fila = $consulta_albumes->fetch_array(MYSQLI_ASSOC)){

@@ -17,9 +17,10 @@
               </header>";
     }
     function menuAdminDropdown(){
-        echo "<header class=\"d-flex justify-content-between align-items-center pt-3 pe-5 pb-2 ps-5 border-bottom\">
+        echo "<header class=\"dropdown-header d-flex justify-content-between align-items-center pt-3 pe-3 pb-2 ps-3 border-bottom\">
+                <a class=\"dropdown-link-responsive\" href=\"../index.php\"><img src=\"../media/assets/sonic-waves-logo-simple.png\"></a>
                 <a href=\"../index.php\"><img class=\"w-25\" src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\"></a>
-                <div class=\"dropdown\">
+                <div class=\"dropdown-admin-disc-group\">
                     <button class=\"btn btn-secondary btn-lg dropdown-toggle\" type=\"button\" data-bs-toggle=\"dropdown\" aria-expanded=\"false\">
                     Menú de administración
                     </button>
@@ -38,6 +39,64 @@
               </header>";
     }
     
+    function adminOverview(){
+        $con = createConnection();
+        $consulta_u = $con->query("SELECT count(*) total_u from usuario where id <> 0");
+        $fila = $consulta_u->fetch_array(MYSQLI_ASSOC);
+        $total_usuarios = $fila["total_u"];
+
+        $consulta_grupos = $con->query("SELECT count(*) total_g from grupo where discografica = 0 and id <> 0");
+        $fila = $consulta_grupos->fetch_array(MYSQLI_ASSOC);
+        $total_grupos = $fila["total_g"];
+
+        $consulta_grupos_d = $con->query("SELECT count(*) total_g_d from grupo where discografica <> 0 and id <> 0");
+        $fila = $consulta_grupos_d->fetch_array(MYSQLI_ASSOC);
+        $total_grupos_d = $fila["total_g_d"];
+
+        $consulta_grupos_desact = $con->query("SELECT count(*) total_g_inactivos from grupo where activo <> 1 and id <> 0");
+        $fila = $consulta_grupos_desact->fetch_array(MYSQLI_ASSOC);
+        $total_grupos_inactivos = $fila["total_g_inactivos"];
+
+        $consulta_albumes = $con->query("SELECT count(*) albumes from album");
+        $fila = $consulta_albumes->fetch_array(MYSQLI_ASSOC);
+        $total_albumes = $fila["albumes"];
+
+        $consulta_discograficas = $con->query("SELECT count(*) discograficas from discografica where id <> 0");
+        $fila = $consulta_discograficas->fetch_array(MYSQLI_ASSOC);
+        $total_discografica = $fila["discograficas"];
+
+        $consulta_discograficas_inactivas = $con->query("SELECT count(*) disc_inactivas from discografica where id <> 0 and activo <> 1");
+        $fila = $consulta_discograficas_inactivas->fetch_array(MYSQLI_ASSOC);
+        $total_discografica_inactiva = $fila["disc_inactivas"];
+
+        $consulta_reseñas = $con->query("SELECT count(*) reseñas from reseña");
+        $fila = $consulta_reseñas->fetch_array(MYSQLI_ASSOC);
+        $total_reseñas = $fila["reseñas"];
+
+        $consulta_estilos = $con->query("SELECT count(*) estilos from estilo where id <> 0");
+        $fila = $consulta_estilos->fetch_array(MYSQLI_ASSOC);
+        $total_estilos = $fila["estilos"];
+
+        $consulta_publicaciones = $con->query("SELECT count(*) publicaciones from publicacion");
+        $fila = $consulta_publicaciones->fetch_array(MYSQLI_ASSOC);
+        $total_publicaciones = $fila["publicaciones"];
+
+        echo "<div class='flex-grow-1 p-3 border'>
+                <h3>Usuarios registrados: $total_usuarios</h3>
+                <h3>Grupos autogestionados: $total_grupos</h3>
+                <h3>Grupos de discográfica: $total_grupos_d</h3>
+                <h3>Grupos inactivos: $total_grupos_inactivos</h3>
+                <h3>Álbumes almacenados: $total_albumes</h3>
+            </div>
+            <div class='flex-grow-1 p-3 border'>
+                <h3>Discográficas registradas: $total_discografica</h3>
+                <h3>Discográficas inactivas: $total_discografica_inactiva</h3>
+                <h3>Reseñas totales: $total_reseñas</h3>
+                <h3>Estilos totales: $total_estilos</h3>
+                <h3>Publicaciones totales: $total_publicaciones</h3>
+            </div>";
+    }
+
     function songsPerStyle($id){
         $total = 0;
         $con = createConnection();
@@ -561,30 +620,36 @@
         $consulta->bind_param('s', $filtro);
         $consulta->bind_result($nombre, $apellidos, $usuario, $foto, $correo, $estilo, $grupo);
         $consulta->execute();
+        $consulta->store_result();
 
-        while($consulta->fetch()){
-            echo "<div data-name=\"$usuario\" class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
-                        <div class=\"w-50\">
-                            <img class=\"img-fluid rounded-circle\" src=\"$foto\">
-                        </div>
-                        <div class=\"d-flex flex-column justify-content-between\">
-                            <p>Usuario: <span class='admin-emphasis-span'>$usuario</span></p>
+        if($consulta->num_rows > 0){
+            while($consulta->fetch()){
+                echo "<div data-name=\"$usuario\" class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                            <div class=\"w-50\">
+                                <img class=\"img-fluid rounded-circle\" src=\"$foto\">
+                            </div>
+                            <div class=\"d-flex flex-column justify-content-between\">
+                                <p>Usuario: <span class='admin-emphasis-span'>$usuario</span></p>
+                                
+                                <p>Correo: <span class='admin-emphasis-span'>$correo</span></p>";
+                            if($estilo != null){
+                                echo "<p>Estilo favorito: <span class='admin-emphasis-span'>$estilo</span></p>";
+                            }else{
+                                echo "<p>Sin estilo favorito</p>";
+                            }
+                            if($grupo != "sin grupo"){
+                                echo "<p>Miembro de <span class='admin-emphasis-span'>$grupo</span></p>";
+                            }else{
+                                echo "<p>No es miembro de ningún grupo</p>";
+                            }
                             
-                            <p>Correo: <span class='admin-emphasis-span'>$correo</span></p>";
-                        if($estilo != null){
-                            echo "<p>Estilo favorito: <span class='admin-emphasis-span'>$estilo</span></p>";
-                        }else{
-                            echo "<p>Sin estilo favorito</p>";
-                        }
-                        if($grupo != "sin grupo"){
-                            echo "<p>Miembro de <span class='admin-emphasis-span'>$grupo</span></p>";
-                        }else{
-                            echo "<p>No es miembro de ningún grupo</p>";
-                        }
-                        
-                        echo "</div>
-                </div>";
+                            echo "</div>
+                    </div>";
+            }
+        }else{
+            echo "<h2 class='text-center'>No hay coincidencias</h2>";
         }
+        
         $consulta->close();
         $con->close();
     }

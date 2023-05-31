@@ -16,7 +16,7 @@
         }
         $datos['lista_canciones'] = $datos_lista;
     }else{
-        $sentencia_lista = $conexion->query("select a.id album_id, archivo, g.nombre autor, a.foto caratula, c.titulo titulo from cancion c, contiene co, album a, grupo g, incluye i where co.cancion = c.id and a.id = i.album and a.grupo = g.id and i.cancion = c.id and co.lista = $id order by orden asc");
+        $sentencia_lista = $conexion->query("select a.id album_id, archivo, g.nombre autor, a.foto caratula, c.titulo titulo from cancion c, contiene co, album a, grupo g, incluye i where co.cancion = c.id and a.id = i.album and a.grupo = g.id and i.cancion = c.id and co.lista = $id and a.activo = 1 group by c.id order by orden asc");
         $datos_lista = [];
 
         while($fila = $sentencia_lista->fetch_array(MYSQLI_ASSOC)){

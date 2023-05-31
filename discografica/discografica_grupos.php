@@ -3,6 +3,7 @@
     require_once "../square_image_creator/create_square_image.php";
     require_once "../php_functions/general.php";
     require_once "../php_functions/discografica_functions.php";
+    require_once "../php_functions/admin_functions.php";
     forbidAccess("disc");
     closeSession($_POST);
     $nombre = getDiscographicName($_SESSION["user"]);
@@ -30,9 +31,12 @@
         $id = getDiscographicID($_SESSION["user"]);
     ?>
     <h1 class="text-center mt-4 mb-4">Grupos gestionados por <?php echo $nombre;?></h1>
-    <input type="text" class="busqueda-dinamica-disc">
+    <!-- <input type="text" class="busqueda-dinamica-disc"> -->
     <section class="filter-abc-admin">
-        <h3 class="text-center mt-4">Filtro alfabético</h3>
+        <?php
+            printFilterForm("por nombre de grupo")
+        ?>
+        <!-- <h3 class="text-center mt-4">Filtro alfabético</h3>
         <form action="#" method="post">
             <ul class="d-flex list-style-none justify-content-center gap-3 flex-wrap mb-3 pe-2 ps-2">
                 <li><input class="btn btn-outline-light" name="filtro" type="submit" value="a"></li>
@@ -64,16 +68,17 @@
                 <li><input class="btn btn-outline-light" name="filtro" type="submit" value="z"></li>
                 <li class='position-relative'><input class="btn btn-outline-light" name="filtro" type="submit" value=""><ion-icon class="position-absolute top-50 start-50 translate-middle" name="refresh-outline"></ion-icon></li>
             </ul>
-        </form>
+        </form> -->
     </section>
     <section class="container-fluid container-grupos-discografica row mx-auto gap-3 p-2">
         <?php
-            if(!isset($_POST["filtro"])){
-                getDiscographicGroups($id);    
-            }else{
+            if(isset($_POST["filtro"])){
+                echo "<div class=\"d-flex justify-content-center align-items-center gap-3 mb-4\">
+                        <label>Búsqueda dinámica</label>
+                        <input type=\"text\" class=\"busqueda-dinamica-disc\">
+                    </div>";
                 getDiscographicGroupsFiltered($id, $_POST["filtro"]);
-            }
-            
+            }         
         ?>
     
     </section>
