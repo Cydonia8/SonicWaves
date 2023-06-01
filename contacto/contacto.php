@@ -12,31 +12,8 @@
     require 'PHPMailer/PHPMailer.php';
     require 'PHPMailer/SMTP.php';
     
-    if(isset($_POST["enviar"])){
-        $mail = new PHPMailer();
-
-        $mail->isSMTP();
-        $mail->Host = "smtp.gmail.com";
-        $mail->SMTPAuth = true;
-        $mail->Username = "holymustaine20@gmail.com";
-        $mail->Password = "uprisingcydonia8C++";
-        $mail->SMTPSecure= "tls";
-        $mail->Port = 587;
-        echo $_POST["nombre"];
-        $mail->setFrom("holymustaine20@gmail.com", $_POST["nombre"]);
-        $mail->addAddress("tomorrownknows@gmail.com");
-        $mail->isHTML(true);
-        $mail->Subject = "Solicitud de contacto";
-        $body_content = "<h1>Duda de usuario</h1>";
-
-        $mail->Body = $body_content;
-
-        if($mail->send()){
-            echo "Consulta enviada";
-        }else{
-            echo "No se ha podido enviar el correo debido a ".$mail->ErrorInfo;
-        }
-    }
+    // if(isset($_POST["enviar"])){
+        
 ?>
 <!DOCTYPE html>
 <html lang="en">
