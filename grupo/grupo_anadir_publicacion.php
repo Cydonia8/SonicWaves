@@ -84,7 +84,8 @@
                 <div class="d-flex justify-content-between"><label class="file">Foto principal de la publicación</label><ion-icon name="image-outline"></ion-icon></div>
                     <input type="file" class="custom-file-input" name="foto" required accept=".jpeg,.webp,.png,.gif,.jpg">             
             </div>
-            <button type="button" id="btn-add-photos">Añadir fotos extra (máximo ocho)</button>
+            
+            <button type="button" id="btn-add-photos" style='--clr:#c49c23' class='btn-danger-own'><span>Añadir fotos extra (máximo ocho)</span><i></i></button>
             <div class="modal-añadir-fotos-publi d-none">
                 <div class="modal-añadir-fotos-container position-relative d-flex align-items-center">
                     <input type="file" name="fotos[]" accept=".jpeg,.webp,.png,.gif,.jpg" multiple>
@@ -98,7 +99,7 @@
                 </div>
                 <input type="date" name="fecha" required>
             </div>
-            <input type="submit" name="subir" value="Crear publicación">
+            <button name='subir' style='--clr:#c49c23' class='btn-danger-own'><span>Crear publicación</span><i></i></button>
         </form>
     </section>
     <?php

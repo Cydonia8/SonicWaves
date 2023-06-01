@@ -56,7 +56,7 @@
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
-    <title>Document</title>
+    <title>Editar datos</title>
 </head>
 <body id="discografica-editar-grupo">
     <?php
@@ -93,7 +93,8 @@
                         <input hidden name="foto-avatar-original" <?php echo "value='$datos[foto_avatar]'"; ?>>
                     
                 </div>
-                <input type="submit" name="editar" value="Editar" class="mb-3">
+                <!-- <input type="submit" name="editar" value="Editar" class="mb-3"> -->
+                <button style='--clr:#0A90DD' class='btn-danger-own mb-3' name='editar'><span>Editar</span><i></i></button>
             </form>
         </div>
         <div class="col-12 col-lg-6">

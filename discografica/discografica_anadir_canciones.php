@@ -44,7 +44,7 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32"/>
-    <title>Document</title>
+    <title>Añadir canciones</title>
 </head>
 <body id="grupo-nuevo-album">
     <?php

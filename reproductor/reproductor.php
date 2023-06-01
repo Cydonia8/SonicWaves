@@ -27,6 +27,18 @@
     <title>Sonic Waves | Reproductor Web</title>
 </head>
 <body id="reproductor">
+    <div class="alert alert-success position-fixed d-none" id="alert-song-added" role="alert">
+        Canción añadida
+    </div>
+    <div class="alert alert-danger position-fixed d-none" id="alert-song-repeated" role="alert">
+        Esta canción ya está en la lista
+    </div>
+    <div class="alert alert-success position-fixed d-none" id="alert-data-modified" role="alert">
+        Datos modificados correctamente
+    </div>
+    <div class="alert alert-danger position-fixed d-none" id="alert-mail-repeated" role="alert">
+        Este correo ya existe en Sonic Waves
+    </div>
     <audio src=""></audio>
     <ion-icon id="arrow-show-aside" name="chevron-forward-outline"></ion-icon>
     <header id="side-menu" class="p-3 gap-3">

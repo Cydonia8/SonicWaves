@@ -84,8 +84,7 @@
                         </fieldset>";
                 }
             ?>
-            
-            <input type="submit" value="Pasar a añadir canciones" name="crear">
+            <button name='crear' style='--clr:#c49c23' class='btn-danger-own'><span>Pasar a añadir canciones</span><i></i></button>
         </form>
     </section>
 </body>

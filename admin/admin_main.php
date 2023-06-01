@@ -22,8 +22,8 @@
     <?php
         menuAdminDropdown();
     ?>
-    <h1 class="text-center mt-5 mb-5">Sonic Waves: resumen general</h1>
-    <section class="admin-resumen container-xl d-flex flex-column flex-md-row gap-3">
+    <h1 class="text-center mt-3 mb-5">Resumen de la aplicación</h1>
+    <section class="admin-resumen container-xl d-flex flex-column gap-3 text-center">
         <?php
             adminOverview();
         ?>

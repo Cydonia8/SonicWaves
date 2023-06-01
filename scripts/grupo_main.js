@@ -77,3 +77,9 @@ close_modal_update_photo.addEventListener("click", ()=>{
     section_update_photo.classList.remove("d-flex")
     section_update_photo.classList.add("d-none")
 })
+
+setTimeout(()=> {
+    $(".alert").fadeTo(500, 0).slideUp(500, ()=>{
+        $(this).remove(); 
+    });
+}, 3000);

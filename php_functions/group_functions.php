@@ -116,7 +116,7 @@
                                 <ion-icon id='edit-biografia-grupo' name=\"pencil-outline\"></ion-icon>
                             </div>
                             <textarea name='bio' class='w-100' rows='20' cols='60' disabled>$bio</textarea>
-                            <input type='submit' name='actualizar-bio' value='Actualizar' hidden>
+                            <button hidden style='--clr:#c49c23' class='btn-danger-own mt-3' name='actualizar-bio'><span>Actualizar</span><i></i></button>
                         </form>
                     </div>
                     <div class='w-50'>
@@ -140,7 +140,8 @@
                                 <input disabled name=\"pass\" type=\"password\">
                                 <input class='pass-original' hidden value='$pass' name='pass-original'>                        
                             </div>
-                            <input type='submit' class='actualizar-datos-submit' name='actualizar-datos' value='Actualizar' hidden>
+                            
+                            <button hidden style='--clr:#c49c23' class='btn-danger-own actualizar-datos-submit' name='actualizar-datos'><span>Actualizar</span><i></i></button>
                         </form>
                     </div>
                 </section>
@@ -155,7 +156,8 @@
                             <input type=\"file\" class=\"custom-file-input\" name=\"foto-avatar-nueva\">
                         </div>
                     </div>
-                    <input type=\"submit\" value=\"Actualizar foto de avatar\" name=\"actualizar-avatar\">
+                    <button style='--clr:#c49c23' class='btn-danger-own' name='actualizar-avatar'><span>Actualizar foto de avatar</span><i></i></button>
+                    
                 </form>
             </section>
             <section class=\"update-main-photo d-none flex-column justify-content-center align-items-center\">
@@ -169,7 +171,7 @@
                             <input type=\"file\" class=\"custom-file-input\" name=\"foto-nueva\">
                         </div>
                     </div>
-                    <input type=\"submit\" value=\"Actualizar foto principal\" name=\"actualizar-foto\">
+                    <button style='--clr:#c49c23' class='btn-danger-own' name='actualizar-foto'><span>Actualizar foto principal</span><i></i></button>
                 </form>
             </section>
             <section class='container-fluid'>
@@ -375,7 +377,7 @@
             $contador++;
         }
         echo "</ul>
-                <input type=\"submit\" name=\"cargar\" value=\"Cargar álbum\">";
+                <button name='cargar' style='--clr:#c49c23' class='btn-danger-own'><span>Cargar álbum</span><i></i></button>";
     }
 
     function generateSelects($num, $id){
@@ -388,7 +390,7 @@
                  echo "</select></li>";
             $contador++;
         }
-        echo "</ul><input type=\"submit\" name=\"cargar\" value=\"Cargar álbum\">";
+        echo "</ul><button name='cargar' style='--clr:#c49c23' class='btn-danger-own'><span>Cargar álbum</span><i></i></button>";
     }
 
     function getDuration($cancion){
@@ -631,7 +633,7 @@
                      </form>";
             }
         }else{
-            echo "<div class=\"alert alert-warning mt-3\" role=\"alert\">Sin fotos extra</div>";
+            echo "<div class=\"alert no-f alert-warning mt-3\" role=\"alert\">Sin fotos extra</div>";
         }
         $consulta->close();
         $con->close();

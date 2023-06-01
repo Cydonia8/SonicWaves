@@ -37,7 +37,7 @@ function getDiscographicInformation($correo){
     $consulta->bind_result($nombre, $correo, $pass, $foto);
     $consulta->execute();
     $consulta->fetch();
-    echo "<div class='d-flex flex-column flex-md-row justify-content-evenly gap-5'>
+    echo "<div class='d-flex flex-column flex-md-row justify-content-evenly gap-5 align-items-center'>
             <a class='avatar-discografica-editable position-relative w-25' href=''>
                 <img src='$foto' class='rounded-circle img-fluid avatar-discografica-editable'>
                 <ion-icon class='icon-edit-avatar-discografica d-none' name=\"pencil-outline\"></ion-icon>
@@ -66,7 +66,7 @@ function getDiscographicInformation($correo){
                     <input name=\"pass\" type=\"password\">
                     <input class='pass-original' hidden value='$pass' name='pass-original'>                        
                 </div>
-                <input type='submit' name='modificar-datos' value='Modificar'>
+                <button style='--clr:#0A90DD' class='btn-danger-own' name='modificar-datos'><span>Modificar</span><i></i></button>
             </form>
           </div>
           <section class=\"update-avatar-photo d-none flex-column justify-content-center align-items-center\">
@@ -80,7 +80,7 @@ function getDiscographicInformation($correo){
                             <input type=\"file\" class=\"custom-file-input\" name=\"foto-avatar-nueva\">
                         </div>
                     </div>
-                    <input type=\"submit\" value=\"Actualizar foto de avatar\" name=\"actualizar-avatar\">
+                    <button style='--clr:#0A90DD' class='btn-danger-own' name='actualizar-avatar'><span>Actualizar foto de avatar</span><i></i></button>
                 </form>
             </section>";
     $consulta->close();
@@ -97,48 +97,6 @@ function getDiscographicID($mail){
     $consulta->close();
     $con->close();
     return $id;
-}
-function getDiscographicGroups($id_disc){
-    $con = createConnection();
-    $consulta = $con->prepare("SELECT id, nombre, activo, foto_avatar, pendiente_aprobacion aprob from grupo where discografica = ? order by nombre asc");
-    $consulta->bind_param('i', $id_disc);
-    $consulta->bind_result($id, $nombre, $activo, $foto_avatar, $aprob);
-    $consulta->execute();
-    while($consulta->fetch()){
-        echo "<div data-name=\"$nombre\" class=\"disc-grupo-detalle border rounded d-flex justify-content-around p-3 gap-3 col-12 col-lg-3\">
-                <div class='w-50'>
-                    <img class=\"img-fluid rounded-circle mb-2\" src=\"$foto_avatar\" alt=\"\">
-                    <p class=\"text-center font-weight-bold\">$nombre</p>
-                </div>";
-                if($activo == 0 and $aprob == 1){
-                    echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-info\" role=\"alert\">
-                    Pendiente de aprobación
-                  </div></div>";
-                }elseif($activo == 0 and $aprob == 0){
-                    echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
-                    Grupo actualmente desactivado. Póngase en contacto con el administrador del sitio para más información.
-                  </div></div>";     
-                }elseif($activo == 1){
-                    echo "<div class=\"w-50 d-flex flex-column justify-content-center gap-5\">
-                    <form method=\"post\" action=\"discografica_editar_grupo.php\">
-                        <input hidden value=\"$id\" name=\"id\">
-                        <button style='--clr:#3232e3' class='btn-danger-own btn' name='editar-group'><span>Editar datos de grupo</span><i></i></button>
-                    </form>
-                    <form method=\"post\" action=\"../discografica/discografica_anadir_album.php\">
-                        <input hidden value=\"$id\" name=\"id\">
-                        <button style='--clr:#0ce8e8' class='btn-danger-own' name='anadir'><span>Añadir nuevo álbum</span><i></i></button>
-                    </form>
-                </div>";
-                }else{
-                    echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
-                    Creación de grupo denegada. Póngase en contacto con el administrador del sitio para más información.
-                  </div></div>";
-                }
-                
-              echo "</div>";
-    }
-    $consulta->close();
-    $con->close();
 }
 
 function getDiscographicGroupsFiltered($id_disc, $filter){
@@ -162,7 +120,7 @@ function getDiscographicGroupsFiltered($id_disc, $filter){
                       </div></div>";
                     }elseif($activo == 0 and $aprob == 0){
                         echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
-                        Grupo actualmente desactivado. Póngase en contacto con el administrador del sitio para más información.
+                        Grupo actualmente desactivado. Póngase en <a href='../contacto/contacto.php'>contacto con el administrador</a> del sitio para más información.
                       </div></div>";     
                     }elseif($activo == 1){
                         echo "<div class=\"w-50 d-flex flex-column justify-content-center gap-5\">
@@ -177,7 +135,7 @@ function getDiscographicGroupsFiltered($id_disc, $filter){
                     </div>";
                     }else{
                         echo "<div class=\"w-50 d-flex flex-column justify-content-center\"><div class=\"alert alert-danger\" role=\"alert\">
-                        Creación de grupo denegada. Póngase en contacto con el administrador del sitio para más información.
+                        Creación de grupo denegada. Póngase en <a href='../contacto/contacto.php'>contacto con el administrador</a> del sitio para más información.
                       </div></div>";
                     }
                     

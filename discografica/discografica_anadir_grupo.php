@@ -57,7 +57,7 @@
                 </div>
                 <textarea name="biografia" placeholder="Escribe una biografia" id="" cols="30" rows="10" maxlength="2000" required></textarea>                     
             </div>
-            <input type="submit" value="Añadir grupo" name="anadir" >
+            <button style='--clr:#0A90DD' class='btn-danger-own' name='anadir'><span>Añadir grupo</span><i></i></button>
         </form>
     </section>
         <?php

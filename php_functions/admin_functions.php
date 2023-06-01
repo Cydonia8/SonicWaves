@@ -61,6 +61,10 @@
         $fila = $consulta_albumes->fetch_array(MYSQLI_ASSOC);
         $total_albumes = $fila["albumes"];
 
+        $consulta_albumes_inactivos = $con->query("SELECT count(*) albumes_inact from album where activo = 0");
+        $fila = $consulta_albumes_inactivos->fetch_array(MYSQLI_ASSOC);
+        $total_albumes_inactivos = $fila["albumes_inact"];
+
         $consulta_discograficas = $con->query("SELECT count(*) discograficas from discografica where id <> 0");
         $fila = $consulta_discograficas->fetch_array(MYSQLI_ASSOC);
         $total_discografica = $fila["discograficas"];
@@ -81,20 +85,18 @@
         $fila = $consulta_publicaciones->fetch_array(MYSQLI_ASSOC);
         $total_publicaciones = $fila["publicaciones"];
 
-        echo "<div class='flex-grow-1 p-3 border'>
+        echo "
                 <h3>Usuarios registrados: $total_usuarios</h3>
                 <h3>Grupos autogestionados: $total_grupos</h3>
                 <h3>Grupos de discográfica: $total_grupos_d</h3>
                 <h3>Grupos inactivos: $total_grupos_inactivos</h3>
                 <h3>Álbumes almacenados: $total_albumes</h3>
-            </div>
-            <div class='flex-grow-1 p-3 border'>
+                <h3>Álbumes inactivos: $total_albumes_inactivos</h3>
                 <h3>Discográficas registradas: $total_discografica</h3>
                 <h3>Discográficas inactivas: $total_discografica_inactiva</h3>
                 <h3>Reseñas totales: $total_reseñas</h3>
                 <h3>Estilos totales: $total_estilos</h3>
-                <h3>Publicaciones totales: $total_publicaciones</h3>
-            </div>";
+                <h3>Publicaciones totales: $total_publicaciones</h3>";
     }
 
     function songsPerStyle($id){

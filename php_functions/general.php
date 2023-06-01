@@ -74,10 +74,9 @@ function printMainMenu($location = "noindex"){
                 $foto = imageUser("admin", "usuario", "usuario");
                 $foto = imageIndex($foto);
                 echo "<header class=\"header-index\">
-                    <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
@@ -96,10 +95,9 @@ function printMainMenu($location = "noindex"){
                 $foto = imageUser($_SESSION["user"], "usuario", "usuario");
                 $foto = imageIndex($foto);
                 echo "<header class=\"header-index\">
-                    <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
@@ -118,10 +116,9 @@ function printMainMenu($location = "noindex"){
                 $foto = imageUser($_SESSION["user"], "grupo", "correo");
                 $foto = imageIndex($foto);
                 echo "<header class=\"header-index\">
-                    <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
@@ -140,10 +137,9 @@ function printMainMenu($location = "noindex"){
                 $foto = imageUser($_SESSION["user"], "discografica", "correo");
                 $foto = imageIndex($foto);
                 echo "<header class=\"header-index\">
-                    <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
@@ -162,10 +158,9 @@ function printMainMenu($location = "noindex"){
             
         }else{
             echo "<header class=\"header-index\">
-                    <img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                    <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li><a href=\"login/login.php\">Iniciar sesión</a></li>
@@ -179,10 +174,9 @@ function printMainMenu($location = "noindex"){
             if($_SESSION["user-type"] == "admin"){
                 $foto = imageUser("admin", "usuario", "usuario");
                 echo "<header class=\"header-index\">
-                    <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                    <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"\">Reproductor</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -199,10 +193,9 @@ function printMainMenu($location = "noindex"){
             }elseif($_SESSION["user-type"] == "standard"){
                 $foto = imageUser($_SESSION["user"], "usuario", "usuario");
                 echo "<header class=\"header-index\">
-                    <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"../reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"../contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
@@ -220,10 +213,9 @@ function printMainMenu($location = "noindex"){
             }elseif($_SESSION["user-type"] == "group"){
                 $foto = imageUser($_SESSION["user"], "grupo", "correo");
                 echo "<header class=\"header-index\">
-                    <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"../contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
@@ -241,10 +233,9 @@ function printMainMenu($location = "noindex"){
             }else{
                 $foto = imageUser($_SESSION["user"], "discografica", "correo");
                 echo "<header class=\"header-index\">
-                    <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+                <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"../contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
@@ -263,10 +254,9 @@ function printMainMenu($location = "noindex"){
             
         }else{
             echo "<header class=\"header-index\">
-                    <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\">
+            <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
-                        <ul class=\"links-header\">
-                            <li><a href=\"\">Nosotros</a></li>
+                        <ul class=\"links-header\"> 
                             <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"../contacto/contacto.php\">Contacto</a></li>
                             <li><a href=\"../login/login.php\">Iniciar sesión</a></li>
@@ -308,12 +298,12 @@ function closeSession($POST, $seccion = "noindex"){
     }    
 }
 
-function printFooter(){
+function printFooter($ruta){
     echo "<footer id=\"footer\">
     <div class=\"container\">
         <div class=\"row\">
             <div class=\"col-md-3 d-flex flex-column align-items-center\">
-                <a href=\"index.html\"><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\" class=\"img-fluid logo-footer\"></a>
+                <a href=\"$ruta/index.html\"><img src=\"$ruta/media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\" class=\"img-fluid logo-footer\"></a>
               <div class=\"footer-about\">
                   <p>All Rights Reserved | 2023</p>
                   <p>Sonic Waves es una filial de Revolver Music</p>
@@ -323,12 +313,12 @@ function printFooter(){
             <div class=\"col-md-3 d-flex flex-column align-items-center\">
                 <div class=\"useful-link\">
                     <h2>Enlaces útiles</h2>
-                    <img src=\"./assets/images/about/home_line.png\" alt=\"\" class=\"img-fluid\">
+                    <img src=\"$ruta/assets/images/about/home_line.png\" alt=\"\" class=\"img-fluid\">
                     <div class=\"use-links\">
-                        <li><a href=\"index.html\"><i class=\"fa-solid fa-angles-right\"></i> Home</a></li>
-                        <li><a href=\"about.html\"><i class=\"fa-solid fa-angles-right\"></i>Sobre nosotros</a></li>
-                        <li><a href=\"reproductor/reproductor.php\"><i class=\"fa-solid fa-angles-right\"></i>Reproductor</a></li>
-                        <li><a href=\"contact.html\"><i class=\"fa-solid fa-angles-right\"></i> Contacto</a></li>
+                        <li><a href=\"$ruta/index.php\"><i class=\"fa-solid fa-angles-right\"></i> Home</a></li>
+                        <li><a href=\"$ruta/nosotros/nosotros.php\"><i class=\"fa-solid fa-angles-right\"></i>Sobre nosotros</a></li>
+                        <li><a href=\"$ruta/reproductor/reproductor.php\"><i class=\"fa-solid fa-angles-right\"></i>Reproductor</a></li>
+                        <li><a href=\"$ruta/contacto/contacto.php\"><i class=\"fa-solid fa-angles-right\"></i> Contacto</a></li>
                     </div>
                 </div>
 
@@ -336,7 +326,7 @@ function printFooter(){
             <div class=\"col-md-3 d-flex flex-column align-items-center\">
                 <div class=\"social-links\">
                     <h2>Síguenos</h2>
-                    <img src=\"./assets/images/about/home_line.png\" alt=\"\">
+                    <img src=\"$ruta/assets/images/about/home_line.png\" alt=\"\">
                     <div class=\"social-icons\">
                         <li><a href=\"\"><i class=\"fa-brands fa-twitter\"></i>Twitter</a></li>
                         <li><a href=\"\"><i class=\"fa-brands fa-instagram\"></i> Instagram</a></li>
@@ -349,7 +339,7 @@ function printFooter(){
             <div class=\"col-md-3 d-flex flex-column align-items-center\">
                 <div class=\"address d-flex flex-column align-items-center\">
                     <h2>Nuestras oficinas</h2>
-                    <img src=\"./assets/images/about/home_line.png\" alt=\"\" class=\"img-fluid\">
+                    <img src=\"$ruta/assets/images/about/home_line.png\" alt=\"\" class=\"img-fluid\">
                     <div class=\"address-links\">
                         <li class=\"address1\"><i class=\"fa-solid fa-location-dot\"></i> 3 Abbey Rd, London
                         NW8 9AY, Reino Unido 

@@ -26,7 +26,10 @@ const form_avatar = document.getElementById("form-new-user-avatar")
 const btn_actualizar_avatar = document.getElementById("actualizar-avatar")
 const input_new_avatar = document.getElementById("input-new-avatar")
 
-
+const alert_song_added = document.getElementById("alert-song-added")
+const alert_song_repeated = document.getElementById("alert-song-repeated")
+const alert_data_modified = document.getElementById("alert-data-modified")
+const alert_mail_repeated = document.getElementById("alert-mail-repeated")
 
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
@@ -352,14 +355,12 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
             })
             if(!response.ok){
                 if(response.status=="409"){
-                    form.innerHTML+=`<div class="alert alert-warning" role="alert">
-                    Este correo ya existe en Sonic Waves
-                  </div>`
+                    alert_mail_repeated.classList.remove("d-none")
+                    setTimeout(removeMailRepeated, 2000)
                 }
             }else{
-                form.innerHTML+=`<div class="alert alert-success" role="alert">
-                Datos actualizados correctamente
-              </div>`
+                alert_data_modified.classList.remove("d-none")
+                setTimeout(removeDataModifiedAlert, 2000)
             }
     })
     datos_user.appendChild(form)
@@ -616,7 +617,16 @@ function createPlaylistsLinksModal(id, nombre, usuario, cancion){
     li.innerText=`${nombre}`
     li.addEventListener("click", async (evt)=>{
         evt.stopPropagation()
-        await fetch(`../api_audio/add_to_playlist.php?lista=${id}&cancion=${cancion}`)
+        const respuesta = await fetch(`../api_audio/add_to_playlist.php?lista=${id}&cancion=${cancion}`)
+
+        if(respuesta.status == "200"){
+            alert_song_added.classList.remove("d-none")
+            setTimeout(removeAddedAlert, 2000)
+        }else{
+            alert_song_repeated.classList.remove("d-none")
+            setTimeout(removeRepeatedAlert, 2000)
+        }
+
     })
     return li
 }
@@ -1781,8 +1791,27 @@ function findBiggestColorRange(rgb_array){
     btn_guardar.classList.remove("d-none")
   }
 
-setTimeout(()=> {
-    $(".alert").fadeTo(500, 0).slideUp(500, ()=>{
-        $(this).remove(); 
-    });
-}, 3000);
+
+// setInterval(()=>{
+//     setTimeout(()=> {
+//         $(".alert").fadeTo(500, 0).slideUp(500, ()=>{
+//             $(this).remove(); 
+//         });
+//     }, 3000);
+// },500)
+
+function removeAddedAlert(){
+    alert_song_added.classList.add("d-none")
+}
+
+function removeRepeatedAlert(){
+    alert_song_repeated.classList.add("d-none")
+}
+
+function removeDataModifiedAlert(){
+    alert_data_modified.classList.add("d-none")
+}
+
+function removeMailRepeated(){
+    alert_mail_repeated.classList.add("d-none")
+}

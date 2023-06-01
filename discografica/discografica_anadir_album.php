@@ -51,7 +51,7 @@
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title>Document</title>
+    <title>Añadir álbum</title>
 </head>
 <body id="grupo-nuevo-album">
     <?php
@@ -97,7 +97,8 @@
             <?php
                 echo "<input hidden value=\"$id\" name=\"id\">";
             ?>
-            <input type="submit" value="Pasar a añadir canciones" name="crear">
+            <!-- <input type="submit" value="Pasar a añadir canciones" name="crear"> -->
+            <button style='--clr:#0A90DD' class='btn-danger-own' name='crear'><span>Pasar a añadir canciones</span><i></i></button>
         </form>
     </section>
 </body>

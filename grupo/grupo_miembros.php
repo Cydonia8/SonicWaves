@@ -79,20 +79,5 @@
             </div>
         </div>
     </section>
-    <?php
-        if($miembros == 0){
-            echo "<section class='container-xl mt-5'>
-                    <h2 class='text-center'>Enviar mensaje a los miembros del grupo</h2>    
-                    <form action='#' method='post' class='d-flex flex-column align-items-center gap-3'>
-                        <textarea name='mensaje' cols='50' rows='15' required>
-                        
-                        </textarea>
-                        <input type='submit' name='enviar' value='Enviar mensaje'>
-                    </form>
-
-            </section>";
-        }
-    ?>
-
 </body>
 </html>

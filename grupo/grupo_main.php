@@ -21,8 +21,11 @@
         if($foto_avatar_correcta){
             $foto_avatar = newPhotoPath("foto-avatar-nueva", "avatar");
             updateAvatarPhoto($_SESSION["user"], $foto_avatar);
+            echo "<div class=\"alert alert-success position-fixed bottom-0 start-50 translate-middle\" role=\"alert\">
+                    Fotografía de avatar actualizada correctamente
+                </div>";
         }else{
-            echo "<div class=\"alert alert-danger\" role=\"alert\">
+            echo "<div class=\"alert alert-danger position-fixed bottom-0 start-50 translate-middle\" role=\"alert\">
             Formato incorrecto
           </div>";
         }
@@ -31,6 +34,9 @@
         if($foto_correcta){
             $foto = newPhotoPath("foto-nueva", "");
             updateMainPhoto($_SESSION["user"], $foto);
+            echo "<div class=\"alert alert-success position-fixed bottom-0 start-50 translate-middle\" role=\"alert\">
+                    Fotografía principal actualizada correctamente
+                </div>";
         }
     }
 
@@ -40,6 +46,9 @@
         if($bio != NULL){
             $bio = strip_tags($bio);
             updateBio($_SESSION["user"], $bio);
+            echo "<div class=\"alert alert-success position-fixed bottom-0 start-50 translate-middle\" role=\"alert\">
+                    Biografía actualizada correctamente
+                </div>";
         }
     }elseif(isset($_POST["actualizar-datos"])){
         $mail = $_POST["mail"];
@@ -48,11 +57,13 @@
         if($mail_repetido == 1){
             updateGroupData($_SESSION["user"], $mail, $pass);
             $_SESSION["user"] = $mail;
-            echo $mail;
-            echo $pass;
-            echo $_SESSION["user"];
+            echo "<div class=\"alert alert-success position-fixed bottom-0 start-50 translate-middle\" role=\"alert\">
+                    Datos actualizados correctamente
+                </div>";
         }else{
-            echo "ta repetio pirataaa";
+            echo "<div class=\"alert alert-danger position-fixed bottom-0 start-50 translate-middle\" role=\"alert\">
+                    Este email ya está registrado en Sonic Waves
+                </div>";
         }
     }
     if(isset($_POST["añadir-fotos"])){
@@ -99,6 +110,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../scripts/grupo_main.js" defer></script>
+    <script src="../scripts/jquery-3.2.1.min.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
@@ -125,7 +137,7 @@
                             <label for=\"foto-avatar\">Fotografía de avatar (dimensiones cuadradas, por ejemplo 400x400)</label>
                             <input required type=\"file\" name=\"foto-avatar\">
                         </div>
-                        <input class=\"btn-completar-info-inicial\" type=\"submit\" name=\"completar\" value=\"Continuar\">
+                        <button name='completar' style='--clr:#c49c23' class='btn-danger-own btn-completar-info-inicial'><span>Continuar</span><i></i></button>
                     </form>
                 </section>";
         }else{

@@ -72,11 +72,14 @@
     background: #555; 
   }
 body{
-    background-color: #000;
     margin: 0;
     font-family: 'Josefin Sans', sans-serif;
+    color: white;
     /* font-family: 'Hammersmith One', sans-serif; */
-    color: #fff;
+    background-color: #000;
+}
+body#index{
+    background-color: #000;
 }
 header{
     z-index: 1000;
@@ -89,7 +92,7 @@ header{
     border: 0;
     background: transparent;
     gap: .65rem;
-    position: fixed;
+    position: absolute;
     top: 4rem;
     right: 2rem;
     z-index: 1000000;
@@ -143,8 +146,11 @@ header.header-index ul.links-header{
     justify-content: flex-end;
     align-items: center;
 }
-header.header-index img{
+.enlace-index{
     width: 20%;
+}
+header.header-index img{
+    max-width: 100%;
 }
 header.header-index nav a{
     text-decoration: none;
@@ -183,12 +189,68 @@ header.header-index ul.dropdown-menu input{
 .dropdown-link-responsive{
     display: none;
 }
+#index .index-sound-waves-container{
+    margin-bottom: 7rem;
+}
+#index .index-sound-waves-container > div{
+    width: 33.33%;
+    padding: .6rem .8rem .6rem .8rem;
+    transition: all .6s;
+    border-radius: 8px;
+}
+#index .index-sound-waves-container > div:hover{
+    background: linear-gradient(#6d6a6a77, #1e1e1f77);
+    transition: all .6s;
+}
+#index .index-artists-container{
+    width: 16.66%;
+}
+@media screen and (max-width:1150px) {
+    /* #index .index-artists-container{
+        width: 33.33%;
+    } */
+    #index .artists-global-container{
+        flex-wrap: wrap;
+    }
+}
+@media screen and (max-width:767px) {
+    #index .index-artists-container{
+        width: 100%;
+    }
+}
+#index .index-paragraphs{
+    font-size: 1.5rem;
+    width: 75%;
+    margin: auto;
+    margin-bottom: 6rem;
+}
+@media screen and (max-width:575px) {
+    #index .index-sound-waves-container div{
+        width: 100%;
+    }
+}
+#contacto header{
+    background-color: black;
+    position: static;
+}
+#contacto{
+    background-color: white;
+    color: black;
+}
+#contacto .contacto-responsive-container{
+    display: none;
+    height: 14vh;
+    width: 100%;
+}
 @media screen and (max-width:1040px) {
     header.header-index{
         transform: translateY(-1000px);
         flex-direction: column;
         width: 100%;
         gap: 2rem;
+    }
+    #contacto .contacto-responsive-container{
+        display: block;
     }
     header.header-index img{
         width: 300px;
@@ -240,9 +302,14 @@ header.header-index li.li-foto img{
     cursor: pointer;
 }
 header nav ul li.li-foto{
-    width: 15%;
+    width: 10%;
 }
-
+.banner-intro{
+    height: 100dvh;
+}
+#index .carousel-item{
+    height: 100dvh;
+}
 .banner-intro .second{
     background-image: linear-gradient(
         to bottom,
@@ -350,6 +417,16 @@ main{
 #login .forms-container{
     backdrop-filter: blur(5px);
     border-radius: 10px;
+}
+#contacto .input-field input{
+    background: none;
+    border: 0;
+    border-bottom: 1.5px solid black;
+    color: black;
+}
+#contacto #form-contacto{
+    width: 50%;
+    margin: auto;
 }
 #grupo-nuevo-album header, #grupo-añadir-publi header, #grupo-reseñas-album header, #grupo-mis-reseñas header, #grupo-miembros header{
     border-bottom: 1.5px solid snow;
@@ -695,6 +772,15 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #admin-body .grupo-detalle{
     display: flex;
     justify-content: space-around;
+}
+#admin-body .admin-resumen h3::after{
+    content: '';
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    display: block;
+    margin-top: .3rem;
+    margin-bottom: .3rem;
 }
 #discografica-editar-grupo .custom-file-input {
     /* color: transparent; */
@@ -1203,10 +1289,10 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
         flex-direction: column;
     }
     #reproductor .track-info{
-        margin-bottom: 3rem;
+        margin-bottom: 2.5rem;
     }
     #reproductor .master-play .time-bar{
-        margin-bottom: 3rem!important;
+        margin-bottom: 2.8rem!important;
     }
     #reproductor .master-play .volume-control{
         width: 15%!important;
@@ -1216,6 +1302,12 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
     white-space: pre-wrap;
     font-family: inherit;
     font-size: 1.2rem;
+}
+#reproductor #alert-song-added, #reproductor #alert-song-repeated, #reproductor #alert-data-modified, #reproductor #alert-mail-repeated{
+    z-index: 1000000000;
+    bottom: 2rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 #reproductor main .album-page-header h1,#reproductor main .lista-page-header h1{
     font-size: 4rem;
@@ -1830,14 +1922,15 @@ button.btn-danger-own {
 
 /*Footer*/
 #footer{
-	background: #f7f7f7;
+	/* background: #f7f7f7; */
     /* padding: 2rem; */
 	/* padding-top: 5rem; */
 	padding-top: 3.5rem;
     padding-bottom: .5rem;
-	background-image: url(https://arena.km.ua/wp-content/uploads/3538533.jpg);
-    filter: invert();
-    color: black;
+	background-image: url(media/assets/footer3.jpg);
+    color: white;
+    background-size: cover;
+    background-position: center;
 }
 #footer2{
 	background: #f7f7f7;
@@ -1850,7 +1943,6 @@ button.btn-danger-own {
 }
 .logo-footer{
 	/* max-width: 300px; */
-    filter: invert();
 }
 .social-links{
 	/* display: flex;
@@ -1873,7 +1965,7 @@ button.btn-danger-own {
 	display: flex;
     flex-direction: column;
     gap: 1rem;
-	color: #777777;
+	color: white;
 }
 .social-icons a{
 	/* font-size: 18px; */
@@ -1883,16 +1975,16 @@ button.btn-danger-own {
     border-radius: 3px;
 	color: #82074a; */
 	/* margin-right: 18px; */
-	color: #777777;
+	color: white;
 }
 .social-icons a:hover{
-	color: #000;
+	color: #0A90DD;
 }
 .social-icons a i{
 	box-shadow: rgb(0 0 0 / 8%) 0px 4px 12px;
     padding: 0.4rem 1rem 0.4rem 1rem;
     border-radius: 3px;
-    color: black;
+    color: white;
 	font-size: 16px;
 	margin-right: 12px;
 }
@@ -1914,15 +2006,15 @@ footer li{
 .use-links li i{
 	font-size: 14px;
     padding-right: 8px;
-    color: black;
+    color: white;
 }
 .use-links li a{
-	color: black;
+	color: white;
     font-size: 15px;
     font-weight: 500;
 }
 .use-links li a:hover{
-	color: #000;
+	color: #0A90DD;
 }
 .address h2{
 	padding-bottom: 15px;
@@ -1933,7 +2025,7 @@ footer li{
 	padding-bottom: 15px;
 }
 .address-links li a{
-	color: #303030;
+	color: white;
     font-size: 15px;
     font-weight: 500;
 
@@ -1954,7 +2046,7 @@ footer li{
 }
 .address-links{
 	    line-height: 32px;
-		color: #777777;
+		color: white;
 }
 a{
   text-decoration:none;
