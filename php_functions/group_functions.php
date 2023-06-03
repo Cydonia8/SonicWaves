@@ -55,27 +55,30 @@
         return $total;
     }
 
+    function activeFormat($activo){
+        return $activo == 0 ? '<span class="inactive-state">Inactivo. <a class="text-white text-decoration-underline" href="../contacto/contacto.php">Contáctenos</a></span>' : '<span class="active-state">Activo</span>';
+    }
+
     function getGroupAlbums($mail){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT titulo, a.foto foto, lanzamiento, a.id id from album a, grupo g where a.grupo = g.id and correo = ?");
+        $consulta = $con->prepare("SELECT titulo, a.foto foto, lanzamiento, a.id id, a.activo activo from album a, grupo g where a.grupo = g.id and correo = ?");
         $consulta->bind_param('s', $mail);
-        $consulta->bind_result($titulo, $foto, $lanzamiento, $id);
+        $consulta->bind_result($titulo, $foto, $lanzamiento, $id, $activo);
         $consulta->execute();
         $consulta->store_result();
         if($consulta->num_rows > 0){
             $counter = 0;
             while($consulta->fetch()){
-                // if($counter % 3 == 0){
-                //     echo "<div class='row gap-3'>";
-                // }
+                $estado = activeFormat($activo);
                 $total_reviews = totalAlbumReviews($id);
                 $fecha = formatDate($lanzamiento);
                 echo "<div class='border rounded p-2 album-container-group-main d-flex flex-column flex-lg-row align-items-center align-items-lg-start justify-content-center gap-3'>
                         <img class='rounded' src='$foto'>
-                        <div class='w-50 d-flex flex-column gap-3 justify-content-around'>
+                        <div class='w-50 d-flex flex-column gap-3 justify-content-between h-100'>
                             <h5>$titulo</h5>
                             <h5>Lanzado el $fecha</h5>
                             <h5>Reseñas recibidas: $total_reviews</h5>
+                            $estado
                         </div></div>";
                 // if($counter+1 % 3 == 0){
                 //     echo "</div>";

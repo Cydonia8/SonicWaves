@@ -178,6 +178,9 @@ header.header-index ul.dropdown-menu a{
 header.header-index ul.dropdown-menu a:hover{
     background-color: #7276a5;
 }
+ul.dropdown-menu a:hover{
+    background-color: #7276a5;
+}
 header.header-index ul.dropdown-menu form:hover, #reproductor .profile-menu .dropdown-menu a:hover{
     background-color: #7276a5;
 }
@@ -514,6 +517,16 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     align-items: center;
     text-align: center;
     z-index: 100000;
+}
+#grupo-main .active-state{
+    background-color: rgb(12, 175, 12);
+    padding: .5rem .3rem;
+    text-align: center;
+}
+#grupo-main .inactive-state{
+    background-color: crimson;
+    padding: .4rem .2rem;
+    text-align: center;
 }
 #grupo-main .grid-fotos-group{
     display: grid;

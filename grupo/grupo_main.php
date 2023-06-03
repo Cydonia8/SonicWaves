@@ -117,7 +117,7 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
     <link rel="stylesheet" href="../estilos.css">
     <link rel="icon" type="image/png" href="../media/assets/favicon-32x32-modified.png" sizes="32x32" />
-    <title><?php echo $nombre_grupo; ?>| Perfil de grupo</title>
+    <title><?php echo $nombre_grupo; ?> | Perfil de grupo</title>
 </head>
 <body id="grupo-main">
     <?php

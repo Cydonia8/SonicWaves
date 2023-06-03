@@ -464,9 +464,9 @@ search_bar.addEventListener("keyup", async ()=>{
     main_content.appendChild(resultados)
 })
 
-albums_esenciales.addEventListener("click", (evt)=>{
+albums_esenciales.addEventListener("click", async (evt)=>{
     evt.preventDefault()
-    showFavoriteAlbums()
+    await showFavoriteAlbums()
 })
 
 loadShufflePlayingList()
@@ -1104,6 +1104,7 @@ async function showAlbum(target){
     loader.classList.remove("d-flex")
     
     const favorito = datos["favorito"]
+    const total_canciones = datos["canciones_totales"]
    
     const datos_album = datos["datos_album"]
     const corazon = favorito == 0 ? "fa-regular" : "fa-solid"
@@ -1117,7 +1118,7 @@ async function showAlbum(target){
                                             <img src='${datos_album[0].avatar}' class='avatar-album-page'>
                                             <h3 data-artist-id=${datos_album[0].id_grupo} class='m-0 album-page-artist-link'>${datos_album[0].autor}</h3>
                                         </div>
-                                        <h4>Lanzado el ${formatDate(datos_album[0].lanzamiento)}</h4>
+                                        <h4>Lanzado el ${formatDate(datos_album[0].lanzamiento)} - ${total_canciones} canciones</h4>
                                         <div class='d-flex gap-4'>
                                             <i data-favorite=${favorito} class="${corazon} fa-heart add-favorite-album"></i>
                                             <i data-album-id="${id}" class="fa-regular fa-comment add-album-review see-album-reviews"></i>
@@ -1140,8 +1141,8 @@ async function showAlbum(target){
             add_favorite.setAttribute("data-favorite", 0)
         }
     })
-    see_reviews.addEventListener("click", ()=>{
-        seeAlbumReviews(id)
+    see_reviews.addEventListener("click", async ()=>{
+        await seeAlbumReviews(id)
     })
     const enlace_grupo = section_album_head.querySelector("h3")
     enlace_grupo.addEventListener("click", ()=>{

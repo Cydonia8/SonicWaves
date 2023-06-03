@@ -29,6 +29,15 @@
 
     $datos["favorito"] = $favorito;
 
+    $consulta_total_canciones = $conexion->prepare("SELECT count(*) from incluye where album = ?");
+    $consulta_total_canciones->bind_param('i', $id);
+    $consulta_total_canciones->bind_result($total_canciones);
+    $consulta_total_canciones->execute();
+    $consulta_total_canciones->fetch();
+    $consulta_total_canciones->close();
+
+    $datos["canciones_totales"] = $total_canciones;
+
     $consulta_canciones = $conexion->query("select i.album album, titulo, duracion, archivo, e.nombre estilo, c.id id from cancion c, incluye i, estilo e where c.id = i.cancion and e.id = c.estilo and i.album = $id");
     $datos_canciones = [];
     while($fila = $consulta_canciones->fetch_array(MYSQLI_ASSOC)){
