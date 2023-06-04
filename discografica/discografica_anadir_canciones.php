@@ -73,7 +73,7 @@
             echo $id_grupo;
             if($filas_afectadas != 0){
                 echo "<h2 class='text-center'>Álbum añadido correctamente, volviendo al resumen general...</h2>";
-                echo "<meta http-equiv='refresh' content='2;url=./discografica_main.php'>";
+                // echo "<meta http-equiv='refresh' content='2;url=./discografica_main.php'>";
             }
         }else{
             echo "<h2 class='text-center'>Faltan datos para acceder a esta sección. Por favor, vuelva al <a href='discografica_main.php'>resumen general</a></h2>";

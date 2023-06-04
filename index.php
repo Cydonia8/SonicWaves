@@ -138,12 +138,12 @@
       <h2 class="text-center mt-5">Nuestros artistas</h2>
       <div class="d-flex container-samples-index gap-5 justify-content-center flex-column flex-md-row p-5 mt-4 artists-global-container" data-aos="fade-up" data-aos-duration="1200">
           <?php
-            $consulta = $con->query("SELECT foto_avatar, nombre from grupo where id <> 0 and activo = 1 order by rand() limit 8");
+            $consulta = $con->query("SELECT foto_avatar, nombre from grupo where id <> 0 and activo = 1 order by rand() limit 9");
             while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
               $foto_avatar = imageIndex($fila["foto_avatar"]);
               echo "<div class='d-flex flex-column index-artists-container align-items-center gap-3'>
                       <img src='$foto_avatar' class='rounded-circle img-fluid border'>
-                      <h4 class='text-center'>$fila[nombre]</h4>
+                      <h6 class='text-center'>$fila[nombre]</h6>
                   </div>";
             }
           ?>

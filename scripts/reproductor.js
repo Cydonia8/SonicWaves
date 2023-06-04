@@ -30,6 +30,7 @@ const alert_song_added = document.getElementById("alert-song-added")
 const alert_song_repeated = document.getElementById("alert-song-repeated")
 const alert_data_modified = document.getElementById("alert-data-modified")
 const alert_mail_repeated = document.getElementById("alert-mail-repeated")
+const alert_review_missing_data = document.getElementById("alert-review-missing-data")
 
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
@@ -316,7 +317,7 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
                             <label for="usuario">Correo electrónico</label>
                             <ion-icon name="mail-outline"></ion-icon>
                         </div>
-                        <input class='input-correo' type="text" value="${datos_usuario[0].correo}" name="correo" required>                      
+                        <input class='input-correo' type="email" value="${datos_usuario[0].correo}" name="correo" required>                      
                     </div>
                     <div class="input-field d-flex flex-column mb-3">
                         <div class="input-visuals d-flex justify-content-between">
@@ -354,7 +355,7 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
                 body: data_form
             })
             if(!response.ok){
-                if(response.status=="409"){
+                if(response.status===409){
                     alert_mail_repeated.classList.remove("d-none")
                     setTimeout(removeMailRepeated, 2000)
                 }
@@ -362,6 +363,10 @@ profile_menu_avatar.addEventListener("click", async (evt)=>{
                 alert_data_modified.classList.remove("d-none")
                 setTimeout(removeDataModifiedAlert, 2000)
             }
+        // }else{
+        //     alert_review_missing_data.classList.remove("d-none")
+        //     setTimeout(removeDataLack, 2000)
+        // }
     })
     datos_user.appendChild(form)
     main_content.appendChild(datos_user)
@@ -502,7 +507,6 @@ async function initialSong(){
     const datos = await respuesta.json()
     let cancion = datos['datos']
     audio.src=cancion[0].archivo
-    console.log(audio)
     track_info.innerHTML=`<img src='${cancion[0].caratula}' class='rounded'>
                             <div class='d-flex flex-column'>
                                 <span class='track-info-title'>${cancion[0].titulo}</span>
@@ -520,7 +524,6 @@ crear_lista.addEventListener("click", async()=>{
     const data_form = new FormData(form_new_list)
     data_form.append("foto", foto_nueva_lista.files[0])
     data_form.append("nombre", nombre_nueva_lista.value)
-    data_form.forEach(data=>{console.log(data)})
     await fetch('../api_audio/nueva_playlist.php',{
         method: "post",
         body: data_form
@@ -619,7 +622,7 @@ function createPlaylistsLinksModal(id, nombre, usuario, cancion){
         evt.stopPropagation()
         const respuesta = await fetch(`../api_audio/add_to_playlist.php?lista=${id}&cancion=${cancion}`)
 
-        if(respuesta.status == "200"){
+        if(respuesta.status === 200){
             alert_song_added.classList.remove("d-none")
             setTimeout(removeAddedAlert, 2000)
         }else{
@@ -764,6 +767,7 @@ async function playerMainState(){
     const datos = await respuesta.json()
     loader.classList.remove("d-flex")
     loader.classList.add("d-none")
+    
     const recomendado = {
         foto: datos["grupo_recomendado"],
         id: datos["id_grupo_recomendado"],
@@ -818,6 +822,7 @@ async function playerMainState(){
         const div_artist_container = document.createElement("div")
         div_artist_container.setAttribute("data-artist-id", artista.id)
         div_artist_container.addEventListener("click", ()=>{
+            console.log("click")
             showGroup(artista.id)
         })
         div_artist_container.classList.add("d-flex", "flex-column", "justify-content-around", "artist-inner-container")   
@@ -825,6 +830,23 @@ async function playerMainState(){
         <a class='text-center text-white'>${artista.nombre}</a>`
         main_content_artists_container.appendChild(div_artist_container)
     })
+
+    const estilo_r1 = datos["estilo_random1"]
+    const albums_estilo_r1 = datos["albums_estilo_r1"];
+
+    const albums_random1 = document.createElement("div")
+    albums_random1.classList.add("d-flex", "flex-column", "flex-lg-row", "justify-content-start", "gap-3", "main-content-artists-container", "container-fluid")
+    main_content.innerHTML+=`<h2 class='ms-4 mt-3'>Álbumes recomendados de ${estilo_r1}</h2>`
+    albums_estilo_r1.forEach(album=>{
+        const div_album_r1_container = document.createElement("div")
+        div_album_r1_container.classList.add("d-flex", "flex-column", "justify-content-around", "album-inner-container")
+        div_album_r1_container.setAttribute("data-album-id", album.id)
+        div_album_r1_container.innerHTML=`<img src='${album.foto}' class='img-fluid rounded mb-1'>
+        <a>${album.titulo}</a>
+        <span class='artist-link' data="${album.grupo_id}">${album.autor}</span>`
+        albums_random1.appendChild(div_album_r1_container)
+    })
+    main_content.appendChild(albums_random1)
 }
 
 async function initializePlayer(evt){
@@ -855,6 +877,14 @@ document.addEventListener("click", (evt)=>{
 
 document.addEventListener("click", (evt)=>{
     const target = evt.target.closest(".banner-recomended"); // Or any other selector.
+    if(target){
+        const id = target.getAttribute("data-artist-id")
+        showGroup(id)
+    }
+})
+
+document.addEventListener("click", (evt)=>{
+    const target = evt.target.closest(".artist-inner-container"); // Or any other selector.
     if(target){
         const id = target.getAttribute("data-artist-id")
         showGroup(id)
@@ -1118,7 +1148,7 @@ async function showAlbum(target){
                                             <img src='${datos_album[0].avatar}' class='avatar-album-page'>
                                             <h3 data-artist-id=${datos_album[0].id_grupo} class='m-0 album-page-artist-link'>${datos_album[0].autor}</h3>
                                         </div>
-                                        <h4>Lanzado el ${formatDate(datos_album[0].lanzamiento)} - ${total_canciones} canciones</h4>
+                                        <h4>Lanzado el ${formatDate(datos_album[0].lanzamiento)} · ${total_canciones} canciones</h4>
                                         <div class='d-flex gap-4'>
                                             <i data-favorite=${favorito} class="${corazon} fa-heart add-favorite-album"></i>
                                             <i data-album-id="${id}" class="fa-regular fa-comment add-album-review see-album-reviews"></i>
@@ -1258,7 +1288,7 @@ async function seeAlbumReviews(id){
                                         </div>
                                         <h4>Lanzado el ${datos_album[0].lanzamiento}</h4>
                                         <div class='d-flex gap-4'>
-                                            <i class="fa-regular fa-heart add-favorite-album"></i>
+                                      
                                             <ion-icon data-album-id="${id}"  class="album-song-list" name="musical-notes-outline"></ion-icon>
                                         </div>
                                     </div>`
@@ -1311,7 +1341,8 @@ async function seeAlbumReviews(id){
                 await insertReview(formulario_reseña)
                 await seeAlbumReviews(id)
             }else{
-                formulario_reseña.innerHTML+=`<div class="alert alert-warning" role="alert">Faltan datos para comentar</div>`
+                alert_review_missing_data.classList.remove("d-none")
+                setTimeout(removeDataLack, 2000)
             }
             
         })
@@ -1815,4 +1846,8 @@ function removeDataModifiedAlert(){
 
 function removeMailRepeated(){
     alert_mail_repeated.classList.add("d-none")
+}
+
+function removeDataLack(){
+    alert_review_missing_data.classList.add("d-none")
 }

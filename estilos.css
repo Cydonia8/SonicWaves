@@ -179,7 +179,7 @@ header.header-index ul.dropdown-menu a:hover{
     background-color: #7276a5;
 }
 ul.dropdown-menu a:hover{
-    background-color: #7276a5;
+    background-color: #7276a5; 
 }
 header.header-index ul.dropdown-menu form:hover, #reproductor .profile-menu .dropdown-menu a:hover{
     background-color: #7276a5;
@@ -305,7 +305,7 @@ header.header-index li.li-foto img{
     cursor: pointer;
 }
 header nav ul li.li-foto{
-    width: 10%;
+    width: 13%;
 }
 .banner-intro{
     height: 100dvh;
@@ -475,19 +475,45 @@ main{
 ul.song-adder-list{
     list-style-type: decimal;
 }
-#login .form-option-picker h3.active{
-    background-color: #102494aa;
-    transition: all 1s;
-    /* transform: translateY(-33%); */
-}
 #login .form-option-picker h3{
+    position: relative;
     cursor: pointer;
     padding: 0.5rem 0.5rem 0.5rem 0.5rem;
     border-radius: 10px;
     margin-bottom: 0;
-    transition: all 1s;
-    /* width: 33.33%; */
 }
+#login .form-option-picker h3::after{
+    content: '';
+    width: 0;
+    height: 100%;
+    position: absolute;
+    background-color: #03a3ff44;
+    border-radius: 5px;
+    top: 0;
+    left: 0;
+    transition: width .6s ease-in-out;
+}
+#login .form-option-picker h3.active::after{
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 5px;
+    top: 0;
+    left: 0;
+    background-color: #03a3ff44;
+    transition: width .6s ease-in-out;
+}
+/* #login .form-option-picker h3.active{
+    background-color: #102494aa;
+    transition: all 1s;
+} */
+/* #login .form-option-picker h3{
+    cursor: pointer;
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+    border-radius: 10px;
+    margin-bottom: 0;
+} */
 
 #login form.active-form{
     display: block;
@@ -1004,7 +1030,8 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #reproductor header#side-menu{
     grid-row: 1/6;
     grid-column: 1;
-    background-color: #111727;
+    /* background-color: #111727; */
+    background-color: #202020;
     width: 213px;
     border-radius: 15px;
     display: flex;
@@ -1132,11 +1159,13 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
   }
 
 #reproductor header#side-menu .playlist-side-menu-container:hover, #reproductor main .options-artist .album-individual-container:hover{
-    background-color: #2d3d69;
+    /* background-color: #2d3d69; */
+    background-color: #0e8faf;
     transition: all .2s;
 }
 #reproductor main .options-artist .album-individual-container{
-    background-color: #2d3d69;
+    /* background-color: #2d3d69; */
+    background-color: #313030;
     transition: all .5s;
     width: 25%;
 }
@@ -1164,7 +1193,8 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
     grid-column: 2/6;
     grid-row: 1/6;
     /* background-color: #0b1320; */
-    background-color: #111727;
+    /* background-color: #111727; */
+    background-color: #121212;
     overflow-y: auto;
     position: relative;
     border-radius: 15px;
@@ -1248,7 +1278,7 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
 
 #reproductor main .banner-recomended{
     width: 90%;
-    border-radius: 15px;
+    /* border-radius: 15px; */
     -webkit-box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
     -moz-box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
     box-shadow: 2px 11px 33px 4px rgba(0,0,0,0.75);
@@ -1256,11 +1286,11 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
     cursor: pointer;
 }
 #reproductor main .banner-recomended:hover{
-    transform: scale(1.05);
+    transform: scale(1.03);
     transition: all .4s;
     -webkit-box-shadow: 2px 11px 33px 4px rgba(36, 34, 34, 0.75);
-    -moz-box-shadow: 2px 11px 33px 4px #0A90DD99;
-    box-shadow: 2px 10px 30px 2.5px #0A90DD99;
+    -moz-box-shadow: 2px 11px 33px 4px #05bfee99;
+    box-shadow: 2px 10px 30px 2.5px #05bfee99;
 }
 #reproductor .add-favorite-album,#reproductor .add-album-review, #reproductor .see-album-reviews, #reproductor .album-song-list{
     font-size: 2rem;
@@ -1311,12 +1341,15 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
         width: 15%!important;
     }
 }
+#reproductor .fa-heart.fa-solid{
+    color: #0A90DD;
+}
 #reproductor main .full-post-content{
     white-space: pre-wrap;
     font-family: inherit;
     font-size: 1.2rem;
 }
-#reproductor #alert-song-added, #reproductor #alert-song-repeated, #reproductor #alert-data-modified, #reproductor #alert-mail-repeated{
+#reproductor #alert-song-added, #reproductor #alert-song-repeated, #reproductor #alert-data-modified, #reproductor #alert-mail-repeated, #reproductor #alert-review-missing-data{
     z-index: 1000000000;
     bottom: 2rem;
     left: 50%;
@@ -1501,7 +1534,8 @@ ul.dropdown-menu-add-playlist{
 #reproductor main .main-content-albums-container>div,.main-content-artists-container>div{
     width: 200px;
     border-radius: 15px;
-    background-color: #0e0d0da8;
+    /* background-color: #0e0d0da8; */
+    background-color:#313030 ;
     padding: .4rem .7rem;
     transition: all .4s;
 }
@@ -1513,7 +1547,8 @@ ul.dropdown-menu-add-playlist{
     /* text-decoration: underline */
 }
 #reproductor main .album-inner-container:hover,#reproductor main .artist-inner-container:hover{
-    background-color: #332f2fa8;
+    /* background-color: #332f2fa8; */
+    background-color:#525050 ;
     transition: all .4s;
     cursor: pointer;
 }

@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div class="mantener-sesion text-center x gap-1 justify-content-center align-items-center mb-3">
-                        <label for="sesion"> <input value="1" name="sesion" type="checkbox">Mantener sesión abierta</label>
+                        <label class="d-flex justify-content-center align-items-center gap-2" for="sesion"> <input value="1" name="sesion" type="checkbox">Mantener sesión abierta</label>
                     </div>
                     <input type="submit" name="acceder-user" value="Iniciar sesión" class="w-100 rounded-pill border-0 mb-3 p-2">
                     <div class="register">

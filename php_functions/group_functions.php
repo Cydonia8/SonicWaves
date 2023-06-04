@@ -295,7 +295,7 @@
     }
     
     function removeSpecialCharacters($nombre){
-        $quitar = ["/", "*","'"];
+        $quitar = ["/", "*","'","[","]"];
         $arreglado = strtolower(str_replace($quitar, "", $nombre));
         return $arreglado;
     }
@@ -430,11 +430,16 @@
         if(!file_exists("../media/audio/$grupo")){
             mkdir("../media/audio/$grupo");
         }
-        if(!file_exists("../media/audio/$grupo/$album")){
-            mkdir("../media/audio/$grupo/$album");
+        // echo $album;
+        // echo $_SERVER['DOCUMENT_ROOT']."/SonicWaves/media/audio/$grupo/$album";
+        if(!file_exists($_SERVER['DOCUMENT_ROOT']."/SonicWaves/media/audio/$grupo/$album/")){
+            if(!mkdir($_SERVER['DOCUMENT_ROOT']."/SonicWaves/media/audio/$grupo/$album/")){
+                echo "Error, no se pudo crear la carpeta $grupo $album";
+            }
         }
         $cancion = $_FILES[$nombre]["name"];
         $cancion = removeSpecialCharacters($cancion);
+        echo $cancion;
         $nueva_ruta = "../media/audio/$grupo/$album/$cancion";
         move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
         return $nueva_ruta;

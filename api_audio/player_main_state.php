@@ -62,5 +62,25 @@
 
     $datos["artistas"] = $artistas_recogidos;
 
+    $select_estilo = $conexion->query("SELECT nombre from estilo where id <> 0 order by rand() limit 1");
+    $fila = $select_estilo->fetch_array(MYSQLI_ASSOC);
+    $estilo_rand1 = $fila["nombre"];
+
+    $datos["estilo_random1"] = $estilo_rand1;
+
+    $consulta_albums_estilo_r1 = $conexion->prepare("SELECT a.id id, a.titulo titulo, a.foto foto, g.nombre autor, g.id grupo_id FROM album a, cancion c, estilo e, incluye i, grupo g where a.id = i.album and c.id = i.cancion and e.id = c.estilo and a.grupo = g.id and e.nombre = ? GROUP BY a.id, a.titulo HAVING COUNT(*) >= 4");
+    $consulta_albums_estilo_r1->bind_param('s', $estilo_rand1);
+
+    $consulta_albums_estilo_r1->execute();
+    $resultado = $consulta_albums_estilo_r1->get_result();
+    $albums_estilo_r1 = [];
+
+    while($fila = $resultado->fetch_assoc()){
+        $albums_estilo_r1[] = $fila;
+    }   
+
+    $datos["albums_estilo_r1"] = $albums_estilo_r1;
+    $consulta_albums_estilo_r1->close();
+
     echo json_encode($datos);
     $conexion->close();

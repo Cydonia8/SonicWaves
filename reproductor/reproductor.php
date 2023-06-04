@@ -39,6 +39,9 @@
     <div class="alert alert-danger position-fixed d-none" id="alert-mail-repeated" role="alert">
         Este correo ya existe en Sonic Waves
     </div>
+    <div class="alert alert-danger position-fixed d-none" id="alert-review-missing-data" role="alert">
+        Faltan datos
+    </div>
     <audio src=""></audio>
     <ion-icon id="arrow-show-aside" name="chevron-forward-outline"></ion-icon>
     <header id="side-menu" class="p-3 gap-3">
