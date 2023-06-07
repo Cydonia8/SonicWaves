@@ -9,10 +9,17 @@
     if(isset($_POST["agregar"])){
         $usuario = $_POST["usuario"];
         $existe = userExists($usuario);
+        $es_miembro = userIsMember($usuario);
 
-        if($existe == 1){
+        if($existe == 1 and $es_miembro == 0){
             addNewMember($usuario, $_SESSION["user"]);
         }
+    }
+    if(isset($_POST["eliminar-miembro"])){
+        $id = $_POST["usuario"];
+        $eliminado = removeMember($id);
+        
+
     }
 ?>
 <!DOCTYPE html>
@@ -59,9 +66,16 @@
                                 Este usuario no existe en Sonic Waves
                             </div>";
                         }else{
-                            echo "<div class=\"alert alert-success text-center mt-3 w-50 mx-auto\" role=\"alert\">
+                            if(isset($es_miembro) and $es_miembro != 0){
+                                echo "<div class=\"alert alert-danger text-center mt-3 w-50 mx-auto\" role=\"alert\">
+                                Este usuario ya pertenece a otro grupo
+                            </div>";
+                            }else{
+                                echo "<div class=\"alert alert-success text-center mt-3 w-50 mx-auto\" role=\"alert\">
                                 Usuario agregado como miembro de grupo
                             </div>";
+                            header("refresh=2;location:'grupo_miembros.php'");
+                            }
                         }
                         
                     }
@@ -74,6 +88,11 @@
                         echo "<h3 class='text-center'>No hay miembros actualmente</h3>";
                     }else{
                         getGroupMembers($_SESSION["user"]);
+                    }
+                    if(isset($eliminado) and $eliminado){
+                        echo "<div class=\"alert alert-danger text-center mt-3 w-50 mx-auto\" role=\"alert\">
+                                Usuario eliminado correctamente.
+                            </div>";
                     }
                 ?>
             </div>

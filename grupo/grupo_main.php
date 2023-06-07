@@ -125,10 +125,11 @@
         if(!$completo){
             echo "<section class=\"form-group-completition gap-5\">
                     <img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\">
-                    <h2>Antes de continuar, por favor, completa tu perfil</h2>
+                    <h2>¡Bienvenido a Sonic Waves, $nombre_grupo! Esperamos que encuentres en nuestra plataforma todo lo que necesites</h2>
+                    <h3>Antes de continuar, por favor, completa la información que nos falta sobre ti, sólo será un momento.</h3>
                     <form class=\" gap-3 d-flex flex-column\" action=\"#\" method=\"post\" enctype=\"multipart/form-data\">
-                        <legend>Biografía del grupo (2000 caracteres máximo)</legend>
-                        <textarea name=\"bio\" required rows=\"10\" cols=\"50\"></textarea>
+                        <legend>Biografía del grupo (5000 caracteres máximo)</legend>
+                        <textarea maxlength=\"5000\" name=\"bio\" required rows=\"10\" cols=\"50\"></textarea>
                         <div>
                             <label for=\"foto\">Fotografía principal (asegúrate de que tenga una buena calidad, al menos 1920x1080)</label>
                             <input required type=\"file\" name=\"foto\">

@@ -37,12 +37,12 @@
     }
   }
   @keyframes colorChanger {
-    0%{filter: drop-shadow(0 0 0.75rem crimson);}
-    25%{filter: drop-shadow(0 0 0.75rem #7015d8);}
-    50%{filter: drop-shadow(0 0 0.75rem #15cdd3);}
-    75%{filter: drop-shadow(0 0 0.75rem #15ce2d);}
-    90%{filter: drop-shadow(0 0 0.75rem #ceb215);}
-    100%{filter: drop-shadow(0 0 0.75rem crimson);}
+    0%{filter: drop-shadow(2px 0 0.75rem crimson);}
+    25%{filter: drop-shadow(2px 0 0.75rem #7015d8);}
+    50%{filter: drop-shadow(2px 0 0.75rem #15cdd3);}
+    75%{filter: drop-shadow(2px 0 0.75rem #15ce2d);}
+    90%{filter: drop-shadow(2px 0 0.75rem #ceb215);}
+    100%{filter: drop-shadow(2px 0 0.75rem crimson);}
 }
 *,::after, ::before{
     box-sizing: border-box;
@@ -130,7 +130,7 @@ header.header-index{
     /* font-family: 'Hammersmith One', sans-serif; */
     display: flex;
     justify-content: space-between;
-    padding: 0.7rem 1.3rem;
+    padding: 1rem 1.5rem;
     align-items: center;
     position: absolute;
     z-index: 10000;
@@ -328,13 +328,13 @@ header nav ul li.li-foto{
     z-index: 1000;
 }
 .banner-intro .second h2{
-    font-size: 5rem;
+    font-size: 7rem;
     background-image: radial-gradient(circle at 30% 85%,#ffffff 0,#ffffff 35%,#1c68a7e8 55%);
     -webkit-background-clip: text;
     /* text-shadow: 2px 2px 4.5px rgba(255, 255, 255, 1); */
 }
 .banner-intro .first h2{
-    font-size: 5rem;
+    font-size: 7rem;
     background-image: radial-gradient(circle at 30% 85%,#111727 0,#152c92 35%,#6d1414 55%);
     -webkit-background-clip: text;
     /* text-shadow: 3px 3px 6px rgba(21, 44, 146, 1); */
@@ -975,8 +975,11 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
     transition: all .8s;
     padding: .4rem;
 }
-#grupo-main #edit-biografia-grupo:hover,#edit-datos-grupo:hover{ 
+body#grupo-main #edit-biografia-grupo:hover,#edit-datos-grupo:hover{ 
     transition: all .8s;
+    background-color: #dc143c;
+    -webkit-box-shadow: 2px 4px 22px 2px #dc143c; 
+box-shadow: 2px 4px 22px 2px #dc143c;
 }
 #grupo-main .album-container-group-main{
     width: 30%;
@@ -1464,7 +1467,7 @@ ul.dropdown-menu-add-playlist{
     padding: .2rem .4rem;
 }
 #reproductor main .options-artist .post-individual-container{
-    background-color: #2d3d69af;
+    background-color: #0e8fafAA;
 }
 #reproductor main .banner-recomended img::after{
     content: '';
@@ -1739,7 +1742,7 @@ ul.dropdown-menu-add-playlist{
 }
 #reproductor main .groups-search-results, #reproductor main .albums-search-results, #reproductor main .songs-search-results{
     width: 33.33%;
-    background-color: #090f1f;
+    background-color: #525050;
     padding: .7rem 1rem;
     border-radius: 10px;
     height: 100%;
@@ -1760,7 +1763,7 @@ ul.dropdown-menu-add-playlist{
 }
 #reproductor main .groups-search-results .group-search-individual-result:hover, #reproductor main .albums-search-results .album-search-individual-result:hover,
 #reproductor main .songs-search-results .song-search-individual-result:hover{
-    background-color: #2d3d69;
+    background-color: #0e8faf;
     transition: background-color .2s; 
 }
 @media screen and (max-width:1300px) {

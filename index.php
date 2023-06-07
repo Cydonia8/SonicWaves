@@ -66,7 +66,7 @@
           </div>
     </div>
     <main class="mb-5">
-      <div class="container-xxl mx-auto">
+      <div class="container-fluid mx-auto">
         <h1 class='text-center mb-5'>El sonido alcanza otra dimensión</h1>
         <p class="text-center index-paragraphs" data-aos="fade-up" data-aos-duration="1200">En Sonic Waves encontrarás una calidad de sonido nunca antes vista, sin pérdidas, gracias a nuestros algoritmos de compresión.</p>
         <div class="d-flex flex-column flex-sm-row index-sound-waves-container gap-3 mt-5" data-aos="fade-up" data-aos-duration="1200">
@@ -99,7 +99,7 @@
         <h2 class="text-center text-white mb-5">
           Algunos de los álbumes que podrás encontrar
         </h2>
-        <div class="d-flex container-samples-index gap-5 flex-column flex-md-row" data-aos="fade-up" data-aos-duration="1200">
+        <div class="d-flex container-samples-index gap-5 flex-column flex-md-row text-black bg-white p-3" data-aos="fade-up" data-aos-duration="1200">
         <?php
           $con = new mysqli('localhost', 'root', '', 'sonicwaves');
           $consulta = $con->query("select c.titulo titulo, g.nombre grup, archivo, a.foto portada from cancion c, album a, grupo g, incluye i where a.grupo = g.id and i.album = a.id and i.cancion = c.id and a.activo = 1 order by rand() limit 3");
@@ -114,7 +114,7 @@
             
             echo "<div class=\"cancion-prev d-flex align-items-center flex-column gap-3 justify-content-between\">
                     <div class=\"text-center d-flex flex-column gap-3\">
-                      <img class=\"rounded img-fluid\" src=\"$foto\">
+                      <img class=\"img-fluid\" src=\"$foto\">
                       <h2>$titulo</h2>
                       <h3>$artista</h3>
                       

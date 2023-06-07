@@ -173,8 +173,17 @@ eq_link.addEventListener("click", async (evt)=>{
         highs_i.value=highs
     })
     main_content.appendChild(div_ecualizador)
+    // const div_visualizer = document.createElement("div")
+    // div_visualizer.classList.add("container-fluid", "w-100", "position-absolute", "bottom-0")
+    // div_visualizer.innerHTML=`<canvas class='w-100 position-absolute bottom-0 left-0' id="canvas"></canvas>`
+    // let canvas = div_visualizer.querySelector("#canvas");
+    // main_content.appendChild(div_visualizer)
+
+    
         
 })
+
+
 
 letra.addEventListener("click", async()=>{
     const titulo = track_info.children[1].children[0].innerText
@@ -183,7 +192,7 @@ letra.addEventListener("click", async()=>{
     console.log(foto)
     const respuesta = await fetch(`http://api.musixmatch.com/ws/1.1/matcher.lyrics.get?q_artist=${artista}&q_track=${titulo}&apikey=${MXMATCH_API_KEY}`)
     const datos = await respuesta.json()
-
+    console.log(datos)
     let letra
     let copyright
     if("lyrics" in datos.message.body){
@@ -800,7 +809,7 @@ async function playerMainState(){
         const div_album_container = document.createElement("div")
         div_album_container.classList.add("d-flex", "flex-column", "justify-content-around", "album-inner-container")
         div_album_container.setAttribute("data-album-id", disco.id)
-        div_album_container.innerHTML= `<img src='${disco.foto}' class='img-fluid rounded mb-1'>
+        div_album_container.innerHTML= `<img src='${disco.foto}' class='img-fluid mb-1'>
         <a>${disco.titulo}</a>
         <span class='artist-link' data="${disco.grupo_id}">${disco.autor}</span>`
         // const artist_link = div_album_container.querySelector(".artist-link")
@@ -841,7 +850,7 @@ async function playerMainState(){
         const div_album_r1_container = document.createElement("div")
         div_album_r1_container.classList.add("d-flex", "flex-column", "justify-content-around", "album-inner-container")
         div_album_r1_container.setAttribute("data-album-id", album.id)
-        div_album_r1_container.innerHTML=`<img src='${album.foto}' class='img-fluid rounded mb-1'>
+        div_album_r1_container.innerHTML=`<img src='${album.foto}' class='img-fluid mb-1'>
         <a>${album.titulo}</a>
         <span class='artist-link' data="${album.grupo_id}">${album.autor}</span>`
         albums_random1.appendChild(div_album_r1_container)
@@ -1286,7 +1295,7 @@ async function seeAlbumReviews(id){
                                             <img src='${datos_album[0].avatar}' class='avatar-album-page'>
                                             <h3 data-artist-id=${datos_album[0].id_grupo} class='m-0'>${datos_album[0].autor}</h3>
                                         </div>
-                                        <h4>Lanzado el ${datos_album[0].lanzamiento}</h4>
+                                        <h4>Lanzado el ${formatDate(datos_album[0].lanzamiento)}</h4>
                                         <div class='d-flex gap-4'>
                                       
                                             <ion-icon data-album-id="${id}"  class="album-song-list" name="musical-notes-outline"></ion-icon>
@@ -1641,6 +1650,7 @@ async function watchFullPost(id){
 }
 
 async function seeUpcomingEvents(artist, dom){
+    console.log(artist)
     loader.classList.add("d-flex")
     loader.classList.remove("d-none")
     const url = `https://concerts-artists-events-tracker.p.rapidapi.com/artist?name=${artist}&page=1`
@@ -1654,6 +1664,7 @@ async function seeUpcomingEvents(artist, dom){
     }
     const concerts = await fetch(url, options)
     const datos_c = await concerts.json()
+    console.log(datos_c)
     loader.classList.add("d-none")
     loader.classList.remove("d-flex")
     const proximos_conciertos = datos_c["data"]
@@ -1806,7 +1817,7 @@ function findBiggestColorRange(rgb_array){
     return fecha < 10 ? `0${fecha}` : fecha
   }
 
-  function activateAudioFilters(btn_guardar){
+  function activateAudioFilters(btn_guardar, canvas){
     let src = context.createMediaElementSource(audio)
     src.connect(lowFilter)
     src.connect(context.destination)
@@ -1821,6 +1832,54 @@ function findBiggestColorRange(rgb_array){
     highFilter.connect(finalGain)
     highFilter.connect(context.destination)
     btn_guardar.classList.remove("d-none")
+    // let analyser = context.createAnalyser();
+
+    
+    // canvas.style.width="100%"
+    // canvas.style.height="25vh"
+    // let ctx = canvas.getContext("2d");
+    // src.connect(analyser);
+    // analyser.connect(context.destination);
+
+    // analyser.fftSize = 256;
+
+    // let bufferLength = analyser.frequencyBinCount;
+    // console.log(bufferLength);
+
+    // let dataArray = new Uint8Array(bufferLength);
+
+    // let WIDTH = canvas.width;
+    // let HEIGHT = canvas.height;
+
+    // let barWidth = (WIDTH / bufferLength) * 2.5;
+    // let barHeight;
+    // let x = 0;
+
+    // function renderFrame() {
+    //     requestAnimationFrame(renderFrame);
+    
+    //     x = 0;
+    
+    //     analyser.getByteFrequencyData(dataArray);
+    
+    //     ctx.fillStyle = "#000";
+    //     ctx.fillRect(0, 0, WIDTH, HEIGHT);
+    
+    //     for (var i = 0; i < bufferLength; i++) {
+    //       barHeight = dataArray[i];
+          
+    //       var r = barHeight + (25 * (i/bufferLength));
+    //       var g = 250 * (i/bufferLength);
+    //       var b = 50;
+    
+    //       ctx.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+    //       ctx.fillRect(x, HEIGHT - barHeight, barWidth, barHeight);
+    
+    //       x += barWidth + 1;
+    //     }
+    //   }
+
+    // renderFrame()
   }
 
 

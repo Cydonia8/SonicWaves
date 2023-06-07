@@ -8,7 +8,7 @@
 
     if(isset($_POST["anadir"]) or isset($_POST["crear"])){
         $id = $_POST["id"];
-        $total = checkEnoughSongs($id);
+        $total = checkEnoughAlbums($id);
     }else{
         header("location:discografica_grupos.php");
     }
@@ -84,7 +84,7 @@
             <label for="">Numero de canciones</label><input type="number" required value="1" name="num-canciones" min="1" id="">
             <br>
             <?php
-                if($total >= 10){
+                if($total >= 2){
                     echo "<fieldset>
                             <legend>¿Es un álbum recopilatorio?</legend>
                             <input type=\"radio\" id=\"si\" name=\"recopilatorio\" value=\"si\" required>

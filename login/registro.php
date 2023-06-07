@@ -157,6 +157,7 @@ session_start();
                     // echo "<meta http-equiv='refresh' content='0;url=../index.php'>";
                     if(!$user_exists and !$mail_exists){
                         insertNewUser($user, $nombre, $apellidos, $pass, $mail, 0, 0);
+                        echo "<div class=\"alert text-center mt-3 alert-success alert-dismissible fade show\" role=\"alert\">Usuario creado correctamente.</div>";
                     }else{
                         echo "<div class=\"alert text-center mt-3 alert-danger alert-dismissible fade show\" role=\"alert\">Usuario o correo ya registrados</div>";
                     }

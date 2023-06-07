@@ -670,10 +670,11 @@
         unlink($enlace);
     }
 
-    function checkEnoughSongsGroup($id_grupo){
+    function checkEnoughAlbumsGroup($id_grupo){
         $con = createConnection();
-        $consulta = $con->query("SELECT distinct c.id from album a, incluye i, grupo g, cancion c where a.grupo = g.id and i.album = a.id and c.id = i.cancion and g.id = $id_grupo");
-        $total = $consulta->num_rows;
+        $consulta = $con->query("SELECT count(*) total from album a, grupo g where a.grupo = g.id and g.id = $id_grupo");
+        $fila = $consulta->fetch_array(MYSQLI_ASSOC);
+        $total = $fila["total"];
         $con->close();
         return $total;
     }
@@ -761,6 +762,18 @@
         $con->close();
         return $existe;
     }
+
+    function userIsMember($usuario){
+        $con = createConnection();
+        $consulta = $con->prepare("SELECT grupo from usuario where usuario = ?");
+        $consulta->bind_param('s', $usuario);
+        $consulta->bind_result($es_miembro);
+        $consulta->execute();
+        $consulta->fetch();
+        $consulta->close();
+        $con->close();
+        return $es_miembro;
+    }
     
     function addNewMember($usuario, $mail){
         $id_grupo = getGroupID($mail);
@@ -773,12 +786,17 @@
     }
     
     function removeMember($usuario){
+        $eliminado = false;
         $con = createConnection();
         $update = $con->prepare("UPDATE usuario set grupo = 0 where id = ?");
         $update->bind_param('i', $usuario);
         $update->execute();
+        if($update){
+            $eliminado = true;
+        }
         $update->close();
         $con->close();
+        return $eliminado;
     }
     
     function getGroupMembers($mail){

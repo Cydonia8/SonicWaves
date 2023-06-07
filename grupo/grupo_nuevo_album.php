@@ -8,7 +8,7 @@
     $nuevo_id = getAutoID("album");
     $_SESSION["id_album"] = $nuevo_id;
     $id_grupo = getGroupID($_SESSION["user"]);
-    $total = checkEnoughSongsGroup($id_grupo);
+    $total = checkEnoughAlbumsGroup($id_grupo);
 
     if(isset($_POST["crear"])){
         $_SESSION["titulo_album"] = $_POST["nombre"];
@@ -20,10 +20,11 @@
         if($foto_correcta){
             $foto = newPhotoPathAlbum("foto", $_POST["nombre"]);
             $_SESSION["foto_album"] = $foto;
-            // addAlbum($id_grupo, $_POST["nombre"], $foto, $_POST["fecha"], 1);
+            addAlbum($id_grupo, $_POST["nombre"], $foto, $_POST["fecha"], 1);
             echo "<meta http-equiv='refresh' content='0;url=grupo_anadir_canciones.php'>";
         }else{
-            echo "datos mal";
+            echo "<h2>Hay algún dato incorrecto. Por favor, vuelva a intentarlo</h2>";
+            echo "<meta http-equiv='refresh' content='3;url=grupo_nuevo_album.php'>";
         }
         
     }
@@ -74,7 +75,7 @@
             <label for="">Numero de canciones</label><input type="number" required value="1" name="num-canciones" min="1" id="">
             <br>
             <?php
-                if($total >= 10){
+                if($total >= 2){
                     echo "<fieldset>
                             <legend>¿Es un álbum recopilatorio?</legend>
                             <input type=\"radio\" id=\"si\" name=\"recopilatorio\" value=\"si\" required>

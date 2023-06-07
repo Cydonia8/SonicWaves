@@ -63,7 +63,7 @@
                     generateInputs($_SESSION["num_canciones"]);
                 }else{
                         echo "<script src=\"../scripts/anadir_canciones_recopilatorios.js\" defer></script>";
-                        echo "<button class=\"reset-form-recopilatorio\">Reiniciar selección</button>";
+                        echo "<button style='--clr:#0A90DD' class='btn-danger-own reset-form-recopilatorio'><span>Reiniciar selección</span><i></i></button>";
                         echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\">";
                         generateSelects($_SESSION["num_canciones"], $id_grupo);
                         echo "</form>";                   
@@ -73,7 +73,7 @@
             echo $id_grupo;
             if($filas_afectadas != 0){
                 echo "<h2 class='text-center'>Álbum añadido correctamente, volviendo al resumen general...</h2>";
-                // echo "<meta http-equiv='refresh' content='2;url=./discografica_main.php'>";
+                echo "<meta http-equiv='refresh' content='2;url=./discografica_main.php'>";
             }
         }else{
             echo "<h2 class='text-center'>Faltan datos para acceder a esta sección. Por favor, vuelva al <a href='discografica_main.php'>resumen general</a></h2>";

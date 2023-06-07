@@ -80,7 +80,7 @@
                         <label for="usuario">Biografía</label>
                         <ion-icon name="person-outline"></ion-icon>
                     </div>
-                    <textarea name="bio" id="" cols="30" rows="10" required><?php echo $datos["bio"]; ?></textarea>                        
+                    <textarea name="bio" id="" cols="30" rows="10" maxlength="5000" required><?php echo $datos["bio"]; ?></textarea>                        
                 </div>
                 <div class="input-field d-flex flex-column mb-3 gap-2">
                     <div class="d-flex justify-content-between"><label class="file">Foto principal del grupo</label><ion-icon name="image-outline"></ion-icon></div>
