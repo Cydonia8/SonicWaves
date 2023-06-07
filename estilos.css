@@ -692,6 +692,15 @@ background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(7,77,119,1) 55%, rgba(
 #admin-body .grupos-container:not(.container-activo){
     display: none;
 }
+.admin-full-review-img{
+    width: 50px;
+}
+.admin-full-review-content{
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 1.2rem;
+    line-height: 2rem;
+}
 #grupo-nuevo-album .container-añadir-canciones ul{
     list-style: decimal;
     display: flex;

@@ -184,6 +184,8 @@ function newPhotoPathAvatarDiscographic($nombre, $tipo, $discografica){
 
 function newPhotoPathDisc($nombre, $tipo, $grupo, $id){
     $nuevo_nombre;
+    $quitar = ["'", "\""];
+    $grupo = str_replace($quitar, "", $grupo);
     switch($_FILES[$nombre]["type"]){
         case "image/jpeg":
             $nuevo_nombre = $grupo."_".$id."_".$tipo.".jpg";
@@ -210,7 +212,7 @@ function newPhotoPathAlbumDisc($nombre, $album, $grupo, $id){
     $nuevo_nombre;
     $quitar = ["/", ".", "*","'"];
     $album = strtolower(str_replace($quitar, "", $album));
-
+    $grupo = str_replace($quitar, "", $grupo);
     switch($_FILES[$nombre]["type"]){
         case "image/jpeg":
             $nuevo_nombre = $album.".jpg";

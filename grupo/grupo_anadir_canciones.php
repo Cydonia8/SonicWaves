@@ -84,7 +84,8 @@
             }
         }elseif(isset($id_grupo)){
             if($filas_afectadas != 0){
-                echo "<h2 class='text-center'>Álbum añadido correctamente</h2>";
+                echo "<h2 class='text-center'>Álbum añadido correctamente. Volviendo al perfil principal...</h2>";
+                echo "<meta http-equiv='refresh' content='2;url=./grupo_main.php'>";
             }
         }else{
             echo "<h2>Faltan datos</h2>";

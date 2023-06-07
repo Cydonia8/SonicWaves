@@ -439,7 +439,6 @@
         }
         $cancion = $_FILES[$nombre]["name"];
         $cancion = removeSpecialCharacters($cancion);
-        echo $cancion;
         $nueva_ruta = "../media/audio/$grupo/$album/$cancion";
         move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
         return $nueva_ruta;

@@ -952,25 +952,23 @@
     
     function getReview($id){
         $con = createConnection();
-        $consulta = $con->prepare("SELECT r.titulo titulo, contenido, u.usuario autor, fecha, a.titulo album from reseña r, usuario u, album a where r.album = a.id and r.usuario = u.id and r.id = ?");
+        $consulta = $con->prepare("SELECT r.titulo titulo, contenido, u.usuario autor, fecha, a.titulo album, u.foto_avatar foto_u from reseña r, usuario u, album a where r.album = a.id and r.usuario = u.id and r.id = ?");
         $consulta->bind_param('i', $id);
-        $consulta->bind_result($titulo, $contenido, $autor, $fecha, $album);
+        $consulta->bind_result($titulo, $contenido, $autor, $fecha, $album, $foto);
         $consulta->execute();
         $consulta->store_result();
         if($consulta->num_rows != 0){
             $consulta->fetch();
             $consulta->close();
             $fecha = formatDate($fecha);
-                echo "<section class='container-fluid mt-4'>
-                            <div class='d-flex flex-column flex-xl-row gap-3'>
-                                <div class='d-flex flex-column gap-3'>
-                                    <h1>$titulo</h1>
-                                    <p>$contenido</p>
-                                    <i>$fecha</i>
-                                    <strong>Reseña escrita por por: $autor</strong>
-                                </div>
-                            </div>
-                    </section>";
+            echo "<div class='d-flex flex-column gap-3 review-individual-container-group-section mt-5 text-center'>
+                        <div class='d-flex align-items-center gap-3 justify-content-center'>
+                            <img src='$foto' class='rounded-circle admin-full-review-img'>
+                            <h2 class='m-0 text-decoration-underline'>$titulo</h2>
+                        </div>
+                        <pre class='admin-full-review-content'>$contenido</pre>
+                        <i>Reseña escrita el $fecha por $autor sobre el álbum $album</i>
+                    </div>";
             
         }else{
             echo "<div class=\"alert-post-missing-info text-center alert alert-warning position-absolute\" role=\"alert\">

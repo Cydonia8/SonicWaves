@@ -70,7 +70,6 @@
                 }
             }
         }elseif(isset($id_grupo)){
-            echo $id_grupo;
             if($filas_afectadas != 0){
                 echo "<h2 class='text-center'>Álbum añadido correctamente, volviendo al resumen general...</h2>";
                 echo "<meta http-equiv='refresh' content='2;url=./discografica_main.php'>";

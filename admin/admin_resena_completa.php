@@ -39,7 +39,9 @@
                     Falta información para mostrar esta sección. Vuelve al <a href=\"admin_main.php\" class=\"alert-link\">resumen general</a>.
                 </div>";
         }else{
+            echo "<section class='container-xxl d-flex flex-column gap-4'>";
             getReview($id);
+            echo "</section>";
         }
         
     ?>

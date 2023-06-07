@@ -20,7 +20,7 @@
         if($foto_correcta){
             $foto = newPhotoPathAlbum("foto", $_POST["nombre"]);
             $_SESSION["foto_album"] = $foto;
-            addAlbum($id_grupo, $_POST["nombre"], $foto, $_POST["fecha"], 1);
+            // addAlbum($id_grupo, $_POST["nombre"], $foto, $_POST["fecha"], 1);
             echo "<meta http-equiv='refresh' content='0;url=grupo_anadir_canciones.php'>";
         }else{
             echo "<h2>Hay algún dato incorrecto. Por favor, vuelva a intentarlo</h2>";

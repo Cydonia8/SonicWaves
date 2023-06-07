@@ -1,4 +1,4 @@
 admin: admin
 universal@gmail.com: universal
-pinkfloyd@gmail.com: pinkfloyd
+radiohead@gmail.com: radiohead
 cydonia8: cydonia8
