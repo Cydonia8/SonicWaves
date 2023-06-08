@@ -243,7 +243,7 @@
                         <li><a class=\"dropdown-item\" href=\"grupo_anadir_publicacion.php\">Añadir publicación</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_mis_resenas.php\">Reseñas de mis álbumes</a></li>
                         <li><a class=\"dropdown-item\" href=\"grupo_miembros.php\">Miembros de grupo</a></li>
-                        <li><form action=\"#\" method=\"post\"><input id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
+                        <li><form action=\"#\" method=\"post\"><input class='dropdown-item' id=\"cerrar-user\" type=\"submit\" name=\"cerrar-sesion\" value=\"Cerrar sesión\"></form></li>
                     </ul>
                 </div>
               </header>";

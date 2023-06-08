@@ -8,18 +8,16 @@
 
     if(isset($_POST["agregar"])){
         $usuario = $_POST["usuario"];
-        $existe = userExists($usuario);
+        
         $es_miembro = userIsMember($usuario);
-
+        $existe = userExists($usuario);
         if($existe == 1 and $es_miembro == 0){
             addNewMember($usuario, $_SESSION["user"]);
         }
     }
-    if(isset($_POST["eliminar-miembro"])){
+    elseif(isset($_POST["eliminar-miembro"])){
         $id = $_POST["usuario"];
         $eliminado = removeMember($id);
-        
-
     }
 ?>
 <!DOCTYPE html>
@@ -74,7 +72,7 @@
                                 echo "<div class=\"alert alert-success text-center mt-3 w-50 mx-auto\" role=\"alert\">
                                 Usuario agregado como miembro de grupo
                             </div>";
-                            header("refresh=2;location:'grupo_miembros.php'");
+                            header("Refresh:0; url=grupo_miembros.php");
                             }
                         }
                         

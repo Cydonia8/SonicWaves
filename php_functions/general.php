@@ -316,7 +316,7 @@ function printFooter($ruta){
                     <img src=\"$ruta/assets/images/about/home_line.png\" alt=\"\" class=\"img-fluid\">
                     <div class=\"use-links\">
                         <li><a href=\"$ruta/index.php\"><i class=\"fa-solid fa-angles-right\"></i> Home</a></li>
-                        <li><a href=\"$ruta/nosotros/nosotros.php\"><i class=\"fa-solid fa-angles-right\"></i>Sobre nosotros</a></li>
+                        <li><a href=\"$ruta/nosotros/nosotros.php\"><i class=\"fa-solid fa-angles-right\"></i>Próximamante: Dolby Atmos</a></li>
                         <li><a href=\"$ruta/reproductor/reproductor.php\"><i class=\"fa-solid fa-angles-right\"></i>Reproductor</a></li>
                         <li><a href=\"$ruta/contacto/contacto.php\"><i class=\"fa-solid fa-angles-right\"></i> Contacto</a></li>
                     </div>

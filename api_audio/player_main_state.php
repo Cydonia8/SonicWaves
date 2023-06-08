@@ -82,5 +82,12 @@
     $datos["albums_estilo_r1"] = $albums_estilo_r1;
     $consulta_albums_estilo_r1->close();
 
+    $pubs_random = [];
+    $consulta_publicaciones_random = $conexion->query("SELECT p.id , contenido, titulo, p.foto foto, fecha, g.nombre grupo from publicacion p, grupo g where g.id = p.grupo and g.activo = 1 order by rand () limit 4");
+    while($fila = $consulta_publicaciones_random->fetch_array(MYSQLI_ASSOC)){
+        $pubs_random[] = $fila;
+    }
+    $datos["publicaciones_random"] = $pubs_random;
+
     echo json_encode($datos);
     $conexion->close();

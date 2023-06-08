@@ -178,7 +178,7 @@ header.header-index ul.dropdown-menu a{
 header.header-index ul.dropdown-menu a:hover{
     background-color: #7276a5;
 }
-ul.dropdown-menu a:hover{
+ul.dropdown-menu a:hover, ul.dropdown-menu form:hover{
     background-color: #7276a5; 
 }
 header.header-index ul.dropdown-menu form:hover, #reproductor .profile-menu .dropdown-menu a:hover{
@@ -207,6 +207,30 @@ header.header-index ul.dropdown-menu input{
 }
 #index .index-artists-container{
     width: 16.66%;
+}
+#index .app-opciones ul, #index .app-opciones img{
+    width: 50%;
+}
+#index .app-opciones ul{
+    list-style: none;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+@media screen and (max-width:1000px) {
+    #index .app-opciones ul, #index .app-opciones img{
+        width: 100%;
+    }
+    #index .app-opciones ul{
+        font-size: 1.5rem;
+    }
+    #index .app-opciones div:first-child{
+        flex-direction: column;
+    }
+    #index .app-opciones div:nth-child(2){
+        flex-direction: column-reverse;
+    }
 }
 @media screen and (max-width:1150px) {
     /* #index .index-artists-container{
@@ -374,6 +398,7 @@ main{
 }
 .cancion-prev img{
     transition: box-shadow .5s;
+    height: 100%;
 }
 .cancion-prev img:hover{
     box-shadow: 0px 0px 50px #2c2b2b;
@@ -1199,6 +1224,14 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
 }
 #reproductor main .options-artist .album-individual-container{
     padding: .4rem .6rem;
+}
+#reproductor main .img-pub-initial-state{
+    aspect-ratio: 4/4;
+    width: 200px;
+    object-fit: cover;
+}
+#reproductor main .initial-state-pubs-container > div{
+    background-color: #313030;
 }
 #reproductor main{
     /* border: 1px solid white; */

@@ -15,23 +15,29 @@ const form_new_list = document.getElementById("form-new-list")
 const nombre_nueva_lista = document.getElementById("nombre-nueva-lista")
 const foto_nueva_lista = document.getElementById("foto-nueva-lista")
 const crear_lista = document.getElementById("crear-lista")
-const close_modal_new_list = document.getElementById("close-modal-new-list")
 const search_bar = document.getElementById("search-bar")
 const albums_esenciales = document.getElementById("albums-esenciales")
 const lista_recomendada = document.getElementById("lista-recomendada")
-const MXMATCH_API_KEY = "230777d3bbd468016bc464b2a53b4c22"
+
+//Modales y actualizaciones de datos
+const close_modal_new_list = document.getElementById("close-modal-new-list")
 const actualizar_avatar_usuario = document.querySelector(".actualizar-avatar-usuario")
 const close_actualizar_avatar = document.getElementById("close-update-avatar-user")
 const form_avatar = document.getElementById("form-new-user-avatar")
 const btn_actualizar_avatar = document.getElementById("actualizar-avatar")
 const input_new_avatar = document.getElementById("input-new-avatar")
 
+//API Key
+const MXMATCH_API_KEY = "230777d3bbd468016bc464b2a53b4c22"
+
+//Alertas
 const alert_song_added = document.getElementById("alert-song-added")
 const alert_song_repeated = document.getElementById("alert-song-repeated")
 const alert_data_modified = document.getElementById("alert-data-modified")
 const alert_mail_repeated = document.getElementById("alert-mail-repeated")
 const alert_review_missing_data = document.getElementById("alert-review-missing-data")
 
+//Elementos de la barra de reproducción
 const seek = document.getElementById("seek")
 const bar2 = document.getElementById("bar2")
 const dot = document.querySelector(".master-play .time-bar .dot")
@@ -45,15 +51,16 @@ const next = document.getElementById("next")
 const previous = document.getElementById("previous")
 const shuffle = document.getElementById("shuffle")
 const letra = document.getElementById("letra")
+const play_pause = document.getElementById("play-pause")
 
-// const audio = new Audio()
+//Elementos relativos al tiempo
 const current_time = document.getElementById("current-time")
 const end_time = document.getElementById("end-time")
-const play_pause = document.getElementById("play-pause")
 const audio = document.querySelector("audio")
+
+
+//Elementos del ecualizador
 const context = new AudioContext()
-
-
 const lowFilter = new BiquadFilterNode(context,{type:'lowshelf',frequency:100})
 const midLowFilter = new BiquadFilterNode(context,{type:'peaking',frequency:400,Q:3})
 const midFilter = new BiquadFilterNode(context,{type:'peaking',frequency:400,Q:3})
@@ -61,30 +68,38 @@ const midHighFilter = new BiquadFilterNode(context,{type:'peaking',frequency:800
 const highFilter = new BiquadFilterNode(context,{type:'highshelf',frequency:1600})
 const finalGain = new GainNode(context)
 
-
+//Cola reproducción que contendrá las canciones que se irán reproduciendo
 let cola_reproduccion = []
+//Indice de canción que se está reproduciendo
 let indice=0
+
 let ultimo_indice
+//Variable para controlar el aleatorio
 let shuffle_state = false
 
 
+//Listener para cerrar el modal de actualizar avatar
 close_actualizar_avatar.addEventListener("click", ()=>{
     actualizar_avatar_usuario.classList.add("d-none")
 })
 
+//Listener que activa el aleatorio
 shuffle.addEventListener("click", activateShuffle)
 
+//Listener que genera una lista de canciones recomendadas
 lista_recomendada.addEventListener("click", (evt)=>{
     evt.preventDefault()
     loadShufflePlayingList()
 })
 
+//Listener que cierra la sesión del usuario
 close_session.addEventListener("click", async (evt)=>{
     evt.preventDefault()
     await fetch('../api_audio/close_session.php')
     location.reload()
 })
 
+//Función encargada de activar o desactivar el aleatorio
 function activateShuffle(){
     if(shuffle.classList.contains("shuffle-active")){
         shuffle.classList.remove("shuffle-active")
@@ -96,6 +111,7 @@ function activateShuffle(){
 
 }
 
+//Listener que muestra el ecualizador
 eq_link.addEventListener("click", async (evt)=>{
     evt.preventDefault()
     const respuesta = await fetch('../api_audio/valores_eq.php')
@@ -112,9 +128,9 @@ eq_link.addEventListener("click", async (evt)=>{
     const btn_eq = main_content.querySelector("button")
     const btn_guardar = main_content.querySelector(".save")
     btn_eq.addEventListener("click", ()=>{
-        activateAudioFilters(btn_guardar)
+        activateAudioFilters(btn_guardar) //Activar los filtros de ecualización
     })
-    // let src = context.createMediaElementSource(audio)
+
     const div_ecualizador = document.createElement("div")
     div_ecualizador.classList.add("d-flex", "flex-column", "w-50", "gap-4", "mx-auto")
     div_ecualizador.innerHTML=`<div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Low filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='lows'>40db</div></div>
@@ -122,6 +138,7 @@ eq_link.addEventListener("click", async (evt)=>{
                                 <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>Mid filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='mids'>40db</div></div>
                                 <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>MidHigh filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='mid-high'>40db</div></div>
                                 <div class='d-flex w-100 gap-2 flex-column'><h4 class='text-center'>High filter</h4><div class='d-flex gap-2'>-40db<input class='w-100 slider-eq' type='range' min='-40' max='40' step='0.01' id='highs'>40db</div></div>`
+
     const lows_i = div_ecualizador.querySelector("#lows")
     const midlows_i  = div_ecualizador.querySelector("#mid-lows")
     const mids_i  = div_ecualizador.querySelector("#mids")
@@ -157,6 +174,8 @@ eq_link.addEventListener("click", async (evt)=>{
     highs_i.addEventListener("input", ()=>{
         highFilter.gain.value=highs_i.value
     })
+
+    //Guardar los parámetros de ecualización
     btn_guardar.addEventListener("click", async ()=>{
         let lows = lows_i.value
         let midlows = midlows_i.value
@@ -173,18 +192,10 @@ eq_link.addEventListener("click", async (evt)=>{
         highs_i.value=highs
     })
     main_content.appendChild(div_ecualizador)
-    // const div_visualizer = document.createElement("div")
-    // div_visualizer.classList.add("container-fluid", "w-100", "position-absolute", "bottom-0")
-    // div_visualizer.innerHTML=`<canvas class='w-100 position-absolute bottom-0 left-0' id="canvas"></canvas>`
-    // let canvas = div_visualizer.querySelector("#canvas");
-    // main_content.appendChild(div_visualizer)
-
-    
-        
 })
 
 
-
+//Listener para visualizar la letra de la canción actual
 letra.addEventListener("click", async()=>{
     const titulo = track_info.children[1].children[0].innerText
     const artista = track_info.children[1].children[1].innerText
@@ -198,9 +209,11 @@ letra.addEventListener("click", async()=>{
     if("lyrics" in datos.message.body){
         letra = datos.message.body.lyrics.lyrics_body
         copyright = datos.message.body.lyrics.lyrics_copyright
+        //Eliminamos la advertencia de uso comercial
         letra = letra.replace("******* This Lyrics is NOT for Commercial use *******", "Pronto, letras completas en Sonic Waves")
     }
     
+    //Manejamos cada uno de los supuestos
     if(letra == "" && copyright == ""){
         letra = "Instrumental. Disfruta de la música"
     }else if(letra == "" && copyright == "Unfortunately we're not authorized to show these lyrics."){
@@ -806,7 +819,7 @@ async function playerMainState(){
         const div_album_container = document.createElement("div")
         div_album_container.classList.add("d-flex", "flex-column", "justify-content-around", "album-inner-container")
         div_album_container.setAttribute("data-album-id", disco.id)
-        div_album_container.innerHTML= `<img src='${disco.foto}' class='img-fluid mb-1'>
+        div_album_container.innerHTML= `<img src='${disco.foto}' class='img-fluid mb-1 rounded'>
         <a>${disco.titulo}</a>
         <span class='artist-link' data="${disco.grupo_id}">${disco.autor}</span>`
 
@@ -841,12 +854,34 @@ async function playerMainState(){
         const div_album_r1_container = document.createElement("div")
         div_album_r1_container.classList.add("d-flex", "flex-column", "justify-content-around", "album-inner-container")
         div_album_r1_container.setAttribute("data-album-id", album.id)
-        div_album_r1_container.innerHTML=`<img src='${album.foto}' class='img-fluid mb-1'>
+        div_album_r1_container.innerHTML=`<img src='${album.foto}' class='img-fluid mb-1 rounded'>
         <a>${album.titulo}</a>
         <span class='artist-link' data="${album.grupo_id}">${album.autor}</span>`
         albums_random1.appendChild(div_album_r1_container)
     })
     main_content.appendChild(albums_random1)
+    const pubs_random = datos["publicaciones_random"]
+    console.log(pubs_random)
+    main_content.innerHTML+="<h2 class='ms-4 mt-3'>Consulta algunas de nuestras publicaciones exclusivas</h2>"
+    const div_publis = document.createElement("div")
+    div_publis.classList.add("d-flex", "flex-column", "p-3", "gap-3", "initial-state-pubs-container")
+    pubs_random.forEach(pub=>{
+        const div_pub = document.createElement("div")
+        div_pub.classList.add("d-flex", "gap-3")
+        div_pub.innerHTML=`<img src='${pub.foto}' class='img-pub-initial-state'>
+                            <div class='p-1 d-flex flex-column align-items-start gap-2'>
+                                <h3>${pub.titulo}</h3>
+                                <h4>${pub.grupo}</h4>
+                                <i>${formatDate(pub.fecha)}</i>
+                                <button type="button" style='--clr:#0ce8e8' class='btn-danger-own'><span>Ver completa</span><i></i></button>
+                            </div>`
+        const ver_publicacion = div_pub.querySelector("button")
+        ver_publicacion.addEventListener("click", ()=>{
+            watchFullPost(pub.id)
+        })
+        div_publis.appendChild(div_pub)
+    })
+    main_content.appendChild(div_publis)
 }
 
 async function initializePlayer(evt){

@@ -67,7 +67,7 @@
     </div>
     <main class="mb-5">
       <div class="container-fluid mx-auto">
-        <h1 class='text-center mb-5'>El sonido alcanza otra dimensión</h1>
+        <h1 class='text-center mb-5'>El sonido alcanza una nueva dimensión</h1>
         <p class="text-center index-paragraphs" data-aos="fade-up" data-aos-duration="1200">En Sonic Waves encontrarás una calidad de sonido nunca antes vista, sin pérdidas, gracias a nuestros algoritmos de compresión.</p>
         <div class="d-flex flex-column flex-sm-row index-sound-waves-container gap-3 mt-5" data-aos="fade-up" data-aos-duration="1200">
           <div class="d-flex flex-column">
@@ -96,7 +96,24 @@
           </div>
           
         </div>
-        <h2 class="text-center text-white mb-5">
+        <section class="app-opciones" data-aos="fade-up" data-aos-duration="1200">
+          <div class="d-flex align-items-center">
+            <img src="media/assets/mosa2.jpg" alt="">
+            <ul>
+              <li>Comparte tu opinión sobre un álbum con el resto de la comunidad</li>
+              <li>Crea listas de reproducción que se adecúen a cada momento</li>
+              <li>Guarda tus discos favoritos para escucharlos cuando quieras</li>
+            </ul>
+        </div>
+          <div class="d-flex align-items-center">
+            <ul>
+              <li>Ecualiza el sonido a tu gusto</li>
+              <li>Gracias a nuestro filtro de 5 bandas conseguirás el sonido perfecto</li>
+            </ul>
+            <img src="media/assets/mosa1.jpg" alt="">
+          </div>
+        </section>
+        <h2 class="text-center text-white mb-5 mt-5">
           Algunos de los álbumes que podrás encontrar
         </h2>
         <div class="d-flex container-samples-index gap-5 flex-column flex-md-row text-black bg-white p-3" data-aos="fade-up" data-aos-duration="1200">
