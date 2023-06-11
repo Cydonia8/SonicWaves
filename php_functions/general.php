@@ -77,7 +77,6 @@ function printMainMenu($location = "noindex"){
                 <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
                         <ul class=\"links-header\"> 
-                            <li><a href=\"reproductor/reproductor.php\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -119,7 +118,6 @@ function printMainMenu($location = "noindex"){
                 <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
                         <ul class=\"links-header\"> 
-                            <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -140,7 +138,6 @@ function printMainMenu($location = "noindex"){
                 <a href='index.php' class='enlace-index'><img src=\"media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
                         <ul class=\"links-header\"> 
-                            <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -177,7 +174,6 @@ function printMainMenu($location = "noindex"){
                     <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
                         <ul class=\"links-header\"> 
-                            <li><a href=\"\">Reproductor</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
                                     <img data-bs-toggle=\"dropdown\" aria-expanded=\"false\" class=\"rounded-circle dropdown-toggle\" src=\"$foto\">
@@ -216,7 +212,6 @@ function printMainMenu($location = "noindex"){
                 <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
                         <ul class=\"links-header\"> 
-                            <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"../contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -236,7 +231,6 @@ function printMainMenu($location = "noindex"){
                 <a href='../index.php' class='enlace-index'><img src=\"../media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\"></a>
                     <nav>
                         <ul class=\"links-header\"> 
-                            <li><a href=\"\">Reproductor</a></li>
                             <li><a href=\"../contacto/contacto.php\">Contacto</a></li>
                             <li class=\"li-foto\">
                                 <div class=\"dropdown\">
@@ -303,7 +297,7 @@ function printFooter($ruta){
     <div class=\"container\">
         <div class=\"row\">
             <div class=\"col-md-3 d-flex flex-column align-items-center\">
-                <a href=\"$ruta/index.html\"><img src=\"$ruta/media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"\" class=\"img-fluid logo-footer\"></a>
+                <a href=\"$ruta/index.php\"><img src=\"$ruta/media/assets/sonic-waves-high-resolution-logo-color-on-transparent-background (1).png\" alt=\"Logo de Sonic Waves\" class=\"img-fluid logo-footer\"></a>
               <div class=\"footer-about\">
                   <p>All Rights Reserved | 2023</p>
                   <p>Sonic Waves es una filial de Revolver Music</p>
@@ -316,7 +310,7 @@ function printFooter($ruta){
                     <img src=\"$ruta/assets/images/about/home_line.png\" alt=\"\" class=\"img-fluid\">
                     <div class=\"use-links\">
                         <li><a href=\"$ruta/index.php\"><i class=\"fa-solid fa-angles-right\"></i> Home</a></li>
-                        <li><a href=\"$ruta/nosotros/nosotros.php\"><i class=\"fa-solid fa-angles-right\"></i>Próximamante: Dolby Atmos</a></li>
+                        <li><a href=\"$ruta/proximamente/proximamente.php\"><i class=\"fa-solid fa-angles-right\"></i>Próximamante: Dolby Atmos</a></li>
                         <li><a href=\"$ruta/reproductor/reproductor.php\"><i class=\"fa-solid fa-angles-right\"></i>Reproductor</a></li>
                         <li><a href=\"$ruta/contacto/contacto.php\"><i class=\"fa-solid fa-angles-right\"></i> Contacto</a></li>
                     </div>

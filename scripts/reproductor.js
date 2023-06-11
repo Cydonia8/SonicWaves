@@ -1612,6 +1612,7 @@ async function showGroup(id){
     //Función que imprime una publicación completa
 async function watchFullPost(id){
     main_content.innerHTML=""
+    main_content.style.height="100vh"
     // main_content.classList.remove("position-absolute")
     const respuesta = await fetch(`../api_audio/publicacion_completa.php?id=${id}`)
     const datos = await respuesta.json()
@@ -1622,6 +1623,7 @@ async function watchFullPost(id){
     // main_content.innerHTML=`<button type="button" style='--clr:#0ce8e8' class='ms-3 btn-danger-own'><span>Volver al grupo</span><i></i></button>`
    
     const publicacion_container = document.createElement("section")
+    publicacion_container.style.height="100%"
     publicacion_container.classList.add("container-fluid", "d-flex", "flex-column", "gap-3", "p-3", "full-post-container")
     publicacion_container.innerHTML=`   <div class='d-flex w-100 gap-3 flex-column flex-lg-row align-items-center align-items-md-start'><canvas></canvas>
                                         <img src='${datos_publicacion[0].foto}' class='rounded object-fit-cover main-photo'>

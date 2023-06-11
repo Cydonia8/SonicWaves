@@ -68,7 +68,7 @@
 
     $datos["estilo_random1"] = $estilo_rand1;
 
-    $consulta_albums_estilo_r1 = $conexion->prepare("SELECT a.id id, a.titulo titulo, a.foto foto, g.nombre autor, g.id grupo_id FROM album a, cancion c, estilo e, incluye i, grupo g where a.id = i.album and c.id = i.cancion and e.id = c.estilo and a.grupo = g.id and e.nombre = ? GROUP BY a.id, a.titulo HAVING COUNT(*) >= 4");
+    $consulta_albums_estilo_r1 = $conexion->prepare("SELECT a.id id, a.titulo titulo, a.foto foto, g.nombre autor, g.id grupo_id FROM album a, cancion c, estilo e, incluye i, grupo g where a.id = i.album and c.id = i.cancion and e.id = c.estilo and a.grupo = g.id and e.nombre = ? and a.activo = 1 GROUP BY a.id, a.titulo HAVING COUNT(*) >= 4 limit 8");
     $consulta_albums_estilo_r1->bind_param('s', $estilo_rand1);
 
     $consulta_albums_estilo_r1->execute();

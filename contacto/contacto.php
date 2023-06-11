@@ -84,6 +84,45 @@
         <button type="submit" style='--clr:#0ce8e8' class='btn-danger-own w-100' name="enviar"><span>Enviar</span><i></i></button>
     </form>
   </section>
+  <h2 class="text-center mt-5">¿Dudas extra? Consulta nuestras FAQs</h2>
+  <section class="preguntas mb-3">
+            <article>
+                <details>
+                    <summary>¿Por qué sois gratuitos?</summary>
+                    <p>Consideramos que la música, como uno de los mayores logros del ser humano, debería ser gratuita y accesible.</p>
+                </details>
+            </article>
+            <article>
+                <details>
+                    <summary>¿Cómo ecualizo el audio?</summary>
+                    <p>Estudiando.</p>
+                </details>
+            </article>
+            <article>
+                <details>
+                    <summary>¿Qué calidad tienen los archivos de Sonic Waves?</summary>
+                    <p>Nuestros archivos tienen calidad de estudio: lo que escuchas es lo que ha sido grabaado.</p>
+                </details>
+            </article>
+            <article>
+                <details>
+                    <summary>¿Se pueden descargar los álbumes?</summary>
+                    <p>Por el momento no, pero estamos trabajando en ello.</p>
+                </details>
+            </article>
+            <article>
+                <details>
+                    <summary>¿Podré agregar amigos en un futuro?</summary>
+                    <p>Sí, calculamos que en un par de meses tendremos lista esa funcionalidad.</p>
+                </details>
+            </article>
+            <article>
+                <details>
+                    <summary>¿Tendréis aplicación móvil?</summary>
+                    <p>Estáis pesaicos con las preguntas hostia.</p>
+                </details>
+            </article>
+        </section>
   <?php
     printFooter("..");
   ?>

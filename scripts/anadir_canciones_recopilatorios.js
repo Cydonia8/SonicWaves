@@ -1,8 +1,9 @@
 const selects = document.querySelectorAll("select")
 const selects_container = document.querySelectorAll(".selects-container li")
 const reset = document.querySelector(".reset-form-recopilatorio")
-const submit = document.querySelector("ul~input[type=submit]")
-console.log(submit)
+const submit = document.querySelector("ul~button")
+const alert_repeated = document.querySelector(".repeated")
+console.log(alert_repeated)
 
 // console.log(selects_container.length)
 let canciones_escogidas = []
@@ -24,8 +25,15 @@ selects.forEach((select, index)=>{
             console.log(indice)
         }
         if(!canciones_escogidas.every(esPrimero)){
-            window.alert("has escogido canciones duplicadas")
-            location.reload()
+            submit.setAttribute("disabled", true)
+            setTimeout(()=>{
+                location.reload()
+                submit.removeAttribute("disabled")
+            },2000)
+            alert_repeated.classList.remove("d-none")
+            
+            
+            
         }
         
         // console.log(array)

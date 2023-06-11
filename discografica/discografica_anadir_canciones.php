@@ -66,7 +66,7 @@
                         echo "<button style='--clr:#0A90DD' class='btn-danger-own reset-form-recopilatorio'><span>Reiniciar selección</span><i></i></button>";
                         echo "<form class='d-flex flex-column align-items-center gap-3' action=\"#\" method=\"post\">";
                         generateSelects($_SESSION["num_canciones"], $id_grupo);
-                        echo "</form>";                   
+                        echo "</form>";                  
                 }
             }
         }elseif(isset($id_grupo)){
@@ -79,6 +79,9 @@
         }
     ?>
     </section>
+    <div class="alert alert-danger d-none repeated w-50 text-center mt-5 mx-auto" role="alert">
+        Has repetido canciones. Vuelve a añadirlas.
+    </div>
     
 </body>
 </html>

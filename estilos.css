@@ -2145,3 +2145,31 @@ a{
   text-decoration:none;
 }
 
+#dolby{
+    background-color: black;
+}
+#dolby-header img{
+    width: 100%;
+}
+.preguntas{
+    font-family: inherit;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 50%;
+    margin: auto;
+}
+.preguntas summary{
+    font-size: 1.5rem;
+    font-weight: bolder;
+    cursor: pointer;
+}
+.preguntas article{
+    width: 100%;
+    border-bottom: 3px solid black;
+    padding-bottom: 1.2rem;
+    padding-top: 1.2rem;
+}
+.preguntas p{
+    font-size: 1.5rem;
+}

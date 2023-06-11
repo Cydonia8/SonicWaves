@@ -27,7 +27,7 @@
                 if($file_name != ''){
                     $correct = checkPhotosArray("fotos", $key);
                     $total++;
-                    var_dump($correct);
+                    // var_dump($correct);
                     if($correct){
                         $cont++;
                         $ruta = newPhotoPathPost($file_type, $cont, $nuevo_id, $file_tmp);

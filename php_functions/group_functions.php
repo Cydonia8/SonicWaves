@@ -432,8 +432,8 @@
         }
         // echo $album;
         // echo $_SERVER['DOCUMENT_ROOT']."/SonicWaves/media/audio/$grupo/$album";
-        if(!file_exists($_SERVER['DOCUMENT_ROOT']."/SonicWaves/media/audio/$grupo/$album/")){
-            if(!mkdir($_SERVER['DOCUMENT_ROOT']."/SonicWaves/media/audio/$grupo/$album/")){
+        if(!file_exists("../media/audio/$grupo/$album/")){
+            if(!mkdir("../media/audio/$grupo/$album/")){
                 echo "Error, no se pudo crear la carpeta $grupo $album";
             }
         }

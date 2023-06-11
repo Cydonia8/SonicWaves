@@ -19,7 +19,7 @@
     $reseña_usuario[] = $fila;
     $datos["reseña_escrita"] = $reseña_usuario;
 
-    $sentencia_reseñas = $conexion->query("select titulo, contenido, fecha, u.usuario autor, u.foto_avatar foto from reseña r, usuario u where r.usuario = u.id and r.album = $id");
+    $sentencia_reseñas = $conexion->query("select titulo, contenido, fecha, u.usuario autor, u.foto_avatar foto from reseña r, usuario u where r.usuario = u.id and r.album = $id order by fecha desc");
     $datos_reseña = [];
     
     while($fila = $sentencia_reseñas->fetch_array(MYSQLI_ASSOC)){

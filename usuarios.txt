@@ -1,4 +1,0 @@
-admin: admin
-universal@gmail.com: universal
-radiohead@gmail.com: radiohead
-cydonia8: cydonia8
