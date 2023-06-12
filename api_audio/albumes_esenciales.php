@@ -3,6 +3,7 @@
     header("Content-Type: application/json");
     header("Access-Control-Allow-Origin: *");
     $conexion = new mysqli('localhost', 'root', '', 'sonicwaves');
+    // sleep(1.4);
 
     $usuario_consulta = $conexion->prepare("SELECT id from usuario where usuario = ?");
     $usuario_consulta->bind_param('s', $_SESSION["user"]);

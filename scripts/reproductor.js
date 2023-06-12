@@ -573,8 +573,12 @@ async function getAllPlaylists(dom_padre, ubicacion, cancion){
 
 async function showFavoriteAlbums(){
     main_content.innerHTML=""
+    loader.classList.remove("d-none")
+    loader.classList.add("d-flex")
     const respuesta = await fetch('../api_audio/albumes_esenciales.php')
     const datos = await respuesta.json()
+    loader.classList.remove("d-flex")
+    loader.classList.add("d-none")
     const albumes = datos["albumes"]
     main_content.innerHTML="<h1 class='text-center mt-5'>Tus álbumes favoritos</h1>"
     const section_favoritos = document.createElement("section")
@@ -1520,7 +1524,7 @@ async function showGroup(id){
     bio.innerText=`${datos_grupo[0].biografia}`
     div_artist_content.appendChild(bio)
     const div_albums_container = document.createElement("div")
-    div_albums_container.classList.add("d-flex", "gap-3", "d-none", "options-artist", "flex-column", "flex-lg-row")
+    div_albums_container.classList.add("d-flex", "gap-3", "d-none", "options-artist", "flex-column", "flex-lg-row", "mb-3")
     div_albums_container.setAttribute("data-info-artist", "discos")
     if(discos.length != 0){
         discos.forEach(disco=>{
@@ -1623,7 +1627,6 @@ async function watchFullPost(id){
     // main_content.innerHTML=`<button type="button" style='--clr:#0ce8e8' class='ms-3 btn-danger-own'><span>Volver al grupo</span><i></i></button>`
    
     const publicacion_container = document.createElement("section")
-    publicacion_container.style.height="100%"
     publicacion_container.classList.add("container-fluid", "d-flex", "flex-column", "gap-3", "p-3", "full-post-container")
     publicacion_container.innerHTML=`   <div class='d-flex w-100 gap-3 flex-column flex-lg-row align-items-center align-items-md-start'><canvas></canvas>
                                         <img src='${datos_publicacion[0].foto}' class='rounded object-fit-cover main-photo'>

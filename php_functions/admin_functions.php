@@ -227,16 +227,17 @@
         if($consulta->num_rows>0){
             while($consulta->fetch()){
                 $albums_grupo = albumsPerGroup($id_grupo);
-                echo "<div data-name=\"$nom_grupo\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3\">
+                echo "<div data-name=\"$nom_grupo\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3 d-flex flex-column flex-xl-row align-items-center\">
                     <div class=\"w-50\">
                         <img class=\"rounded-circle img-fluid\" src=\"$avatar_grupo\">
                     </div>
                     <div class=\"d-flex flex-column justify-content-between\">
-                        <p>Nombre: $nom_grupo</p>";
+                        <p>Nombre: <span class='admin-emphasis-span'>$nom_grupo</span></p>";
                         if($albums_grupo != ""){
-                            echo "<p>Álbumes publicados: $albums_grupo</p>";
+                            echo "<p>Álbumes publicados: <span class='admin-emphasis-span'>
+                            $albums_grupo</span></p>";
                         }
-                        echo "<p>Gestión: $disco</p>";
+                        echo "<p>Gestión: <span class='admin-emphasis-span'>$disco</span></p>";
                     if($aprob == 1){
                         echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                                 <input hidden name=\"id\" value=\"$id_grupo\">
@@ -279,46 +280,6 @@
         
     }
 
-    // function getAllGroupsNoDisc(){
-    //     $con = createConnection();
-    //     $consulta = $con->query("SELECT g.id id_grupo, g.nombre nom_grupo, g.correo correo_grupo, g.activo grupo_activo, foto, g.foto_avatar avatar_grupo, pendiente_aprobacion aprob from grupo g where g.discografica is null");
-
-    //     while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
-    //         echo "<div class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
-    //             <div class=\"w-50\">
-    //                 <img class=\"img-fluid rounded-circle\" src=\"$fila[avatar_grupo]\">
-    //             </div>
-    //             <div class=\"d-flex flex-column justify-content-between\">
-    //                 <p>ID: $fila[id_grupo]</p>
-    //                 <p>Nombre: $fila[nom_grupo]</p>
-    //                 <p>Correo: $fila[correo_grupo]</p>";
-    //             if($fila["aprob"] == 1){
-    //                 echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
-    //                         <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-    //                         <input type=\"submit\" name=\"activar\" value=\"Aprobar\" class=\"btn btn-outline-success\">
-    //                         </form>
-    //                         <form method=\"post\" action=\"#\">
-    //                             <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-    //                             <input type=\"submit\" name=\"desactivar\" value=\"Denegar\" class=\"btn btn-outline-danger\">
-    //                         </form></div>";
-    //             }else{
-    //                 if($fila["grupo_activo"] == 0){
-    //                     echo "<form method=\"post\" action=\"#\">
-    //                     <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-    //                     <input type=\"submit\" name=\"activar\" value=\"Activar\" class=\"btn btn-outline-success\">
-    //                     </form>";
-    //                 }else{
-    //                     echo "<form method=\"post\" action=\"#\">
-    //                     <input hidden name=\"id\" value=\"$fila[id_grupo]\">
-    //                     <input type=\"submit\" name=\"desactivar\" value=\"Desactivar\" class=\"btn btn-outline-danger\">
-    //                     </form>";
-    //                 }
-    //             }
-                
-    //             echo "</div>
-    //         </div>";
-    //     }
-    // }
     
 
     function groupsPerRecordLabel($id){
@@ -388,56 +349,6 @@
         $con->close();
     }
 
-    function getAllRecordLabels(){
-        $con = createConnection();
-        $consulta = $con->query("SELECT id, nombre, correo, foto_avatar, activo, pendiente_aprobacion aprob FROM discografica where id <> 0 order by nombre asc");
-        
-        while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
-            $total_grupos = groupsPerRecordLabel($fila["id"]);
-            echo "<div data-name=\"$fila[nombre]\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3\">
-                        <div class=\"w-50\">
-                            <img class=\"img-fluid\" src=\"$fila[foto_avatar]\">
-                        </div>
-                        <div class=\"d-flex flex-column justify-content-between\">
-                            <p>Nombre: $fila[nombre]</p>
-                            <p>Correo: $fila[correo]</p>
-                            <p>Número de grupos gestionados: $total_grupos</p>";
-                        if($fila["aprob"] == 1){
-                            echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
-                            <input hidden name=\"id\" value=\"$fila[id]\">
-                            <button style='--clr:#09eb3a' class='btn-danger-own' name='aprobar'><span>Aprobar</span><i></i></button>
-                            </form>
-                            <form method=\"post\" action=\"#\">
-                                <input hidden name=\"id\" value=\"$fila[id]\">
-                                <button style='--clr:#e80c0c' class='btn-danger-own' name='denegar'><span>Denegar</span><i></i></button>
-                            </form></div>";
-                        }else{
-                            if($fila["activo"] == 0){
-                                echo "<form method=\"post\" action=\"#\">
-                                <input hidden name=\"id\" value=\"$fila[id]\">
-                                <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Activar</span><i></i></button>
-                                </form>";
-                            }elseif($fila["activo"] == 1){
-                                echo "<form method=\"post\" action=\"#\">
-                                <input hidden name=\"id\" value=\"$fila[id]\">
-                                <button style='--clr:#e80c0c' class='btn-danger-own' name='desactivar'><span>Desactivar</span><i></i></button>
-                                </form>";
-                            }else{
-                                echo "<div class=\"alert alert-danger\" role=\"alert\">
-                                Petición denegada<form method=\"post\" action=\"#\">
-                                <input hidden name=\"id\" value=\"$fila[id]\">
-                                <button style='--clr:#09eb3a' class='btn-danger-own' name='activar'><span>Pulsa para aprobar</span><i></i></button>
-                                </form>
-                              </div>";
-                            }
-                        }
-                        
-                        echo "</div>
-                </div>";
-        }
-        $con->close();
-    }
-
     function getRecordLabelsFiltered($filter){
         $con = createConnection();
         $filtro = $filter.'%';
@@ -449,14 +360,14 @@
         if($consulta->num_rows() > 0){
             while($consulta->fetch()){
                 $total_grupos = groupsPerRecordLabel($id);
-                echo "<div data-name=\"$nombre\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3\">
+                echo "<div data-name=\"$nombre\" class=\"rounded border grupo-detalle p-3 gap-2 col-12 col-md-3 d-flex flex-column flex-xl-row align-items-center\">
                         <div class=\"w-50\">
-                            <img class=\"img-fluid\" src=\"$foto_avatar\">
+                            <img class=\"img-fluid rounded-circle\" src=\"$foto_avatar\">
                         </div>
                         <div class=\"d-flex flex-column justify-content-between\">
-                            <p>Nombre: $nombre</p>
-                            <p>Correo: $correo</p>
-                            <p>Número de grupos gestionados: $total_grupos</p>";
+                            <p>Nombre: <span class='admin-emphasis-span'>$nombre</span></p>
+                            <p>Correo: <span class='admin-emphasis-span'>$correo</span></p>
+                            <p>Número de grupos gestionados: <span class='admin-emphasis-span'>$total_grupos</span></p>";
                         if($aprob == 1){
                             echo "<div class=\"d-flex gap-3\"><form method=\"post\" action=\"#\">
                             <input hidden name=\"id\" value=\"$id\">
@@ -502,7 +413,7 @@
         $consulta = $con->query("SELECT a.id id_album, titulo, a.foto foto_album, a.activo album_activo, lanzamiento, g.nombre nom_grupo from album a, grupo g where g.id = a.grupo order by titulo asc");
         while($fila = $consulta->fetch_array(MYSQLI_ASSOC)){
             $fecha_format = formatDate($fila["lanzamiento"]);
-            echo "<div data-name=\"$fila[titulo]\" class=\"rounded border grupo-detalle p-3 gap-3 col-12 col-xl-3 col-md-4\">
+            echo "<div data-name=\"$fila[titulo]\" class=\"rounded border grupo-detalle p-3 gap-3 col-12 col-xl-3 col-md-4 \">
                 <div class=\"w-50\">
                     <img class=\"img-fluid rounded\" src=\"$fila[foto_album]\">
                 </div>
@@ -542,14 +453,14 @@
         if($consulta->num_rows() > 0){
             while($consulta->fetch()){
                 $fecha_format = formatDate($lanzamiento);
-                echo "<div data-name=\"$titulo\" class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4\">
+                echo "<div data-name=\"$titulo\" class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-3 col-12 col-xl-3 col-md-4 flex-column flex-xl-row align-items-center\">
                     <div class=\"w-50\">
                         <img class=\"img-fluid rounded\" src=\"$foto_album\">
                     </div>
                     <div class=\"d-flex flex-column justify-content-between gap-1\">
-                        <p>Título: $titulo</p>
-                        <p>Autor: $nom_grupo</p>
-                        <p>Lanzado el: $fecha_format</p>";
+                        <p>Título: <span class='admin-emphasis-span'>$titulo</span></p>
+                        <p>Autor: <span class='admin-emphasis-span'>$nom_grupo</span></p>
+                        <p>Lanzado el: <span class='admin-emphasis-span'>$fecha_format</span></p>";
                     if($album_activo == 0){
                         echo "<form method=\"post\" action=\"#\">
                         <input hidden name=\"id\" value=\"$id_album\">
@@ -626,7 +537,7 @@
 
         if($consulta->num_rows > 0){
             while($consulta->fetch()){
-                echo "<div data-name=\"$usuario\" class=\"rounded border grupo-detalle d-flex justify-content-around p-3 gap-2 col-12 col-md-3\">
+                echo "<div data-name=\"$usuario\" class=\"rounded border grupo-detalle d-flex justify-content-around flex-column flex-xl-row align-items-center p-3 gap-2 col-12 col-md-3\">
                             <div class=\"w-50\">
                                 <img class=\"img-fluid rounded-circle\" src=\"$foto\">
                             </div>
@@ -694,12 +605,12 @@
         if($consulta->num_rows>0){
             while($consulta->fetch()){
                 $fecha = formatDate($fecha);
-                echo "<div data-name='$grupo' class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
+                echo "<div data-name='$grupo' class='grupo-detalle border rounded p-3 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3 flex-column flex-xxl-row'>
                         <img src='$foto' class='w-50 rounded'>
                         <div class='d-flex flex-column'>
-                            <p>Título: $titulo</p>
-                            <p>Fecha de publicación: $fecha</p>
-                            <p>Autor: $grupo</p>
+                            <p>Título: <span class='admin-emphasis-span'>$titulo</span></p>
+                            <p>Fecha de publicación: <span class='admin-emphasis-span'>$fecha</span></p>
+                            <p>Autor: <span class='admin-emphasis-span'>$grupo</span></p>
                             <div class='d-flex gap-2 flex-column flex-lg-row'>
                             <form action='admin_publicacion_completa.php' method='get'>
                                 <input hidden value='$id' name='id'>
@@ -923,12 +834,12 @@
         if($consulta->num_rows>0){
             while($consulta->fetch()){
                 $fecha = formatDate($fecha);
-                echo "<div class='grupo-detalle border rounded p-2 post-container-admin d-flex align-items-center align-items-lg-start justify-content-around gap-3'>
+                echo "<div class='grupo-detalle border rounded p-3 post-container-admin d-flex align-items-center align-items-lg-start justify-content-between gap-3'>
                         <div class='d-flex flex-column'>
-                            <p>Título: $titulo</p>
-                            <p>Fecha de publicación: $fecha</p>
-                            <p>Autor: $autor</p>
-                            <p>Álbum: $album</p>
+                            <p>Título: <span class='admin-emphasis-span'>$titulo</span></p>
+                            <p>Fecha de publicación: <span class='admin-emphasis-span'>$fecha</span></p>
+                            <p>Autor: <span class='admin-emphasis-span'>$autor</span></p>
+                            <p>Álbum: <span class='admin-emphasis-span'>$album</span></p>
                             <div class='d-flex gap-2 flex-column flex-lg-row'>
                             <form action='admin_resena_completa.php' method='get'>
                                 <input hidden value='$id' name='id'>

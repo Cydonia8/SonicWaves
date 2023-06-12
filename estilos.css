@@ -1250,6 +1250,11 @@ background: linear-gradient(356deg, rgba(194,189,189,.9) 35%, rgb(10, 14, 15,.9)
     left: .5rem;
     z-index: 100000;
     display: none;
+    font-size: 1.3rem;
+    background-color: #05bfee;
+    border-radius: 50%;
+    padding: .3rem;
+    cursor: pointer;
 }
 @media screen and (max-width:606px) {
     #reproductor main{
@@ -1702,7 +1707,7 @@ ul.dropdown-menu-add-playlist{
     position: absolute;
     width: 5px;
     height: 5px;
-    top: -1.5px;
+    top: -0.5px;
     left: -1px;
     background: #05bfee;
     border-radius: 50%;
@@ -1762,7 +1767,7 @@ ul.dropdown-menu-add-playlist{
     position: absolute;
     width: 5px;
     height: 5px;
-    top: -1.5px;
+    top: -0.5px;
     left: 2px;
     background: #05bfee;
     border-radius: 50%;

@@ -82,8 +82,9 @@
     $datos["albums_estilo_r1"] = $albums_estilo_r1;
     $consulta_albums_estilo_r1->close();
 
+    $fecha_actual = date('Y-m-d');
     $pubs_random = [];
-    $consulta_publicaciones_random = $conexion->query("SELECT p.id , contenido, titulo, p.foto foto, fecha, g.nombre grupo from publicacion p, grupo g where g.id = p.grupo and g.activo = 1 order by rand () limit 4");
+    $consulta_publicaciones_random = $conexion->query("SELECT p.id , contenido, titulo, p.foto foto, fecha, g.nombre grupo from publicacion p, grupo g where g.id = p.grupo and g.activo = 1 and p.fecha <= '$fecha_actual' order by rand () limit 4");
     while($fila = $consulta_publicaciones_random->fetch_array(MYSQLI_ASSOC)){
         $pubs_random[] = $fila;
     }
