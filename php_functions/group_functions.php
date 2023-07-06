@@ -295,16 +295,19 @@
     }
     
     function removeSpecialCharacters($nombre){
-        $quitar = ["/", "*","'","[","]"];
+        $quitar = ["/", "*","'","[","]", "?", "(", ")"];
         $arreglado = strtolower(str_replace($quitar, "", $nombre));
         return $arreglado;
     }
     function newPhotoPathAlbum($nombre, $album){
         $nuevo_nombre;
-        $quitar = ["/", ".", "*","'",":"];
+        $quitar = ["/", ".", "*","'",":", "?", "(", ")"];
         $album = strtolower(str_replace($quitar, "", $album));
 
         switch($_FILES[$nombre]["type"]){
+            case "image/jpg":
+                $nuevo_nombre = $album.".jpg";
+                break;
             case "image/jpeg":
                 $nuevo_nombre = $album.".jpg";
                 break;
@@ -321,6 +324,7 @@
         if(!file_exists("../media/img_grupos/".$_SESSION["user"])){
             mkdir("../media/img_grupos/".$_SESSION["user"], 0777, true);
         }
+
         $nueva_ruta = "../media/img_grupos/".$_SESSION["user"]."/".$nuevo_nombre;
         move_uploaded_file($_FILES[$nombre]["tmp_name"], $nueva_ruta);
         return $nueva_ruta;
@@ -432,8 +436,8 @@
         }
         // echo $album;
         // echo $_SERVER['DOCUMENT_ROOT']."/SonicWaves/media/audio/$grupo/$album";
-        if(!file_exists("../media/audio/$grupo/$album/")){
-            if(!mkdir("../media/audio/$grupo/$album/")){
+        if(!file_exists("../media/audio/$grupo/$album")){
+            if(!mkdir("../media/audio/$grupo/$album")){
                 echo "Error, no se pudo crear la carpeta $grupo $album";
             }
         }

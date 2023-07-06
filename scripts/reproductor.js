@@ -1577,7 +1577,7 @@ async function showGroup(id){
         }
         
     }else{
-        await seeUpcomingEvents(datos_grupo[0].nombre, div_publicaciones)
+        // await seeUpcomingEvents(datos_grupo[0].nombre, div_publicaciones)
     }
     div_artist_content.appendChild(div_publicaciones)
 
